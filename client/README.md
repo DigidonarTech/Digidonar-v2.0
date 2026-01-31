@@ -1,16 +1,34 @@
-# React + Vite
+# 🩸 Digidonar v2.0 - Full Stack Lead Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Digidonar v2.0 ek modern Blood Donation Lead Management System hai, jise user-friendly interface aur robust backend ke saath banaya gaya hai. Ye project leads capture karne aur unhe admin dashboard ke zariye manage karne mein madad karta hai.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+- **Frontend (Vercel):** [https://digidonar-v2-0.vercel.app/](https://digidonar-v2-0.vercel.app/)
+- **Admin Dashboard:** [https://digidonar-v2-0.vercel.app/admin-login](https://digidonar-v2-0.vercel.app/admin-login)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+- **Frontend:** React.js, Vite, Tailwind CSS (Vercel pe deployed)
+- **Backend:** Node.js, Express.js (Render pe deployed)
+- **Database:** MongoDB Atlas
+- **Routing:** React Router DOM
 
-## React Compiler
+## ✨ Features
+- **Lead Capture Form:** Users apni details fill kar sakte hain jo turant database mein save hoti hai.
+- **Admin Authentication:** Secure login system sirf authorized admins ke liye.
+- **Lead Management:** Admin leads ko dekh sakta hai, status update kar sakta hai (New/Contacted), aur delete bhi kar sakta hai.
+- **Responsive Design:** Mobile, tablet aur desktop sabhi screens ke liye optimized.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📁 Project Structure
+```text
+├── client/          # Frontend React (Vite) code
+├── backend/         # Node.js & Express API code
+└── vercel.json      # Frontend routing configuration
 
-## Expanding the ESLint configuration
+👨‍💻 Developed By
+Jitendra Kumar MERN Stack Developer
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Aap mujhse niche diye gaye platforms par jud sakte hain:
+
+LinkedIn: linkedin.com/in/technicaljitendra
+
+GitHub: github.com/technical-jitendra-kumar
