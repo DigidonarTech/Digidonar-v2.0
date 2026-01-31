@@ -31,6 +31,6 @@ Jitendra Kumar MERN Stack Developer
 
 Aap mujhse niche diye gaye platforms par jud sakte hain:
 
-LinkedIn: (linkedin.com/in/technicaljitendra)
+LinkedIn: [Visit ](linkedin.com/in/technicaljitendra)
 
-GitHub: (github.com/technical-jitendra-kumar)
+GitHub: [Visit](github.com/technical-jitendra-kumar)
