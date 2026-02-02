@@ -7,3 +7,14 @@
 .animate-bounce-slow {
   animation: bounce-slow 3s ease-in-out infinite;
 }
+
+  @keyframes marquee-slow {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .animate-marquee-slow {
+          animation: marquee-slow 10s linear infinite;
+        }
+        .pause-marquee:hover .animate-marquee-slow {
+          animation-play-state: paused;
+        }
