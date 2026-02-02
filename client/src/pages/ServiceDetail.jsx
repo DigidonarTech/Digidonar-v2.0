@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { 
-  CheckCircle2, ArrowRight, Zap, Shield, 
-  MessageSquare, Smartphone, HardDrive, PhoneIncoming, 
-  Key, Layers, Globe, MousePointer2 
+import {
+  CheckCircle2, ArrowRight, Zap, Shield,
+  MessageSquare, Smartphone, HardDrive, PhoneIncoming,
+  Key, Layers, Globe, MousePointer2
 } from 'lucide-react';
 
 const SERVICE_DATA = {
@@ -45,22 +45,22 @@ const SERVICE_DATA = {
     desc: "99.9% delivery rate aur sub-2 second speed ke saath user authentication ko secure banayein. Banking grade security.",
     features: ["Sub-2 Sec Delivery", "Global Coverage", "Failover Routing", "Direct Operator Pipe"],
     icon: <Key size={56} strokeWidth={1.5} />,
-    color: "text-orange-500",
-    bg: "bg-orange-500",
-    accent: "from-orange-500 to-yellow-500",
+    color: "text-[#0D66BA]",
+    bg: "bg-[#0D66BA]",
+    accent: "from-[#0D66BA] to-[#1CB48D]",
     stats: { delivery: "99.99%", speed: "1.5s", users: "3k+" }
   },
   "sms-gateway": {
-    title: "Robust SMS Gateway",
-    subtitle: "Developer First API",
-    desc: "Hamari powerful HTTP/SMPP APIs ko apne software mein integrate karein. Developers ke liye bani sabse asaan documentation.",
-    features: ["HTTP/SMPP APIs", "JSON/XML Support", "Unlimited Throughput", "Webhook Integration"],
-    icon: <HardDrive size={56} strokeWidth={1.5} />,
-    color: "text-indigo-600",
-    bg: "bg-indigo-600",
-    accent: "from-indigo-600 to-purple-600",
-    stats: { uptime: "99.95%", latency: "<50ms", users: "800+" }
-  }
+  title: "Robust SMS Gateway",
+  subtitle: "Developer First API",
+  desc: "Hamari powerful HTTP/SMPP APIs ko apne software mein integrate karein. Developers ke liye bani sabse asaan documentation.",
+  features: ["HTTP/SMPP APIs", "JSON/XML Support", "Unlimited Throughput", "Webhook Integration"],
+  icon: <HardDrive size={56} strokeWidth={1.5} />,
+  color: "text-[#0A4D8C]",
+  bg: "bg-[#0A4D8C]",
+  accent: "from-[#0A4D8C] to-[#44BBDB]",
+  stats: { uptime: "99.95%", latency: "<50ms", users: "800+" }
+}
 };
 
 const ServiceDetail = ({ serviceType }) => {
