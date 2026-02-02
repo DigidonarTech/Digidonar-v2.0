@@ -46,6 +46,10 @@ app.post('/api/leads', async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.status(200).send("Server is up and running!");
+});
+
 // Get Leads
 app.get('/api/leads', async (req, res) => {
   try {
