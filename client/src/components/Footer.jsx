@@ -14,14 +14,14 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-slate-950 text-slate-300">
+    <footer className="relative bg-slate-950 text-slate-300 overflow-hidden">
 
       {/* Gradient Top Divider */}
-      <div className="h-[1.5px] w-full bg-gradient-to-r from-transparent via-[#44BBDB]/60 to-transparent" />
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#44BBDB]/60 to-transparent mb-10" />
 
-      <div className="max-w-7xl mx-auto px-6 py-14">
+      <div className="max-w-7xl mx-auto px-6 py-14 relative z-10">
 
-        {/* Main Footer */}
+        {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
           {/* Brand */}
@@ -30,7 +30,7 @@ const Footer = () => {
               <img
                 src={Logo}
                 alt="Digidonar Logo"
-                className="h-9 md:h-10 w-auto group-hover:scale-105 transition-transform"
+                className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
               />
             </Link>
 
@@ -45,9 +45,9 @@ const Footer = () => {
                   href={link}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 hover:border-white/20 transition"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 hover:border-white/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-blue-900/40"
                 >
-                  <Icon size={16} className="text-slate-400 hover:text-white" />
+                  <Icon size={16} className="text-slate-400 hover:text-white transition-colors duration-300" />
                 </a>
               ))}
             </div>
@@ -57,11 +57,13 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-base mb-5">Services</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link to="/services/bulk-sms" className="hover:text-[#44BBDB]">Bulk SMS</Link></li>
-              <li><Link to="/services/whatsapp-api" className="hover:text-[#44BBDB]">WhatsApp API</Link></li>
-              <li><Link to="/services/voice-ivr" className="hover:text-[#44BBDB]">Voice & IVR</Link></li>
-              <li><Link to="/services/otp-service" className="hover:text-[#44BBDB]">OTP Service</Link></li>
-              <li><Link to="/services/sms-gateway" className="hover:text-[#44BBDB]">SMS Gateway</Link></li>
+              {['Bulk SMS', 'WhatsApp API', 'Voice & IVR', 'OTP Service', 'SMS Gateway'].map((service) => (
+                <li key={service}>
+                  <Link to={`/services/${service.toLowerCase().replace(/ & | /g, '-')}`} className="hover:text-gradient transition-all duration-300">
+                    {service}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -79,9 +81,8 @@ const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.path}
-                    className="hover:text-[#44BBDB] transition-colors duration-300 flex items-center group"
+                    className="hover:text-gradient transition-all duration-300 flex items-center group"
                   >
-                    {/* Halka sa arrow icon jo hover par dikhega */}
                     <span className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 mr-2 text-[#1CB48D]">›</span>
                     {item.name}
                   </Link>
@@ -99,9 +100,9 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:border-[#44BBDB]"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:border-[#44BBDB] focus:ring-1 focus:ring-[#44BBDB] transition"
               />
-              <button className="absolute right-1.5 top-1.5 bg-[#0D66BA] p-2 rounded-lg hover:bg-[#44BBDB] transition">
+              <button className="absolute right-1.5 top-1.5 bg-gradient-to-r from-[#0D66BA] to-[#44BBDB] p-2 rounded-lg hover:scale-110 transition-transform duration-300 shadow-md">
                 <Send size={14} className="text-white" />
               </button>
             </div>
@@ -110,18 +111,20 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-          <p className="text-slate-500">
-            © {currentYear} Digidonar Teleservices. All rights reserved.
-          </p>
-
-          <div className="flex gap-6 uppercase tracking-widest text-slate-500 font-semibold">
+        <div className="pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+          <p>© {currentYear} Digidonar Teleservices. All rights reserved.</p>
+          <div className="flex gap-6 uppercase tracking-widest font-semibold">
             <span>Security</span>
             <span>Uptime 99.9%</span>
           </div>
         </div>
 
       </div>
+
+      {/* Decorative Background Blur */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-tr from-blue-500/20 to-emerald-400/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-bl from-[#0D66BA]/20 to-[#1CB48D]/20 rounded-full blur-[120px] pointer-events-none" />
+
     </footer>
   );
 };
