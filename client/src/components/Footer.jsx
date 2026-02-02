@@ -17,20 +17,20 @@ const Footer = () => {
     <footer className="relative bg-slate-950 text-slate-300 overflow-hidden">
 
       {/* Gradient Top Divider */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#44BBDB]/60 to-transparent mb-10" />
+      <div className="h-[1.5px] w-full bg-gradient-to-r from-transparent via-[#44BBDB]/60 to-transparent mb-8" />
 
-      <div className="max-w-7xl mx-auto px-6 py-14 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 py-10 md:py-12 relative z-10">
 
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
 
           {/* Brand */}
-          <div className="space-y-5">
+          <div className="space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
               <img
                 src={Logo}
                 alt="Digidonar Logo"
-                className="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
+                className="h-9 w-auto group-hover:scale-105 transition-transform duration-300"
               />
             </Link>
 
@@ -45,7 +45,7 @@ const Footer = () => {
                   href={link}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 hover:border-white/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-blue-900/40"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 hover:border-white/30 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-blue-900/40"
                 >
                   <Icon size={16} className="text-slate-400 hover:text-white transition-colors duration-300" />
                 </a>
@@ -55,12 +55,17 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-white font-semibold text-base mb-5">Services</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
+            <h4 className="text-white font-semibold text-base mb-4">Services</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
               {['Bulk SMS', 'WhatsApp API', 'Voice & IVR', 'OTP Service', 'SMS Gateway'].map((service) => (
                 <li key={service}>
-                  <Link to={`/services/${service.toLowerCase().replace(/ & | /g, '-')}`} className="hover:text-gradient transition-all duration-300">
+                  <Link
+                    to={`/services/${service.toLowerCase().replace(/ & | /g, '-')}`}
+                    className="relative group inline-block hover:text-gradient transition-colors duration-300"
+                  >
                     {service}
+                    {/* Animated underline */}
+                    <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-gradient-to-r from-[#0D66BA] to-[#44BBDB] group-hover:w-full transition-all duration-300"></span>
                   </Link>
                 </li>
               ))}
@@ -69,8 +74,8 @@ const Footer = () => {
 
           {/* Company Section */}
           <div>
-            <h4 className="text-white font-semibold text-base mb-5">Company</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="text-white font-semibold text-base mb-4">Company</h4>
+            <ul className="space-y-2 text-sm">
               {[
                 { name: 'About Us', path: '/about' },
                 { name: 'Contact Sales', path: '/contact' },
@@ -92,7 +97,7 @@ const Footer = () => {
           </div>
 
           {/* Newsletter */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h4 className="text-white font-semibold text-base">Stay Updated</h4>
             <p className="text-xs text-slate-400">Get product updates & insights.</p>
 
@@ -100,7 +105,7 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:border-[#44BBDB] focus:ring-1 focus:ring-[#44BBDB] transition"
+                className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-[#44BBDB] focus:ring-1 focus:ring-[#44BBDB] transition"
               />
               <button className="absolute right-1.5 top-1.5 bg-gradient-to-r from-[#0D66BA] to-[#44BBDB] p-2 rounded-lg hover:scale-110 transition-transform duration-300 shadow-md">
                 <Send size={14} className="text-white" />
@@ -111,9 +116,9 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <div className="pt-4 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-slate-500">
           <p>© {currentYear} Digidonar Teleservices. All rights reserved.</p>
-          <div className="flex gap-6 uppercase tracking-widest font-semibold">
+          <div className="flex gap-4 uppercase tracking-widest font-semibold">
             <span>Security</span>
             <span>Uptime 99.9%</span>
           </div>
@@ -121,9 +126,9 @@ const Footer = () => {
 
       </div>
 
-      {/* Decorative Background Blur */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-tr from-blue-500/20 to-emerald-400/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-bl from-[#0D66BA]/20 to-[#1CB48D]/20 rounded-full blur-[120px] pointer-events-none" />
+      {/* Decorative Background Blur Orbs */}
+      <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-tr from-blue-500/20 to-emerald-400/20 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-bl from-[#0D66BA]/20 to-[#1CB48D]/20 rounded-full blur-[100px] pointer-events-none" />
 
     </footer>
   );
