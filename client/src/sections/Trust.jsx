@@ -48,7 +48,7 @@ const TrustSection = () => {
   }, []);
 
   return (
-    <section className="relative py-24 md:py-32 bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
+    <section className="relative pt-16 pb-24 md:pt-20 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
       {/* Subtle background accent blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -left-20 top-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -57,7 +57,7 @@ const TrustSection = () => {
 
       {/* Heading */}
       <div className="relative text-center mb-16 md:mb-20">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 pb-4">
           Trusted by <span className="bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent">Leading Brands</span>
         </h2>
         <p className="mt-5 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-medium">

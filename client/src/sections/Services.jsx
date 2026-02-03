@@ -44,7 +44,7 @@ const Services = () => {
   return (
     <section 
       id="services" 
-      className="py-24 bg-gradient-to-b from-white via-slate-50 to-white"
+      className="pt-20 pb-4 bg-gradient-to-b from-white via-slate-50 to-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         
