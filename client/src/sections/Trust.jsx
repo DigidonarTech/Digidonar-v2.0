@@ -81,75 +81,74 @@ const TrustSection = () => {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
 
-        {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-8 md:gap-10">
+        {/* LEFT COLUMN - now using items-stretch + same height children */}
+        <div className="flex flex-col gap-6 md:gap-8">
 
-          {/* New Google Rating Card - placed above testimonials */}
-          <div className="bg-white/80 backdrop-blur-lg border border-white/40 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden text-center">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <svg width="32" height="32" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.82 2.43 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                <path fill="#4285F4" d="M46.5 24c0-1.57-.14-3.09-.41-4.57H24v9.02h12.7c-.55 2.97-2.21 5.49-4.7 7.18l7.98 6.19C43.89 38.02 46.5 31.56 46.5 24z" />
-                <path fill="#FBBC05" d="M10.54 28.41c-.48-1.45-.76-2.99-.76-4.41s.27-2.96.76-4.41l-7.98-6.19C.92 16.06 0 19.96 0 24c0 4.04.92 7.94 2.56 11.22l7.98-6.19z" />
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.81l-7.98-6.19c-2.21 1.49-5.03 2.37-7.93 2.37-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-              </svg>
-              <div>
-                <p className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">4.9</p>
-                <p className="text-sm text-slate-600 font-medium">out of 5</p>
+          {/* Google Rating Card - compact & same proportion */}
+          <div className="bg-white/80 backdrop-blur-lg border border-white/40 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden text-center flex-1 min-h-[180px] md:min-h-[220px] flex items-center justify-center">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center gap-3 mb-3">
+                <svg width="28" height="28" viewBox="0 0 48 48">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.82 2.43 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                  <path fill="#4285F4" d="M46.5 24c0-1.57-.14-3.09-.41-4.57H24v9.02h12.7c-.55 2.97-2.21 5.49-4.7 7.18l7.98 6.19C43.89 38.02 46.5 31.56 46.5 24z" />
+                  <path fill="#FBBC05" d="M10.54 28.41c-.48-1.45-.76-2.99-.76-4.41s.27-2.96.76-4.41l-7.98-6.19C.92 16.06 0 19.96 0 24c0 4.04.92 7.94 2.56 11.22l7.98-6.19z" />
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.81l-7.98-6.19c-2.21 1.49-5.03 2.37-7.93 2.37-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                </svg>
+                <p className="text-4xl md:text-5xl font-extrabold text-slate-900">4.9</p>
               </div>
+              <div className="flex gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={22} fill="#FBBF24" color="#FBBF24" />
+                ))}
+              </div>
+              <p className="text-sm md:text-base text-slate-600 font-medium">
+                1,500+ Google Reviews
+              </p>
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/8 to-emerald-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
             </div>
-            <div className="flex justify-center gap-1 mb-3">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={24} fill="#FBBF24" color="#FBBF24" className="drop-shadow-sm" />
-              ))}
-            </div>
-            <p className="text-slate-600 font-medium">
-              Based on 1,500+ Google Reviews
-            </p>
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none"></div>
           </div>
 
-          {/* Testimonials Carousel */}
-          <div className="relative min-h-[360px] md:min-h-[420px] perspective-1000">
+          {/* Testimonials Carousel - main height taker */}
+          <div className="relative flex-1 min-h-[300px] md:min-h-[380px] perspective-1000">
             {testimonials.map((t, i) => (
               <div
                 key={i}
                 className={`absolute inset-0 transition-all duration-1000 ease-out transform-gpu
-                  ${i === active
+            ${i === active
                     ? 'opacity-100 rotate-x-0 rotate-y-0 scale-100 z-20'
                     : 'opacity-0 -translate-x-8 rotate-y-6 scale-95 z-10'}`}
               >
-                <div className="h-full bg-white/70 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.12)] p-8 md:p-10 transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.18)] group relative overflow-hidden">
+                <div className="h-full bg-white/70 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.12)] p-7 md:p-9 transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.18)] group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-emerald-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-                  <p className="text-xl md:text-2xl leading-relaxed text-slate-800 font-medium italic mb-8 relative z-10">
+                  <p className="text-lg md:text-xl leading-relaxed text-slate-800 font-medium italic mb-6 md:mb-8 relative z-10">
                     “{t.content}”
                   </p>
 
-                  <div className="flex items-center gap-5 relative z-10">
+                  <div className="flex items-center gap-4 relative z-10">
                     <img
                       src={t.avatar}
                       alt={t.name}
-                      className="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-110 transition-transform duration-500"
+                      className="w-14 h-14 md:w-16 md:h-16 rounded-2xl object-cover shadow-lg group-hover:scale-110 transition-transform duration-500"
                     />
                     <div>
-                      <p className="font-bold text-xl text-slate-900">{t.name}</p>
-                      <p className="text-sm font-semibold text-emerald-600 tracking-wide uppercase mt-0.5">{t.role}</p>
+                      <p className="font-bold text-lg md:text-xl text-slate-900">{t.name}</p>
+                      <p className="text-xs md:text-sm font-semibold text-emerald-600 tracking-wide uppercase mt-0.5">{t.role}</p>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-30">
+            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex gap-3 z-30">
               {testimonials.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActive(idx)}
-                  className={`w-3.5 h-3.5 rounded-full transition-all duration-400 shadow-sm
-                    ${idx === active
+                  className={`w-3 h-3 rounded-full transition-all duration-400 shadow-sm
+              ${idx === active
                       ? 'bg-gradient-to-r from-blue-600 to-emerald-500 scale-125'
                       : 'bg-slate-300 hover:bg-slate-400'}`}
                 />
@@ -158,23 +157,17 @@ const TrustSection = () => {
           </div>
         </div>
 
-        {/* RIGHT COLUMN - Award Card (reduced height) */}
-        <div className="relative group min-h-[360px] md:min-h-[420px] flex flex-col">
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-8 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] transition-all duration-700 transform hover:-translate-y-4 overflow-hidden flex-1 flex flex-col justify-between">
+        {/* RIGHT COLUMN - Award Card (reference height) */}
+        <div className="relative group flex flex-col min-h-[480px] md:min-h-[600px]">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white backdrop-blur-lg border border-white/10 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] transition-all duration-700 transform hover:-translate-y-4 overflow-hidden flex-1 flex flex-col">
             <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-3xl"></div>
 
-            <div className="relative z-10 flex flex-col items-center flex-1">
+            <div className="relative z-10 flex flex-col items-center justify-center flex-1 p-6 md:p-8">
               <img
                 src={awardBanner}
                 alt="Justdial User's Choice 2021 - Digidonar Teleservices"
-                className="w-full max-h-[280px] md:max-h-[340px] object-contain rounded-2xl shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 mb-6"
+                className="w-full max-h-[85%] object-contain rounded-2xl shadow-2xl group-hover:scale-[1.02] transition-transform duration-700"
               />
-
-              {/* Optional small text overlay if banner doesn't have everything */}
-              <div className="text-center mt-auto">
-                <p className="text-xl font-bold">Digidonar Teleservices</p>
-                <p className="text-base text-amber-100/90">Indira Nagar, Lucknow</p>
-              </div>
             </div>
 
             {/* Hover shine */}
@@ -183,6 +176,7 @@ const TrustSection = () => {
         </div>
 
       </div>
+
     </section>
   );
 };
