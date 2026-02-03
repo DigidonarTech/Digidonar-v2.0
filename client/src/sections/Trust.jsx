@@ -6,6 +6,10 @@ import logo2 from '../assets/kia.png';
 import logo3 from '../assets/ola.png';
 import logo4 from '../assets/zomato2708.jpg';
 import logo5 from '../assets/rejency.webp';
+import awardBanner from '../../public/82156.gif';
+import rajeshAvatar from '../assets/client 2.jpg';
+import anjaliAvatar from '../assets/client1_profile.jpg';
+import vikramAvatar from '../assets/profile 3.png';
 
 const logos = [logo1, logo2, logo3, logo4, logo5];
 
@@ -15,18 +19,21 @@ const testimonials = [
     role: 'CEO, RetailHub',
     content:
       'Digidonar ki Bulk SMS service se hamari sales 40% badh gayi hai. Delivery instant hai aur dashboard bahut user-friendly hai.',
+    avatar: rajeshAvatar,
   },
   {
     name: 'Anjali Sharma',
     role: 'Marketing Head, EduTech',
     content:
       'WhatsApp API integration ne hamara customer support automate kar diya. Best service in the market!',
+    avatar: anjaliAvatar,
   },
   {
     name: 'Vikram Singh',
     role: 'CTO, TechWave',
     content:
       'Voice & IVR integration se humari customer experience bahut smooth ho gayi. Highly recommend Digidonar!',
+    avatar: vikramAvatar,
   },
 ];
 
@@ -58,8 +65,8 @@ const TrustSection = () => {
         </p>
       </div>
 
-      {/* Brand Marquee – kept exactly as premium version */}
-      <div className="relative mb-20 md:mb-28 overflow-hidden">
+      {/* Brand Marquee */}
+      <div className="relative mb-16 md:mb-20 overflow-hidden">
         <div className="flex animate-marquee-slow whitespace-nowrap gap-20 md:gap-28 hover:pause-marquee">
           {logos.concat(logos).map((logo, i) => (
             <div key={i} className="flex-shrink-0 group relative">
@@ -74,125 +81,100 @@ const TrustSection = () => {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
-        {/* Left: Client Testimonials Carousel */}
-        <div className="relative min-h-[380px] md:min-h-[420px] perspective-1000">
-          {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className={`absolute inset-0 transition-all duration-1000 ease-out transform-gpu
-          ${i === active
-                  ? 'opacity-100 rotate-x-0 rotate-y-0 scale-100 z-20'
-                  : 'opacity-0 -translate-x-8 rotate-y-6 scale-95 z-10'}
-        `}
-            >
-              <div className="h-full bg-white/70 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.12)] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.18)] group relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-emerald-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        {/* LEFT COLUMN */}
+        <div className="flex flex-col gap-8 md:gap-10">
 
-                <p className="text-xl md:text-2xl leading-relaxed text-slate-800 font-medium italic mb-10 relative z-10">
-                  “{t.content}”
-                </p>
-
-                <div className="flex items-center gap-5 relative z-10">
-                  {/* 
-              AVATAR PLACEHOLDER
-              Yahan real profile photo daal dena
-              Example:
-              import rajeshAvatar from '../assets/testimonials/rajesh.jpg';
-              <img 
-                src={rajeshAvatar} 
-                alt={t.name} 
-                className="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-110 transition-transform duration-500" 
-              />
-            */}
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg group-hover:scale-110 transition-transform duration-500">
-                    {t.name[0]} {/* Yeh temporary hai – remove after adding image */}
-                  </div>
-                  <div>
-                    <p className="font-bold text-xl text-slate-900">{t.name}</p>
-                    <p className="text-sm font-semibold text-emerald-600 tracking-wide uppercase mt-0.5">{t.role}</p>
-                  </div>
-                </div>
+          {/* New Google Rating Card - placed above testimonials */}
+          <div className="bg-white/80 backdrop-blur-lg border border-white/40 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <svg width="32" height="32" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.82 2.43 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                <path fill="#4285F4" d="M46.5 24c0-1.57-.14-3.09-.41-4.57H24v9.02h12.7c-.55 2.97-2.21 5.49-4.7 7.18l7.98 6.19C43.89 38.02 46.5 31.56 46.5 24z" />
+                <path fill="#FBBC05" d="M10.54 28.41c-.48-1.45-.76-2.99-.76-4.41s.27-2.96.76-4.41l-7.98-6.19C.92 16.06 0 19.96 0 24c0 4.04.92 7.94 2.56 11.22l7.98-6.19z" />
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.81l-7.98-6.19c-2.21 1.49-5.03 2.37-7.93 2.37-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+              </svg>
+              <div>
+                <p className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">4.9</p>
+                <p className="text-sm text-slate-600 font-medium">out of 5</p>
               </div>
             </div>
-          ))}
-
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-30">
-            {testimonials.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActive(idx)}
-                className={`w-3.5 h-3.5 rounded-full transition-all duration-400 shadow-sm
-            ${idx === active
-                    ? 'bg-gradient-to-r from-blue-600 to-emerald-500 scale-125'
-                    : 'bg-slate-300 hover:bg-slate-400'}
-          `}
-              />
-            ))}
+            <div className="flex justify-center gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={24} fill="#FBBF24" color="#FBBF24" className="drop-shadow-sm" />
+              ))}
+            </div>
+            <p className="text-slate-600 font-medium">
+              Based on 1,500+ Google Reviews
+            </p>
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none"></div>
           </div>
-        </div>
 
-        {/* Right: Justdial User's Choice Award Card */}
-        <div className="relative group">
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-10 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] transition-all duration-700 transform hover:-translate-y-4 overflow-hidden">
-            {/* Dark glass overlay */}
-            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-3xl"></div>
+          {/* Testimonials Carousel */}
+          <div className="relative min-h-[360px] md:min-h-[420px] perspective-1000">
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className={`absolute inset-0 transition-all duration-1000 ease-out transform-gpu
+                  ${i === active
+                    ? 'opacity-100 rotate-x-0 rotate-y-0 scale-100 z-20'
+                    : 'opacity-0 -translate-x-8 rotate-y-6 scale-95 z-10'}`}
+              >
+                <div className="h-full bg-white/70 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.12)] p-8 md:p-10 transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.18)] group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-emerald-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-            <div className="relative z-10">
-              {/* 
-          AWARD BANNER PLACEHOLDER
-          Yahan full award banner image daal dena (jo tune screenshot bheja tha)
-          Example:
-          import awardBanner from '../assets/awards/justdial-users-choice-2021.jpg';
-          
-          <img 
-            src={awardBanner} 
-            alt="Justdial User's Choice 2021 - Digidonar Teleservices" 
-            className="w-full h-auto rounded-2xl shadow-2xl group-hover:scale-[1.02] transition-transform duration-700" 
-          />
-          
-          Agar image daal dega to neeche ka saara content (badge, text, stars) hata sakta hai ya overlay kar sakta hai
-        */}
+                  <p className="text-xl md:text-2xl leading-relaxed text-slate-800 font-medium italic mb-8 relative z-10">
+                    “{t.content}”
+                  </p>
 
-              {/* Agar image nahi daalna chahta abhi, to yeh fallback design rahega */}
-              <div className="flex flex-col items-center text-center mb-8">
-                <div className="relative mb-4">
-                  <div className="w-28 h-32 bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 rounded-xl rotate-12 shadow-2xl flex items-center justify-center text-center p-4">
-                    <div className="transform -rotate-12">
-                      <p className="text-xs font-bold uppercase tracking-widest text-slate-900">Justdial</p>
-                      <p className="text-lg font-black text-white">USER'S CHOICE</p>
-                      <p className="text-sm font-bold text-slate-900">2021</p>
+                  <div className="flex items-center gap-5 relative z-10">
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-16 h-16 rounded-2xl object-cover shadow-lg group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div>
+                      <p className="font-bold text-xl text-slate-900">{t.name}</p>
+                      <p className="text-sm font-semibold text-emerald-600 tracking-wide uppercase mt-0.5">{t.role}</p>
                     </div>
                   </div>
                 </div>
-
-                <h3 className="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-yellow-200">
-                  We Are Already A
-                </h3>
-                <p className="text-xl font-bold mt-1 text-amber-200">USER'S CHOICE</p>
               </div>
+            ))}
 
-              <div className="text-center mb-6">
-                <p className="text-2xl font-bold">Digidonar Teleservices</p>
-                <p className="text-lg text-amber-100/90 mt-1">Indira Nagar, Lucknow</p>
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-30">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActive(idx)}
+                  className={`w-3.5 h-3.5 rounded-full transition-all duration-400 shadow-sm
+                    ${idx === active
+                      ? 'bg-gradient-to-r from-blue-600 to-emerald-500 scale-125'
+                      : 'bg-slate-300 hover:bg-slate-400'}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN - Award Card (reduced height) */}
+        <div className="relative group min-h-[360px] md:min-h-[420px] flex flex-col">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-8 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] transition-all duration-700 transform hover:-translate-y-4 overflow-hidden flex-1 flex flex-col justify-between">
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-3xl"></div>
+
+            <div className="relative z-10 flex flex-col items-center flex-1">
+              <img
+                src={awardBanner}
+                alt="Justdial User's Choice 2021 - Digidonar Teleservices"
+                className="w-full max-h-[280px] md:max-h-[340px] object-contain rounded-2xl shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 mb-6"
+              />
+
+              {/* Optional small text overlay if banner doesn't have everything */}
+              <div className="text-center mt-auto">
+                <p className="text-xl font-bold">Digidonar Teleservices</p>
+                <p className="text-base text-amber-100/90">Indira Nagar, Lucknow</p>
               </div>
-
-              <div className="flex justify-center gap-1.5 mb-8">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={32}
-                    fill="#FBBF24"
-                    color="#FBBF24"
-                    className="drop-shadow-md"
-                  />
-                ))}
-              </div>
-
-              <p className="text-center text-lg md:text-xl font-medium text-amber-100/90 italic">
-                Time To Make Your Choice Right – We Are Already Trusted!
-              </p>
             </div>
 
             {/* Hover shine */}
@@ -201,20 +183,6 @@ const TrustSection = () => {
         </div>
 
       </div>
-
-      {/* Marquee animation CSS (add to globals or tailwind config if not already) */}
-      {/*
-        @keyframes marquee-slow {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-        .animate-marquee-slow {
-          animation: marquee-slow 35s linear infinite;
-        }
-        .pause-marquee:hover .animate-marquee-slow {
-          animation-play-state: paused;
-        }
-      */}
     </section>
   );
 };
