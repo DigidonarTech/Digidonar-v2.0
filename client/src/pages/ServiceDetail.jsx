@@ -51,16 +51,16 @@ const SERVICE_DATA = {
     stats: { delivery: "99.99%", speed: "1.5s", users: "3k+" }
   },
   "sms-gateway": {
-  title: "Robust SMS Gateway",
-  subtitle: "Developer First API",
-  desc: "Hamari powerful HTTP/SMPP APIs ko apne software mein integrate karein. Developers ke liye bani sabse asaan documentation.",
-  features: ["HTTP/SMPP APIs", "JSON/XML Support", "Unlimited Throughput", "Webhook Integration"],
-  icon: <HardDrive size={56} strokeWidth={1.5} />,
-  color: "text-[#0A4D8C]",
-  bg: "bg-[#0A4D8C]",
-  accent: "from-[#0A4D8C] to-[#44BBDB]",
-  stats: { uptime: "99.95%", latency: "<50ms", users: "800+" }
-}
+    title: "Robust SMS Gateway",
+    subtitle: "Developer First API",
+    desc: "Hamari powerful HTTP/SMPP APIs ko apne software mein integrate karein. Developers ke liye bani sabse asaan documentation.",
+    features: ["HTTP/SMPP APIs", "JSON/XML Support", "Unlimited Throughput", "Webhook Integration"],
+    icon: <HardDrive size={56} strokeWidth={1.5} />,
+    color: "text-[#0A4D8C]",
+    bg: "bg-[#0A4D8C]",
+    accent: "from-[#0A4D8C] to-[#44BBDB]",
+    stats: { uptime: "99.95%", latency: "<50ms", users: "800+" }
+  }
 };
 
 const ServiceDetail = ({ serviceType }) => {
@@ -103,9 +103,14 @@ const ServiceDetail = ({ serviceType }) => {
               <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl hover:scale-[1.02] transition-all">
                 Get Started <ArrowRight size={18} />
               </button>
-              <button className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all">
+              <a
+                href=""
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center"
+              >
                 View Docs
-              </button>
+              </a>
             </div>
           </div>
 
