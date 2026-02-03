@@ -103,14 +103,12 @@ const ServiceDetail = ({ serviceType }) => {
               <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl hover:scale-[1.02] transition-all">
                 Get Started <ArrowRight size={18} />
               </button>
-              <a
-                href=""
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center"
+              <button
+                onClick={() => window.open(docFromDB.pdfUrl, "_blank")}
+                className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all"
               >
                 View Docs
-              </a>
+              </button>
             </div>
           </div>
 

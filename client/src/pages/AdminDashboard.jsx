@@ -85,6 +85,25 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleFileUpload = async (e) => {
+  const file = e.target.files[0];
+  const formData = new FormData();
+  formData.append('pdf', file);
+  formData.append('title', 'Project Docs');
+
+  try {
+    const response = await axios.post('https://digidonar-api.onrender.com/api/upload-pdf', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    alert("PDF Uploaded Successfully!");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Input field in JSX
+<input type="file" onChange={handleFileUpload} accept="application/pdf" />
+
   return (
     <div className="min-h-screen bg-slate-50 pt-24 pb-12 px-6">
       <div className="max-w-7xl mx-auto">
