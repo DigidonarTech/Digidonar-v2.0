@@ -7,7 +7,6 @@ const Hero = () => {
 
     const videoId = "a4dPkuv7PLw?si=EQUq5VdDWYyH93gI";
     
-
     return (
         <section className="relative pt-32 pb-20 md:pt-48 md:pb-36 overflow-hidden bg-gradient-to-b from-white via-sky-50/40 to-white">
 
