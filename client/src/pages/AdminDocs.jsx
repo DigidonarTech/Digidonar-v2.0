@@ -7,7 +7,7 @@ const AdminDocs = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchDocs = async () => {
-    const res = await axios.get('https://digidonar-v2-0.vercel.app/api/documents/all');
+    const res = await axios.get('https://digidonar-api.onrender.com/api/documents/all');
     setDocs(res.data);
   };
 
@@ -20,7 +20,7 @@ const AdminDocs = () => {
     
     setLoading(true);
     try {
-      await axios.post('https://digidonar-v2-0.vercel.app/api/documents/upload', formData);
+      await axios.post('https://digidonar-api.onrender.com/api/documents/upload', formData);
       alert("Uploaded!");
       setFile(null);
       fetchDocs();
@@ -31,7 +31,7 @@ const AdminDocs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete kar dein?")) {
       try {
-        await axios.delete(`https://digidonar-v2-0.vercel.app/api/documents/delete/${id}`);
+        await axios.delete(`https://digidonar-api.onrender.com/api/documents/delete/${id}`);
         fetchDocs();
       } catch (err) { alert("Delete error!"); }
     }
