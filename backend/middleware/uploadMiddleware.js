@@ -10,12 +10,9 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => {
-    return {
-      folder: 'digidonar_docs',
-      resource_type: 'raw', // PDF ke liye yahi standard hai
-      public_id: `doc-${Date.now()}`, // Extension automatic handle hone do
-    };
+  params: {
+    folder: 'digidonar_docs',
+    resource_type: 'auto', // Cloudinary khud handle karega PDF ko
   },
 });
 
