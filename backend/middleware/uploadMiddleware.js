@@ -10,15 +10,12 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'digidonar_docs',
-    resource_type: 'raw', 
-    // 'type' specify karta hai ki file public access ke liye hai (Fixes 401 error)
-    type: 'upload', 
-    // Flags: attachment browser ko batata hai ki ye file valid resource hai
-    flags: 'attachment',
-    // Ek hi baar public_id define karein extension ke saath
-    public_id: (req, file) => `doc-${Date.now()}.pdf`,
+  params: async (req, file) => {
+    return {
+      folder: 'digidonar_docs',
+      resource_type: 'raw', // PDF ke liye yahi standard hai
+      public_id: `doc-${Date.now()}`, // Extension automatic handle hone do
+    };
   },
 });
 
