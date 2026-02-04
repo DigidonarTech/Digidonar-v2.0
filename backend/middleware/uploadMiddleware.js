@@ -12,11 +12,15 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'digidonar_docs',
-    resource_type: 'raw', // PDF ke liye 'raw' hi sahi hai
+    resource_type: 'raw',// PDF ke liye 'raw' hi sahi hai
     // Sabse bada fix: extension (.pdf) manually add karna zaroori hai
     public_id: (req, file) => {
       const fileName = `doc-${Date.now()}.pdf`;
       return fileName;
+    },
+    flags: "attachment", 
+    public_id: (req, file) => {
+      return `doc-${Date.now()}.pdf`;
     },
   },
 });

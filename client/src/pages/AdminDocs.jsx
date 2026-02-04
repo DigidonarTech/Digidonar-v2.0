@@ -63,6 +63,7 @@ const AdminDocs = () => {
                 href={doc.pdfUrl}
                 target="_blank"
                 rel="noreferrer"
+                download
                 className="bg-blue-600 text-white px-4 py-2 rounded-xl"
               >
                 View PDF
