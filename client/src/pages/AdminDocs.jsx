@@ -99,7 +99,7 @@ const AdminDocs = () => {
               width="100%"
               height="500"
               className="rounded-xl border"
-              title={`PDF Preview - ${doc._id}`}
+              title="PDF Preview"
             />
           </div>
         ))}

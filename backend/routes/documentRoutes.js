@@ -10,7 +10,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
     const newDoc = new Document({
       title: req.body.title || 'Untitled PDF',
-      pdfUrl: req.file.secure_url,
+      pdfUrl: req.file.path,
       publicId: req.file.filename
     });
 
