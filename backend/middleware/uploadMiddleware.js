@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'digidonar_docs',
-    resource_type: 'auto', // Cloudinary khud handle karega PDF ko
+    resource_type: 'auto', // PDF ke liye auto sabse stable hai
   },
 });
 
