@@ -18,8 +18,15 @@ const AdminDocs = () => {
   // --- PDF Fix Logic ---
   const handleView = (url) => {
     if (!url) return;
-    // Hack: 'raw' ko 'image' mein badalne se browser PDF viewer block nahi karta
-    const viewableUrl = url.replace('/raw/upload/', '/image/upload/');
+
+    // 1. Agar URL 'raw' hai, toh use 'image' mein convert karo (Best for Browser View)
+    let viewableUrl = url.replace('/raw/upload/', '/image/upload/');
+
+    // 2. Browser ko force karo ki wo ise "Inline" (viewer mein) khole na ki download kare
+    if (viewableUrl.includes('/upload/')) {
+      viewableUrl = viewableUrl.replace('/upload/', '/upload/fl_attachment:false/');
+    }
+
     window.open(viewableUrl, '_blank');
   };
 
@@ -35,9 +42,9 @@ const AdminDocs = () => {
       alert("Uploaded!");
       setFile(null);
       fetchDocs();
-    } catch (err) { 
+    } catch (err) {
       console.error(err);
-      alert("Upload error! Server logs check karein."); 
+      alert("Upload error! Server logs check karein.");
     }
     setLoading(false);
   };
@@ -71,8 +78,8 @@ const AdminDocs = () => {
           <div key={doc._id} className="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center">
             <span className="font-medium text-slate-700">{doc.title || "Untitled"}</span>
             <div className="flex gap-3">
-              <button 
-                onClick={() => handleView(doc.pdfUrl)} 
+              <button
+                onClick={() => handleView(doc.pdfUrl)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold"
               >
                 View PDF
