@@ -17,7 +17,7 @@ const AdminDocs = () => {
     if (!file) return alert("File select karo");
     const formData = new FormData();
     formData.append('pdf', file);
-    
+
     setLoading(true);
     try {
       await axios.post('https://digidonar-api.onrender.com/api/documents/upload', formData);
@@ -40,11 +40,11 @@ const AdminDocs = () => {
   return (
     <div className="p-8 bg-slate-50 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">Manage Documents</h1>
-      
+
       {/* Upload Section */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
         <input type="file" onChange={(e) => setFile(e.target.files[0])} accept=".pdf" />
-        <button 
+        <button
           onClick={handleUpload}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg ml-4 font-bold"
           disabled={loading}
@@ -59,7 +59,14 @@ const AdminDocs = () => {
           <div key={doc._id} className="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center">
             <span className="font-medium text-slate-700">{doc.title}</span>
             <div className="flex gap-3">
-              <a href={doc.pdfUrl} target="_blank" className="text-blue-600 font-bold">View</a>
+              <a
+                href={doc.pdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-blue-600 text-white px-4 py-2 rounded-xl"
+              >
+                View PDF
+              </a>
               <button onClick={() => handleDelete(doc._id)} className="text-red-500 font-bold">Remove</button>
             </div>
           </div>
