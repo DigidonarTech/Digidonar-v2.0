@@ -13,7 +13,6 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'digidonar_docs',
     resource_type: 'auto', // PDF/Docs ke liye 'raw' use hota hai
-    format: 'pdf',
     public_id: (req, file) => `doc-${Date.now()}`
   },
 });
