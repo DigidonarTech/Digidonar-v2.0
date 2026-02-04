@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { upload } = require('../middleware/uploadMiddleware');
-const Document = require('../models/Document'); 
+const Document = require('../models/Document');
 
 // Upload Route
 router.post('/upload', upload.single('pdf'), async (req, res) => {
@@ -10,7 +10,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
     const newDoc = new Document({
       title: req.body.title || 'Untitled PDF',
-      pdfUrl: req.file.path,
+      pdfUrl: req.file.secure_url,
       publicId: req.file.filename
     });
 

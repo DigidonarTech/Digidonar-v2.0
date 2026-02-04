@@ -9,12 +9,14 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'digidonar_docs',
-    resource_type: 'auto', // PDF ke liye auto sabse stable hai
+    resource_type: 'auto',
+    allowed_formats: ['pdf'],
   },
 });
+
 
 const upload = multer({ storage });
 module.exports = { upload, cloudinary };

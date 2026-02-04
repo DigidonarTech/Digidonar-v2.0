@@ -18,17 +18,9 @@ const AdminDocs = () => {
   // --- PDF Fix Logic ---
   const handleView = (url) => {
     if (!url) return;
-
-    // 1. Agar URL 'raw' hai, toh use 'image' mein convert karo (Best for Browser View)
-    let viewableUrl = url.replace('/raw/upload/', '/image/upload/');
-
-    // 2. Browser ko force karo ki wo ise "Inline" (viewer mein) khole na ki download kare
-    if (viewableUrl.includes('/upload/')) {
-      viewableUrl = viewableUrl.replace('/upload/', '/upload/fl_attachment:false/');
-    }
-
-    window.open(viewableUrl, '_blank');
+    window.open(url, '_blank');
   };
+
 
   const handleUpload = async () => {
     if (!file) return alert("File select karo");
@@ -75,19 +67,43 @@ const AdminDocs = () => {
 
       <div className="grid gap-4">
         {docs.map(doc => (
-          <div key={doc._id} className="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center">
-            <span className="font-medium text-slate-700">{doc.title || "Untitled"}</span>
-            <div className="flex gap-3">
-              <button
-                onClick={() => handleView(doc.pdfUrl)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold"
-              >
-                View PDF
-              </button>
-              <button onClick={() => handleDelete(doc._id)} className="text-red-500 font-bold px-2">Remove</button>
+          <div
+            key={doc._id}
+            className="bg-white p-4 rounded-xl border border-slate-200 space-y-4"
+          >
+            <div className="flex justify-between items-center">
+              <span className="font-medium text-slate-700">
+                {doc.title || "Untitled"}
+              </span>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleView(doc.pdfUrl)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold"
+                >
+                  Open in New Tab
+                </button>
+
+                <button
+                  onClick={() => handleDelete(doc._id)}
+                  className="text-red-500 font-bold px-2"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
+
+            {/* 👇 PDF INLINE PREVIEW */}
+            <iframe
+              src={doc.pdfUrl}
+              width="100%"
+              height="500"
+              className="rounded-xl border"
+              title={`PDF Preview - ${doc._id}`}
+            />
           </div>
         ))}
+
       </div>
     </div>
   );
