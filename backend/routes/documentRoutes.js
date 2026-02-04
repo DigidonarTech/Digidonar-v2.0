@@ -1,48 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const { upload } = require('../middleware/uploadMiddleware');
 const Document = require('../models/Document');
-const { upload, cloudinary } = require('../middleware/uploadMiddleware');
 
-// 1. UPLOAD PDF
+// Upload Route
 router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "File nahi mili!" });
+    }
+
     const newDoc = new Document({
-      title: req.body.title || "Main Doc",
+      title: req.body.title || 'Untitled PDF',
       pdfUrl: req.file.path,
-      publicId: req.file.filename // Cloudinary ki unique ID
+      publicId: req.file.filename
     });
+
     await newDoc.save();
-    res.status(200).json({ message: "File Uploaded!", data: newDoc });
+    res.status(201).json(newDoc);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("DETAILED UPLOAD ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
-// 2. GET ALL DOCS (Admin List dikhane ke liye)
+// All Docs Route
 router.get('/all', async (req, res) => {
   try {
-    const docs = await Document.find().sort({ uploadedAt: -1 });
-    res.json(docs);
+    const docs = await Document.find().sort({ createdAt: -1 });
+    res.status(200).json(docs);
   } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// 3. REMOVE/DELETE PDF
-router.delete('/delete/:id', async (req, res) => {
-  try {
-    const doc = await Document.findById(req.params.id);
-    if (!doc) return res.status(404).json({ message: "File nahi mili" });
-
-    // Cloudinary se delete karo
-    await cloudinary.uploader.destroy(doc.publicId, { resource_type: 'raw' });
-    
-    // MongoDB se delete karo
-    await Document.findByIdAndDelete(req.params.id);
-    
-    res.status(200).json({ message: "File Removed Successfully!" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("FETCH ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
