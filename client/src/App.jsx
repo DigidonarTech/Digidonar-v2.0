@@ -35,8 +35,9 @@ function App() {
           <Route path="/services/otp-service" element={<ServiceDetail serviceType="otp-service" />} />
           <Route path="/services/sms-gateway" element={<ServiceDetail serviceType="sms-gateway" />} />
           <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin/documents" element={<AdminDocs />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
         </Routes>
         <Footer />
       </div>
