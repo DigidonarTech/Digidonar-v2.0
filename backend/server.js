@@ -3,26 +3,43 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+// PDF Routes Import (Ye line add ki hai)
+const documentRoutes = require('./routes/documentRoutes');
+
 const app = express();
 
-// 1. Middleware - CORS hamesha sabse upar aur EK hi baar hona chahiye
+// 1. Updated CORS - Dono Local aur Vercel allow honge
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://digidonar-v2-0.vercel.app" // Aapka Vercel URL
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173", 
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('CORS Policy Error: Origin not allowed'), false);
+    }
+    return callback(null, true);
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
 app.use(express.json());
 
-// 2. Admin Password (Environment variable use karna better hai)
+// 2. Register PDF Routes (Ye line add ki hai)
+app.use('/api/documents', documentRoutes);
+
+// --- Baaki Saara Code Same Rahega ---
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@Donar#2024";
 
-// 3. MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected!'))
   .catch((err) => console.log('❌ DB Connection Error:', err));
 
-// 4. Lead Schema & Model
 const leadSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -33,9 +50,11 @@ const leadSchema = new mongoose.Schema({
 });
 const Lead = mongoose.model('Lead', leadSchema);
 
-// --- ROUTES ---
+// ROUTES
+app.get("/", (req, res) => {
+  res.status(200).send("Server is up and running!");
+});
 
-// Submit Lead
 app.post('/api/leads', async (req, res) => {
   try {
     const newLead = new Lead(req.body);
@@ -46,11 +65,6 @@ app.post('/api/leads', async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.status(200).send("Server is up and running!");
-});
-
-// Get Leads
 app.get('/api/leads', async (req, res) => {
   try {
     const leads = await Lead.find().sort({ createdAt: -1 });
@@ -60,7 +74,6 @@ app.get('/api/leads', async (req, res) => {
   }
 });
 
-// Delete Lead
 app.delete('/api/leads/:id', async (req, res) => {
   try {
     await Lead.findByIdAndDelete(req.params.id);
@@ -70,22 +83,16 @@ app.delete('/api/leads/:id', async (req, res) => {
   }
 });
 
-// Update Status
 app.put('/api/leads/:id', async (req, res) => {
   try {
     const { status } = req.body;
-    const updatedLead = await Lead.findByIdAndUpdate(
-      req.params.id, 
-      { status: status }, 
-      { new: true }
-    );
+    const updatedLead = await Lead.findByIdAndUpdate(req.params.id, { status }, { new: true });
     res.json(updatedLead);
   } catch (error) {
     res.status(500).json({ message: "Status update fail", error });
   }
 });
 
-// Admin Login
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
@@ -95,6 +102,5 @@ app.post('/api/admin/login', (req, res) => {
   }
 });
 
-// 5. Port Configuration
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
