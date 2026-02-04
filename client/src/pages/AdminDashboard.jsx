@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut } from 'lucide-react';
+import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut, FileText } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom'; // Link import kiya
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const API_BASE_URL = 'https://digidonar-api.onrender.com/api';
+
   // Data Fetch karne ka function
   const fetchLeads = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://digidonar-api.onrender.com/api/leads');
+      const response = await axios.get(`${API_BASE_URL}/leads`);
       setLeads(response.data);
     } catch (err) {
       console.error("Leads fetch nahi ho payi:", err);
@@ -21,7 +23,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Auth check aur browser back handling
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     if (!token) {
@@ -30,7 +31,6 @@ const AdminDashboard = () => {
       fetchLeads();
     }
 
-    // Security for browser back button
     window.onpopstate = () => {
       if (!localStorage.getItem('adminToken')) {
         navigate('/admin-login', { replace: true });
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   const deleteLead = async (id) => {
     if (window.confirm("Bhai, kya aap sach mein delete karna chahte ho?")) {
       try {
-        await axios.delete(`https://digidonar-api.onrender.com/api/leads/${id}`);
+        await axios.delete(`${API_BASE_URL}/leads/${id}`);
         setLeads(leads.filter(lead => lead._id !== id));
       } catch (err) {
         alert("Delete fail ho gaya!");
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
 
   const updateStatus = async (id) => {
     try {
-      const response = await axios.put(`https://digidonar-api.onrender.com/api/leads/${id}`, {
+      const response = await axios.put(`${API_BASE_URL}/leads/${id}`, {
         status: 'Contacted'
       });
       if (response.status === 200) {
@@ -85,25 +85,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleFileUpload = async (e) => {
-  const file = e.target.files[0];
-  const formData = new FormData();
-  formData.append('pdf', file);
-  formData.append('title', 'Project Docs');
-
-  try {
-    const response = await axios.post('https://digidonar-api.onrender.com/api/upload-pdf', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-    alert("PDF Uploaded Successfully!");
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// Input field in JSX
-<input type="file" onChange={handleFileUpload} accept="application/pdf" />
-
   return (
     <div className="min-h-screen bg-slate-50 pt-24 pb-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -111,13 +92,22 @@ const AdminDashboard = () => {
         {/* Header Area */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 italic leading-none">Admin Dashboard</h1>
+            <h1 className="text-3xl font-black text-slate-900 italic leading-none text-uppercase">Admin Dashboard</h1>
             <p className="text-slate-500 font-medium mt-2 tracking-tight">
               Manage your <span className="text-[#0D66BA] font-bold">{leads.length}</span> incoming leads
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+            {/* Manage Docs Button - Navigates to your new AdminDocs page */}
+            <Link 
+              to="/admin/documents" 
+              className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-3 rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+            >
+              <FileText size={18} className="text-blue-600" />
+              Manage PDFs
+            </Link>
+
             <button
               onClick={fetchLeads}
               className="p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm group"
@@ -130,14 +120,14 @@ const AdminDashboard = () => {
               onClick={exportToCSV}
               className="flex-1 lg:flex-none bg-[#0D66BA] text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-100 hover:bg-slate-900 transition-all flex items-center justify-center gap-2"
             >
-              Export Leads (CSV)
+              Export CSV
             </button>
 
             <button
               onClick={() => {
-                if(window.confirm("Bhai, Log out karun?")) {
-                    localStorage.removeItem('adminToken');
-                    navigate('/admin-login', { replace: true });
+                if (window.confirm("Bhai, Log out karun?")) {
+                  localStorage.removeItem('adminToken');
+                  navigate('/admin-login', { replace: true });
                 }
               }}
               className="flex-1 lg:flex-none bg-red-50 text-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-600 hover:text-white transition-all flex items-center justify-center gap-2 border border-red-100"
@@ -149,15 +139,15 @@ const AdminDashboard = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
             <Users className="text-[#0D66BA] mb-2" size={32} />
             <p className="text-slate-400 text-sm font-bold uppercase tracking-wider">Total Leads</p>
-            <h2 className="text-3xl font-black text-slate-900">{leads.length}</h2>
+            <h2 className="text-4xl font-black text-slate-900">{leads.length}</h2>
           </div>
-          <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm border-l-4 border-l-emerald-500">
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm border-l-4 border-l-emerald-500">
             <CheckCircle className="text-emerald-500 mb-2" size={32} />
             <p className="text-slate-400 text-sm font-bold uppercase tracking-wider">Converted</p>
-            <h2 className="text-3xl font-black text-slate-900">
+            <h2 className="text-4xl font-black text-slate-900">
               {leads.filter(l => l.status === 'Contacted').length}
             </h2>
           </div>
@@ -173,7 +163,7 @@ const AdminDashboard = () => {
           ) : leads.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-[400px] text-slate-400">
               <p className="text-xl font-bold text-slate-900">No leads found yet!</p>
-              <p className="font-medium">Form submissions will appear here automatically.</p>
+              <p className="font-medium text-center">Form submissions will appear here automatically.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -202,9 +192,8 @@ const AdminDashboard = () => {
                         </span>
                       </td>
                       <td className="p-6">
-                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase ${
-                          lead.status === 'New' ? 'bg-orange-100 text-orange-600' : 'bg-emerald-100 text-emerald-600'
-                        }`}>
+                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase ${lead.status === 'New' ? 'bg-orange-100 text-orange-600' : 'bg-emerald-100 text-emerald-600'
+                          }`}>
                           {lead.status}
                         </span>
                       </td>
@@ -218,11 +207,10 @@ const AdminDashboard = () => {
                         <button
                           onClick={() => updateStatus(lead._id)}
                           disabled={lead.status === 'Contacted'}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                            lead.status === 'Contacted'
-                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                            : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-sm'
-                          }`}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${lead.status === 'Contacted'
+                              ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                              : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-sm'
+                            }`}
                         >
                           {lead.status === 'Contacted' ? 'Contacted' : 'Mark Done'}
                         </button>
