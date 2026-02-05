@@ -6,7 +6,7 @@ import logo2 from '../assets/kia.png';
 import logo3 from '../assets/ola.png';
 import logo4 from '../assets/zomato2708.jpg';
 import logo5 from '../assets/rejency.webp';
-import awardBanner from '../../public/82156.gif';
+import awardBanner from '../assets/82156.gif';
 import rajeshAvatar from '../assets/client 2.jpg';
 import anjaliAvatar from '../assets/client1_profile.jpg';
 import vikramAvatar from '../assets/profile 3.png';
