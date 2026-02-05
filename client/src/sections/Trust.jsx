@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, Award, Users, CheckCircle } from 'lucide-react';
 
 import logo1 from '../assets/bazaz.jpg';
 import logo2 from '../assets/kia.png';
@@ -81,99 +82,138 @@ const TrustSection = () => {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
 
-        {/* LEFT COLUMN - now using items-stretch + same height children */}
-        <div className="flex flex-col gap-6 md:gap-8">
+      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-          {/* Google Rating Card - compact & same proportion */}
-          <div className="bg-white/80 backdrop-blur-lg border border-white/40 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden text-center flex-1 min-h-[180px] md:min-h-[220px] flex items-center justify-center">
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-3 mb-3">
-                <svg width="28" height="28" viewBox="0 0 48 48">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.82 2.43 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                  <path fill="#4285F4" d="M46.5 24c0-1.57-.14-3.09-.41-4.57H24v9.02h12.7c-.55 2.97-2.21 5.49-4.7 7.18l7.98 6.19C43.89 38.02 46.5 31.56 46.5 24z" />
-                  <path fill="#FBBC05" d="M10.54 28.41c-.48-1.45-.76-2.99-.76-4.41s.27-2.96.76-4.41l-7.98-6.19C.92 16.06 0 19.96 0 24c0 4.04.92 7.94 2.56 11.22l7.98-6.19z" />
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.81l-7.98-6.19c-2.21 1.49-5.03 2.37-7.93 2.37-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-                </svg>
-                <p className="text-4xl md:text-5xl font-extrabold text-slate-900">4.9</p>
-              </div>
-              <div className="flex gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={22} fill="#FBBF24" color="#FBBF24" />
-                ))}
-              </div>
-              <p className="text-sm md:text-base text-slate-600 font-medium">
-                1,500+ Google Reviews
-              </p>
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/8 to-emerald-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+        {/* LEFT COLUMN - Social Proof Mesh (Takes 7 Cols) */}
+        <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+
+          {/* Animated Decorative Background Item */}
+          <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-400/10 blur-[80px] rounded-full animate-pulse"></div>
+
+          {/* Google Rating - Floating Glass Style */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-white/40 backdrop-blur-md border border-white/60 p-8 rounded-[2rem] shadow-xl flex flex-col items-center justify-center text-center group transition-all"
+          >
+            <div className="bg-white p-3 rounded-2xl shadow-sm mb-4 group-hover:rotate-12 transition-transform">
+              <svg width="32" height="32" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.82 2.43 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                <path fill="#4285F4" d="M46.5 24c0-1.57-.14-3.09-.41-4.57H24v9.02h12.7c-.55 2.97-2.21 5.49-4.7 7.18l7.98 6.19C43.89 38.02 46.5 31.56 46.5 24z" />
+                <path fill="#FBBC05" d="M10.54 28.41c-.48-1.45-.76-2.99-.76-4.41s.27-2.96.76-4.41l-7.98-6.19C.92 16.06 0 19.96 0 24c0 4.04.92 7.94 2.56 11.22l7.98-6.19z" />
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.81l-7.98-6.19c-2.21 1.49-5.03 2.37-7.93 2.37-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+              </svg>
             </div>
-          </div>
+            <h4 className="text-5xl font-black text-slate-900 mb-1">4.9</h4>
+            <div className="flex gap-1 mb-3">
+              {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="#FBBF24" color="#FBBF24" />)}
+            </div>
+            <p className="text-slate-600 font-semibold text-sm">1,500+ Happy Reviews</p>
+          </motion.div>
 
-          {/* Testimonials Carousel - main height taker */}
-          <div className="relative flex-1 min-h-[300px] md:min-h-[380px] perspective-1000">
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                className={`absolute inset-0 transition-all duration-1000 ease-out transform-gpu
-            ${i === active
-                    ? 'opacity-100 rotate-x-0 rotate-y-0 scale-100 z-20'
-                    : 'opacity-0 -translate-x-8 rotate-y-6 scale-95 z-10'}`}
+          {/* Quick Stats - Simple Text Mesh */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col justify-center gap-6 p-4"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600"><CheckCircle size={24} /></div>
+              <div><p className="font-bold text-slate-900">Verified Partner</p><p className="text-sm text-slate-500">Official WhatsApp API</p></div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><Users size={24} /></div>
+              <div><p className="font-bold text-slate-900">10k+ Clients</p><p className="text-sm text-slate-500">Growing Every Month</p></div>
+            </div>
+          </motion.div>
+
+          {/* Testimonials Carousel - Spans full width of left mesh */}
+          <div className="md:col-span-2 relative mt-4 min-h-[280px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200/50 relative overflow-hidden"
               >
-                <div className="h-full bg-white/70 backdrop-blur-xl border border-white/30 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.12)] p-7 md:p-9 transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.18)] group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-emerald-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                {/* Quote Icon */}
+                <span className="absolute top-6 right-10 text-slate-100 font-serif text-8xl pointer-events-none">“</span>
 
-                  <p className="text-lg md:text-xl leading-relaxed text-slate-800 font-medium italic mb-6 md:mb-8 relative z-10">
-                    “{t.content}”
-                  </p>
+                <p className="text-xl md:text-2xl text-slate-800 font-medium leading-relaxed relative z-10 mb-8">
+                  {testimonials[active].content}
+                </p>
 
-                  <div className="flex items-center gap-4 relative z-10">
-                    <img
-                      src={t.avatar}
-                      alt={t.name}
-                      className="w-14 h-14 md:w-16 md:h-16 rounded-2xl object-cover shadow-lg group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div>
-                      <p className="font-bold text-lg md:text-xl text-slate-900">{t.name}</p>
-                      <p className="text-xs md:text-sm font-semibold text-emerald-600 tracking-wide uppercase mt-0.5">{t.role}</p>
-                    </div>
+                <div className="flex items-center gap-4">
+                  <img src={testimonials[active].avatar} className="w-14 h-14 rounded-full object-cover border-2 border-emerald-500 p-0.5" />
+                  <div>
+                    <p className="font-bold text-slate-900">{testimonials[active].name}</p>
+                    <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest">{testimonials[active].role}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              </motion.div>
+            </AnimatePresence>
 
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+            {/* Dots for navigation */}
+            <div className="flex gap-2 mt-6 justify-center">
               {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActive(idx)}
-                  className={`w-3 h-3 rounded-full transition-all duration-400 shadow-sm
-              ${idx === active
-                      ? 'bg-gradient-to-r from-blue-600 to-emerald-500 scale-125'
-                      : 'bg-slate-300 hover:bg-slate-400'}`}
-                />
+                <button key={idx} onClick={() => setActive(idx)} className={`h-1.5 rounded-full transition-all ${idx === active ? 'w-8 bg-emerald-500' : 'w-2 bg-slate-300'}`} />
               ))}
             </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN - Award Card (reference height) */}
-        <div className="relative group flex flex-col min-h-[480px] md:min-h-[600px]">
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white backdrop-blur-lg border border-white/10 rounded-3xl shadow-[0_30px_80px_-15px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] transition-all duration-700 transform hover:-translate-y-4 overflow-hidden flex-1 flex flex-col">
-            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-3xl"></div>
+        {/* RIGHT COLUMN - The Award Showcase (Takes 5 Cols) */}
+        <motion.div
+          className="lg:col-span-5 relative group"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          {/* Award Card with "Trophy" feel */}
+          <div className="relative bg-slate-900 rounded-[3rem] p-2 overflow-hidden shadow-[0_50px_100px_-20px_rgba(15,23,42,0.3)]">
 
-            <div className="relative z-10 flex flex-col items-center justify-center flex-1 p-6 md:p-8">
+            {/* Animated Shine Effect */}
+            <motion.div
+              animate={{ x: [-500, 500] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 w-40 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+            />
+
+            <div className="bg-slate-800 rounded-[2.8rem] p-6 md:p-10 flex flex-col items-center text-center border border-white/5">
+              <div className="mb-6 relative">
+                <div className="absolute inset-0 bg-amber-400 blur-2xl opacity-20 animate-pulse"></div>
+                <Award className="relative text-amber-400" size={64} />
+              </div>
+
+              <h5 className="text-white text-2xl font-bold mb-2">User's Choice 2021</h5>
+              <p className="text-slate-400 text-sm mb-8 uppercase tracking-widest font-semibold">Digidonar Teleservices</p>
+
               <img
                 src={awardBanner}
-                alt="Justdial User's Choice 2021 - Digidonar Teleservices"
-                className="w-full max-h-[85%] object-contain rounded-2xl shadow-2xl group-hover:scale-[1.02] transition-transform duration-700"
+                alt="Award"
+                className="w-full h-auto rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-105"
               />
-            </div>
 
-            {/* Hover shine */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/20 via-transparent to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+              <div className="mt-8 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-xs text-amber-200 font-medium">
+                Recognized by Justdial
+              </div>
+            </div>
           </div>
-        </div>
+
+          {/* Floating Badge on Award */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="absolute -top-6 -right-6 bg-emerald-500 text-white p-6 rounded-3xl shadow-xl font-black text-center leading-tight rotate-12"
+          >
+            <span className="text-2xl">#1</span><br /><span className="text-[10px] uppercase">India</span>
+          </motion.div>
+        </motion.div>
 
       </div>
 
