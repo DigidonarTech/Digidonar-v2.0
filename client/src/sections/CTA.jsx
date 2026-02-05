@@ -41,7 +41,7 @@ const CTA = () => {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-3">
               {/* Modal Button */}
-              <button 
+              <button
                 onClick={() => setIsModalOpen(true)}
                 className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-white
                            bg-gradient-to-r from-[#0D66BA] to-[#1CB48D] bg-[length:200%_200%] animate-gradientShift
@@ -52,7 +52,7 @@ const CTA = () => {
               </button>
 
               {/* Call Button */}
-              <a 
+              <a
                 href={`tel:${salesNumber}`}
                 className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl font-bold text-sm text-white border border-white/20
                            bg-white/5 hover:bg-white/10 backdrop-blur-xl transition-all duration-300"
@@ -71,9 +71,9 @@ const CTA = () => {
       </section>
 
       {/* Contact Modal */}
-      <ContactModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         title="Claim Your Free Trial"
       />
     </>
