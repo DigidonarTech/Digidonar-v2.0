@@ -34,6 +34,9 @@ function App() {
           <Route path="/services/voice-ivr" element={<ServiceDetail serviceType="voice-ivr" />} />
           <Route path="/services/otp-service" element={<ServiceDetail serviceType="otp-service" />} />
           <Route path="/services/sms-gateway" element={<ServiceDetail serviceType="sms-gateway" />} />
+          <Route path="/services/email-marketing" element={<ServiceDetail serviceType="email-marketing" />} />
+          <Route path="/services/rcs-messaging" element={<ServiceDetail serviceType="rcs-messaging" />} />
+          <Route path="/services/smart-api" element={<ServiceDetail serviceType="smart-api" />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin/documents" element={<AdminDocs />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />

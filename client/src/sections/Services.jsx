@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion'; // Animation ke liye
+import { motion } from 'framer-motion';
 
 const services = [
   {
     title: "Bulk SMS Solutions",
-    path: "/services/bulk-sms",
+    path: "/services/bulk-sms", // Matches SERVICE_DATA key
     description: "Send transactional and promotional SMS instantly with 99.9% delivery assurance.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,7 +17,7 @@ const services = [
   },
   {
     title: "WhatsApp Business API",
-    path: "/services/whatsapp-api",
+    path: "/services/whatsapp-api", // Matches SERVICE_DATA key
     description: "Engage customers on their favorite messaging app with automated chatbots and alerts.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@ const services = [
   },
   {
     title: "Voice & IVR Services",
-    path: "/services/voice-ivr",
+    path: "/services/voice-ivr", // Matches SERVICE_DATA key
     description: "Automate your business calls with smart IVR systems and virtual mobile numbers.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,39 +41,39 @@ const services = [
   },
   {
     title: "Email Marketing",
-    path: "/services/email-marketing",
+    path: "/services/email-marketing", // Matches SERVICE_DATA key
     description: "Design and blast beautiful email campaigns that land straight in the inbox, not spam.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    color: "#0D66BA",
-    lightColor: "bg-blue-50"
+    color: "#EA4335", // Updated to match Email Brand
+    lightColor: "bg-red-50"
   },
   {
     title: "RCS Messaging",
-    path: "/services/rcs-messaging",
+    path: "/services/rcs-messaging", // Matches SERVICE_DATA key
     description: "Upgrade your SMS to rich, interactive experiences with branding, buttons, and carousels.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
-    color: "#1CB48D",
-    lightColor: "bg-emerald-50"
+    color: "#4285F4", // Updated to match RCS/Google Brand
+    lightColor: "bg-blue-50"
   },
   {
     title: "Smart API Integration",
-    path: "/services/api-integration",
+    path: "/services/smart-api", // Changed from api-integration to smart-api
     description: "Powerful SDKs and REST APIs to integrate communication into your own apps in minutes.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
       </svg>
     ),
-    color: "#44BBDB",
-    lightColor: "bg-cyan-50"
+    color: "#0F172A",
+    lightColor: "bg-slate-100"
   }
 ];
 
@@ -109,7 +109,7 @@ const Services = () => {
           </p>
         </div>
 
-        {/* Services Grid - 3 Columns on Desktop, 2 on Tablet, 1 on Mobile */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {services.map((service, index) => (
             <motion.div
@@ -125,11 +125,11 @@ const Services = () => {
                 rounded-3xl border border-gray-200 
                 hover:border-transparent 
                 hover:shadow-2xl hover:shadow-gray-300/40 
-                transition-all duration-500 block"
+                transition-all duration-500 block overflow-hidden"
               >
                 {/* Top Accent Border */}
                 <div 
-                  className="absolute top-0 left-0 w-full h-1 rounded-t-3xl opacity-0 group-hover:opacity-100 transition"
+                  className="absolute top-0 left-0 w-full h-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300"
                   style={{ backgroundColor: service.color }}
                 />
 
@@ -152,12 +152,13 @@ const Services = () => {
                   {service.description}
                 </p>
 
+                {/* Learn More Button */}
                 <div 
-                  className="flex items-center gap-2 text-sm font-bold mt-auto"
+                  className="flex items-center gap-2 text-sm font-black mt-auto uppercase tracking-wider"
                   style={{ color: service.color }}
                 >
                   Learn More 
-                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
