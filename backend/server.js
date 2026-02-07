@@ -1,54 +1,34 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import leadRoutes from "./routes/leadRoutes.js";
+import documentRoutes from "./routes/documentRoutes.js";
+import Lead from './models/Leads.js';
 
-// PDF Routes Import (Ye line add ki hai)
-const documentRoutes = require('./routes/documentRoutes');
 
 const app = express();
 
-// 1. Updated CORS - Dono Local aur Vercel allow honge
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://digidonar-v2-0.vercel.app" // Aapka Vercel URL
-];
-
+// 1. Updated CORS - Allow all for development flexibility
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error('CORS Policy Error: Origin not allowed'), false);
-    }
-    return callback(null, true);
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: true,
   credentials: true
 }));
 
 app.use(express.json());
+app.use("/api/leads", leadRoutes);
 
-// 2. Register PDF Routes (Ye line add ki hai)
+// 2. Register PDF Routes
 app.use('/api/documents', documentRoutes);
 
-// --- Baaki Saara Code Same Rahega ---
+// --- Baaki Saara Code SAME ---
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@Donar#2024";
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected!'))
   .catch((err) => console.log('❌ DB Connection Error:', err));
 
-const leadSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  phone: { type: String, required: true },
-  service: { type: String },
-  status: { type: String, default: 'New' },
-  createdAt: { type: Date, default: Date.now }
-});
-const Lead = mongoose.model('Lead', leadSchema);
 
 // ROUTES
 app.get("/", (req, res) => {
@@ -86,7 +66,11 @@ app.delete('/api/leads/:id', async (req, res) => {
 app.put('/api/leads/:id', async (req, res) => {
   try {
     const { status } = req.body;
-    const updatedLead = await Lead.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    const updatedLead = await Lead.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
     res.json(updatedLead);
   } catch (error) {
     res.status(500).json({ message: "Status update fail", error });
@@ -95,6 +79,8 @@ app.put('/api/leads/:id', async (req, res) => {
 
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
+  console.log('ENV PASSWORD =>', ADMIN_PASSWORD);
+  console.log('RECEIVED PASSWORD =>', password);
   if (password === ADMIN_PASSWORD) {
     res.json({ success: true, token: "secret-admin-session-key" });
   } else {
@@ -102,5 +88,26 @@ app.post('/api/admin/login', (req, res) => {
   }
 });
 
+app.get('/api/pdf-proxy', async (req, res) => {
+  try {
+    const { url } = req.query;
+    if (!url) return res.status(400).send('URL required');
+
+    const fetch = (await import('node-fetch')).default;
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline');
+    res.send(buffer);
+  } catch (error) {
+    console.error('Proxy error:', error);
+    res.status(500).send('Failed to fetch PDF');
+  }
+});
+
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`🚀 Server running on port ${PORT}`)
+);

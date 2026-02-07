@@ -1,15 +1,19 @@
-const express = require('express');
+import express from 'express';
+import { upload } from '../middleware/uploadMiddleware.js';
+import Document from '../models/Document.js';
+
 const router = express.Router();
-const { upload } = require('../middleware/uploadMiddleware');
-const Document = require('../models/Document');
 
 // Upload Route
 router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: "File nahi mili!" });
+    if (!req.file) {
+      return res.status(400).json({ message: "File nahi mili!" });
+    }
 
     const newDoc = new Document({
       title: req.body.title || 'Untitled PDF',
+      service: req.body.service, // Save service key
       pdfUrl: req.file.path,
       publicId: req.file.filename
     });
@@ -25,15 +29,43 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 // All Docs Route
 router.get('/all', async (req, res) => {
   try {
-    const docs = await Document.find().sort({ createdAt: -1 });
+    // .select('pdfUrl title') returns only those fields + the _id
+    const docs = await Document.find({ pdfUrl: { $ne: null } })
+      .select('pdfUrl title service createdAt')
+      .sort({ createdAt: -1 });
+
     res.status(200).json(docs);
   } catch (error) {
     console.error("FETCH ERROR:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+router.get('/by-service/:service', async (req, res) => {
+  try {
+    const doc = await Document.findOne({ service: req.params.service })
+      .sort({ createdAt: -1 });
+    if (!doc) return res.status(404).json({});
+    res.json(doc);
+  } catch {
+    res.status(500).json({});
+  }
+});
+
+// Get Latest Doc for "View Doc" button
+router.get('/latest', async (req, res) => {
+  try {
+    const doc = await Document.findOne().sort({ createdAt: -1 });
+    if (!doc) {
+      return res.status(404).json({ message: "No documents found" });
+    }
+    res.status(200).json(doc);
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Delete Route (Frontend ke liye zaroori hai)
+// Delete Route
 router.delete('/delete/:id', async (req, res) => {
   try {
     await Document.findByIdAndDelete(req.params.id);
@@ -43,4 +75,4 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

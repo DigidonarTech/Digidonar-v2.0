@@ -1,6 +1,6 @@
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const multer = require('multer');
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import multer from 'multer';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -8,15 +8,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+console.log(
+  process.env.CLOUDINARY_NAME,
+  process.env.CLOUDINARY_API_KEY ? 'KEY_OK' : 'KEY_MISSING'
+);
+
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'digidonar_docs',
-    resource_type: 'auto',
+    resource_type: 'raw',
     allowed_formats: ['pdf'],
-  },
+    access_mode: 'public',
+    type: 'upload'
+  }
 });
 
-
-const upload = multer({ storage });
-module.exports = { upload, cloudinary };
+export const upload = multer({ storage });
+export { cloudinary };

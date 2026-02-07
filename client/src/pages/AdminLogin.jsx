@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Lock } from 'lucide-react';
 
 const AdminLogin = () => {
@@ -10,7 +10,7 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://digidonar-api.onrender.com/api/admin/login', { password });
+      const res = await api.post('/admin/login', { password });
       if (res.data.success) {
         localStorage.setItem('adminToken', res.data.token);
         navigate('/admin-dashboard');
@@ -28,11 +28,11 @@ const AdminLogin = () => {
         </div>
         <h2 className="text-3xl font-black text-white text-center mb-2">Admin Access</h2>
         <p className="text-slate-400 text-center mb-8 font-medium">Please enter your secret password.</p>
-        
+
         <form onSubmit={handleLogin} className="space-y-4">
-          <input 
-            type="password" 
-            placeholder="Enter Admin Password" 
+          <input
+            type="password"
+            placeholder="Enter Admin Password"
             className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-blue-500 transition-all font-semibold"
             onChange={(e) => setPassword(e.target.value)}
             required

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../api';
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
@@ -65,17 +66,49 @@ const SERVICE_DATA = {
 
 const ServiceDetail = ({ serviceType }) => {
   const data = SERVICE_DATA[serviceType];
+  const [docUrl, setDocUrl] = useState(null);
+  const [loadingDoc, setLoadingDoc] = useState(true);
+
+  useEffect(() => {
+    const fetchServiceDoc = async () => {
+      try {
+        const res = await api.get(`/documents/by-service/${serviceType}`);
+        if (res.data?.pdfUrl) {
+          // 🔥 PROXY URL (INLINE VIEW)
+          const proxyUrl =
+            `http://localhost:5000/api/pdf-proxy?url=${encodeURIComponent(
+              res.data.pdfUrl
+            )}`;
+          setDocUrl(proxyUrl);
+        } else {
+          setDocUrl(null);
+        }
+      } catch {
+        setDocUrl(null);
+      } finally {
+        setLoadingDoc(false);
+      }
+    };
+
+    fetchServiceDoc();
+  }, [serviceType]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [serviceType]);
 
-  if (!data) return <div className="pt-32 text-center text-2xl font-bold">Service Not Found</div>;
+  if (!data) {
+    return (
+      <div className="pt-32 text-center text-2xl font-bold">
+        Service Not Found
+      </div>
+    );
+  }
 
   return (
     <div className="pt-28 min-h-screen bg-white">
 
-      {/* ===== HERO (OPTIMIZED HEIGHT) ===== */}
+      {/* ===== HERO ===== */}
       <section className="relative pt-12 pb-20 overflow-hidden">
         <div className={`absolute top-0 right-0 w-[420px] h-[420px] ${data.bg}/10 blur-[120px] rounded-full -mr-40 -mt-24`} />
         <div className={`absolute bottom-0 left-0 w-[320px] h-[320px] ${data.bg}/5 blur-[100px] rounded-full -ml-24 -mb-24`} />
@@ -100,17 +133,35 @@ const ServiceDetail = ({ serviceType }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl hover:scale-[1.02] transition-all">
+              <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl transition-all">
                 Get Started <ArrowRight size={18} />
               </button>
-              <a
-                href=""
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center"
-              >
-                View Docs
-              </a>
+
+              {/* ===== VIEW DOCS (FINAL) ===== */}
+              {loadingDoc ? (
+                <button
+                  disabled
+                  className="border border-slate-200 px-9 py-4 rounded-2xl font-bold text-slate-400"
+                >
+                  Checking Docs…
+                </button>
+              ) : docUrl ? (
+                <a
+                  href={docUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center"
+                >
+                  View Docs
+                </a>
+              ) : (
+                <button
+                  disabled
+                  className="border border-slate-200 px-9 py-4 rounded-2xl font-bold text-slate-400"
+                >
+                  No Docs Available
+                </button>
+              )}
             </div>
           </div>
 

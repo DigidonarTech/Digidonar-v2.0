@@ -1,109 +1,169 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import api from "../api";
+
+/**
+ * IMPORTANT:
+ * serviceKey MUST match ServiceDetail.jsx route param
+ */
+const SERVICES = [
+  { key: "bulk-sms", label: "Bulk SMS Solutions" },
+  { key: "whatsapp-api", label: "WhatsApp Business API" },
+  { key: "voice-ivr", label: "Voice & IVR Services" },
+  { key: "otp-service", label: "Secure OTP Service" },
+  { key: "sms-gateway", label: "Robust SMS Gateway" },
+];
 
 const AdminDocs = () => {
-  const [file, setFile] = useState(null);
   const [docs, setDocs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState({});
+  const [loading, setLoading] = useState(null);
 
   const fetchDocs = async () => {
     try {
-      const res = await axios.get('https://digidonar-api.onrender.com/api/documents/all');
+      const res = await api.get("/documents/all");
       setDocs(Array.isArray(res.data) ? res.data : []);
-    } catch (err) { console.error("Fetch error:", err); }
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
   };
 
-  useEffect(() => { fetchDocs(); }, []);
+  useEffect(() => {
+    fetchDocs();
+  }, []);
 
-  // --- PDF Fix Logic ---
-  const handleView = (url) => {
-    if (!url) return;
-    window.open(url, '_blank');
+  const handleFileChange = (serviceKey, file) => {
+    setFiles((prev) => ({ ...prev, [serviceKey]: file }));
   };
 
+  const handleUpload = async (serviceKey) => {
+    if (!files[serviceKey]) {
+      alert("Please select a PDF first");
+      return;
+    }
 
-  const handleUpload = async () => {
-    if (!file) return alert("File select karo");
     const formData = new FormData();
-    formData.append('pdf', file);
-    formData.append('title', file.name);
+    formData.append("pdf", files[serviceKey]);
+    formData.append("title", serviceKey);   // optional
+    formData.append("service", serviceKey); // 🔥 MOST IMPORTANT
 
-    setLoading(true);
     try {
-      await axios.post('https://digidonar-api.onrender.com/api/documents/upload', formData);
-      alert("Uploaded!");
-      setFile(null);
+      setLoading(serviceKey);
+      await api.post("/documents/upload", formData);
+      setFiles((prev) => ({ ...prev, [serviceKey]: null }));
       fetchDocs();
     } catch (err) {
-      console.error(err);
-      alert("Upload error! Server logs check karein.");
+      console.error("Upload error:", err);
+      alert("Upload failed. Check server logs.");
+    } finally {
+      setLoading(null);
     }
-    setLoading(false);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Delete kar dein?")) {
-      try {
-        await axios.delete(`https://digidonar-api.onrender.com/api/documents/delete/${id}`);
-        fetchDocs();
-      } catch (err) { alert("Delete error!"); }
-    }
-  };
+  const getServiceDoc = (serviceKey) =>
+    docs.find((doc) => doc.service === serviceKey);
 
   return (
-    <div className="p-8 bg-slate-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6 text-slate-800">Manage Documents</h1>
-
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
-        <input type="file" onChange={(e) => setFile(e.target.files[0])} accept=".pdf" className="mb-4 block w-full text-sm text-slate-500" />
-        <button
-          onClick={handleUpload}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold disabled:bg-slate-400"
-          disabled={loading}
-        >
-          {loading ? "Uploading..." : "Upload New PDF"}
-        </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-10">
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="text-3xl font-bold text-slate-900">
+          Service Documents (Admin)
+        </h1>
+        <p className="text-slate-600 mt-2">
+          Upload PDFs mapped directly to service pages.
+        </p>
       </div>
 
-      <div className="grid gap-4">
-        {docs.map(doc => (
-          <div
-            key={doc._id}
-            className="bg-white p-4 rounded-xl border border-slate-200 space-y-4"
-          >
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-slate-700">
-                {doc.title || "Untitled"}
-              </span>
+      {/* Services Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {SERVICES.map(({ key, label }) => {
+          const doc = getServiceDoc(key);
+          const viewUrl = doc
+            ? `http://localhost:5000/api/pdf-proxy?url=${encodeURIComponent(
+                doc.pdfUrl
+              )}`
+            : null;
 
-              <div className="flex gap-3">
-                <button
-                  onClick={() => handleView(doc.pdfUrl)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold"
-                >
-                  Open in New Tab
-                </button>
+          return (
+            <div
+              key={key}
+              className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all p-6 flex flex-col justify-between"
+            >
+              {/* Top */}
+              <div>
+                <h2 className="text-lg font-semibold text-slate-800">
+                  {label}
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  service key: <code>{key}</code>
+                </p>
 
-                <button
-                  onClick={() => handleDelete(doc._id)}
-                  className="text-red-500 font-bold px-2"
-                >
-                  Remove
-                </button>
+                {/* Status */}
+                <div className="mt-4">
+                  {doc ? (
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                      ● Document Uploaded
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                      ● No Document Uploaded
+                    </span>
+                  )}
+                </div>
+
+                {/* Active Doc Info */}
+                {doc && (
+                  <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">
+                    <p className="text-xs font-semibold text-green-700">
+                      Active Document
+                    </p>
+                    <p className="text-sm text-slate-700 truncate">
+                      {doc.publicId || "Uploaded PDF"}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Actions */}
+              <div className="mt-6 space-y-4">
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={(e) =>
+                    handleFileChange(key, e.target.files[0])
+                  }
+                  className="block w-full text-sm
+                    file:mr-4 file:rounded-lg file:border-0
+                    file:bg-slate-100 file:px-4 file:py-2
+                    file:text-sm file:font-semibold
+                    file:text-slate-700 hover:file:bg-slate-200
+                    cursor-pointer"
+                />
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleUpload(key)}
+                    disabled={loading === key}
+                    className="flex-1 bg-slate-900 text-white py-2 rounded-lg font-semibold hover:bg-slate-800 transition disabled:opacity-60"
+                  >
+                    {loading === key ? "Uploading..." : "Upload PDF"}
+                  </button>
+
+                  {doc && (
+                    <a
+                      href={viewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-500 transition ring-2 ring-blue-200"
+                    >
+                      View PDF
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-
-            {/* 👇 PDF INLINE PREVIEW */}
-            <iframe
-              src={doc.pdfUrl}
-              width="100%"
-              height="500"
-              className="rounded-xl border"
-              title="PDF Preview"
-            />
-          </div>
-        ))}
-
+          );
+        })}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle, Loader2 } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 
 const ContactModal = ({ isOpen, onClose, title }) => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const ContactModal = ({ isOpen, onClose, title }) => {
     };
 
     try {
-      await axios.post('https://digidonar-api.onrender.com/api/leads', formData);
+      await api.post('/leads', formData);
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
