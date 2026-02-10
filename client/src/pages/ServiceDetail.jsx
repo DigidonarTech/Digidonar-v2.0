@@ -174,7 +174,10 @@ const ServiceDetail = ({ serviceType }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl transition-all">
+              <button
+                className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl transition-all"
+                onClick={() => setIsModalOpen(true)}
+              >
                 Get Started <ArrowRight size={18} />
               </button>
 
