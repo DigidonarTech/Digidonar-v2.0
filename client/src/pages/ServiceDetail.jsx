@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import api from '../api';
-=======
->>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
@@ -104,7 +101,6 @@ const SERVICE_DATA = {
 
 const ServiceDetail = ({ serviceType }) => {
   const data = SERVICE_DATA[serviceType];
-<<<<<<< HEAD
   const [docUrl, setDocUrl] = useState(null);
   const [loadingDoc, setLoadingDoc] = useState(true);
 
@@ -131,11 +127,6 @@ const ServiceDetail = ({ serviceType }) => {
 
     fetchServiceDoc();
   }, [serviceType]);
-=======
-  
-  // 2. Modal State Setup
-  const [isModalOpen, setIsModalOpen] = useState(false);
->>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -182,7 +173,6 @@ const ServiceDetail = ({ serviceType }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-<<<<<<< HEAD
               <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl transition-all">
                 Get Started <ArrowRight size={18} />
               </button>
@@ -212,18 +202,6 @@ const ServiceDetail = ({ serviceType }) => {
                   No Docs Available
                 </button>
               )}
-=======
-              {/* Button Triggers Modal */}
-              <button 
-                onClick={() => setIsModalOpen(true)}
-                className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl hover:scale-[1.02] transition-all"
-              >
-                Get Started <ArrowRight size={18} />
-              </button>
-              <a href="#" className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center">
-                View Docs
-              </a>
->>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
             </div>
           </div>
 
