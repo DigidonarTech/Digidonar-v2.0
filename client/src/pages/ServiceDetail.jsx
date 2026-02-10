@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import api from '../api';
+=======
+>>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
-  Key, Layers, Globe, MousePointer2
+  Key, Layers, Globe, MousePointer2, Mail 
 } from 'lucide-react';
+// 1. Modal Import Karein
+import ContactModal from '../components/ContactModal'; 
 
 const SERVICE_DATA = {
   "bulk-sms": {
@@ -61,11 +66,45 @@ const SERVICE_DATA = {
     bg: "bg-[#0A4D8C]",
     accent: "from-[#0A4D8C] to-[#44BBDB]",
     stats: { uptime: "99.95%", latency: "<50ms", users: "800+" }
+  },
+  "email-marketing": {
+    title: "Email Marketing",
+    subtitle: "In-Inbox Delivery",
+    desc: "Design and blast beautiful email campaigns that land straight in the inbox, not spam. AI-driven optimization se open rates badhaiye.",
+    features: ["Drag & Drop Builder", "List Segmentation", "Automated A/B Testing", "Real-time Analytics"],
+    icon: <Mail size={56} strokeWidth={1.5} />,
+    color: "text-[#EA4335]",
+    bg: "bg-[#EA4335]",
+    accent: "from-[#EA4335] to-[#FBBC05]",
+    stats: { delivery: "98.5%", opens: "25% Avg", users: "1.2k" }
+  },
+  "rcs-messaging": {
+    title: "RCS Messaging",
+    subtitle: "Next-Gen SMS",
+    desc: "Upgrade your SMS to rich, interactive experiences with branding, buttons, and carousels. App jaisa experience bina kisi download ke.",
+    features: ["Interactive Buttons", "Rich Media Carousels", "Verified Sender ID", "Read Receipts"],
+    icon: <MessageSquare size={56} strokeWidth={1.5} />,
+    color: "text-[#4285F4]",
+    bg: "bg-[#4285F4]",
+    accent: "from-[#4285F4] to-[#0D66BA]",
+    stats: { engagement: "40%", reach: "Global", users: "500+" }
+  },
+  "smart-api": {
+    title: "Smart API Integration",
+    subtitle: "Developer First",
+    desc: "Powerful SDKs and REST APIs to integrate communication into your own apps in minutes. Multi-language support aur lightning fast latency.",
+    features: ["Multi-SDK Support", "High Throughput", "Webhook Notifications", "Sandboxed Testing"],
+    icon: <HardDrive size={56} strokeWidth={1.5} />,
+    color: "text-[#0F172A]",
+    bg: "bg-[#0F172A]",
+    accent: "from-[#0F172A] to-[#44BBDB]",
+    stats: { latency: "<30ms", uptime: "99.99%", users: "2k+" }
   }
 };
 
 const ServiceDetail = ({ serviceType }) => {
   const data = SERVICE_DATA[serviceType];
+<<<<<<< HEAD
   const [docUrl, setDocUrl] = useState(null);
   const [loadingDoc, setLoadingDoc] = useState(true);
 
@@ -92,6 +131,11 @@ const ServiceDetail = ({ serviceType }) => {
 
     fetchServiceDoc();
   }, [serviceType]);
+=======
+  
+  // 2. Modal State Setup
+  const [isModalOpen, setIsModalOpen] = useState(false);
+>>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,6 +151,13 @@ const ServiceDetail = ({ serviceType }) => {
 
   return (
     <div className="pt-28 min-h-screen bg-white">
+      
+      {/* 3. Contact Modal Component Integration */}
+      <ContactModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title={`Inquiry for ${data.title}`} 
+      />
 
       {/* ===== HERO ===== */}
       <section className="relative pt-12 pb-20 overflow-hidden">
@@ -114,8 +165,6 @@ const ServiceDetail = ({ serviceType }) => {
         <div className={`absolute bottom-0 left-0 w-[320px] h-[320px] ${data.bg}/5 blur-[100px] rounded-full -ml-24 -mb-24`} />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-
-          {/* LEFT */}
           <div>
             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${data.bg}/10 ${data.color} font-bold text-xs uppercase tracking-[0.2em] mb-5`}>
               <Zap size={14} /> {data.subtitle}
@@ -133,6 +182,7 @@ const ServiceDetail = ({ serviceType }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
+<<<<<<< HEAD
               <button className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl transition-all">
                 Get Started <ArrowRight size={18} />
               </button>
@@ -162,28 +212,37 @@ const ServiceDetail = ({ serviceType }) => {
                   No Docs Available
                 </button>
               )}
+=======
+              {/* Button Triggers Modal */}
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-slate-900 text-white px-9 py-4 rounded-2xl font-bold flex items-center gap-3 hover:shadow-2xl hover:scale-[1.02] transition-all"
+              >
+                Get Started <ArrowRight size={18} />
+              </button>
+              <a href="#" className="border border-slate-200 px-9 py-4 rounded-2xl font-bold hover:bg-slate-50 transition-all text-center">
+                View Docs
+              </a>
+>>>>>>> 5ce949ddc42169d9da737824053870951ac0eba3
             </div>
           </div>
 
-          {/* RIGHT GLASS CARD (COMPACT) */}
+          {/* RIGHT GLASS CARD */}
           <div className="relative">
-            <div className="bg-white/60 backdrop-blur-xl border border-white/40 p-10 rounded-[3rem] shadow-[0_24px_48px_-12px_rgba(0,0,0,0.12)] hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.18)] transition-all">
-
+            <div className="bg-white/60 backdrop-blur-xl border border-white/40 p-10 rounded-[3rem] shadow-[0_24px_48px_-12px_rgba(0,0,0,0.12)]">
               <div className={`${data.color} mb-8 inline-block p-4 bg-white rounded-2xl shadow-lg`}>
                 {data.icon}
               </div>
-
               <div className="space-y-4">
                 {data.features.map((f, i) => (
                   <div key={i} className="flex items-center gap-4 group">
-                    <div className={`w-8 h-8 rounded-full ${data.bg}/10 flex items-center justify-center ${data.color} group-hover:scale-110 transition`}>
+                    <div className={`w-8 h-8 rounded-full ${data.bg}/10 flex items-center justify-center ${data.color}`}>
                       <CheckCircle2 size={18} />
                     </div>
                     <span className="font-semibold text-slate-700">{f}</span>
                   </div>
                 ))}
               </div>
-
               <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-3 gap-4">
                 {Object.entries(data.stats).map(([k, v]) => (
                   <div key={k}>
@@ -192,27 +251,22 @@ const ServiceDetail = ({ serviceType }) => {
                   </div>
                 ))}
               </div>
-
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* ===== PROCESS (PREMIUM HOVER) ===== */}
+      {/* ===== PROCESS ===== */}
       <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-3xl md:text-5xl font-black text-center mb-14">
-            Simple 3-Step Setup
-          </h3>
-
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h3 className="text-3xl md:text-5xl font-black mb-14">Simple 3-Step Setup</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
               { i: "01", t: "Sign Up", d: "Free account banayein aur dashboard access paayein.", ic: <MousePointer2 /> },
               { i: "02", t: "Configure", d: "APIs ya templates setup karein easily.", ic: <Layers /> },
               { i: "03", t: "Go Live", d: "Turant customers ko reach karna shuru karein.", ic: <Globe /> }
             ].map((s, idx) => (
-              <div key={idx} className="group p-10 bg-white rounded-[2.5rem] border border-slate-100 hover:-translate-y-2 hover:shadow-2xl transition-all duration-500">
+              <div key={idx} className="group p-10 bg-white rounded-[2.5rem] border border-slate-100 text-left hover:-translate-y-2 hover:shadow-2xl transition-all duration-500">
                 <div className="text-5xl font-black text-slate-100 mb-6">{s.i}</div>
                 <div className={`w-14 h-14 rounded-2xl ${data.bg}/10 ${data.color} flex items-center justify-center mb-5`}>
                   {s.ic}
@@ -228,15 +282,14 @@ const ServiceDetail = ({ serviceType }) => {
       {/* ===== ENTERPRISE CTA ===== */}
       <section className="py-24 bg-slate-950 text-white text-center">
         <Shield size={48} className="mx-auto text-[#1CB48D] mb-6" />
-        <h3 className="text-4xl md:text-5xl font-black mb-5">
-          Enterprise-grade Communication Infrastructure
-        </h3>
-        <p className="text-slate-400 max-w-2xl mx-auto mb-10">
-          99.99% uptime, carrier-grade routing aur SLA backed delivery.
-        </p>
-
+        <h3 className="text-4xl md:text-5xl font-black mb-5">Enterprise-grade Communication Infrastructure</h3>
+        <p className="text-slate-400 max-w-2xl mx-auto mb-10">99.99% uptime, carrier-grade routing aur SLA backed delivery.</p>
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
-          <button className="bg-[#1CB48D] text-slate-900 px-12 py-5 rounded-2xl font-black hover:bg-white transition-all">
+          {/* Talk to Sales Trigger */}
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#1CB48D] text-slate-900 px-12 py-5 rounded-2xl font-black hover:bg-white transition-all"
+          >
             Talk to Sales
           </button>
           <button className="border border-white/20 px-12 py-5 rounded-2xl font-bold hover:bg-white/10 transition-all">
@@ -244,7 +297,6 @@ const ServiceDetail = ({ serviceType }) => {
           </button>
         </div>
       </section>
-
     </div>
   );
 };

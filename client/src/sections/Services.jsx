@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const services = [
   {
     title: "Bulk SMS Solutions",
-    path: "/services/bulk-sms",
+    path: "/services/bulk-sms", // Matches SERVICE_DATA key
     description: "Send transactional and promotional SMS instantly with 99.9% delivery assurance.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,7 +17,7 @@ const services = [
   },
   {
     title: "WhatsApp Business API",
-    path: "/services/whatsapp-api",
+    path: "/services/whatsapp-api", // Matches SERVICE_DATA key
     description: "Engage customers on their favorite messaging app with automated chatbots and alerts.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,7 +29,7 @@ const services = [
   },
   {
     title: "Voice & IVR Services",
-    path: "/services/voice-ivr",
+    path: "/services/voice-ivr", // Matches SERVICE_DATA key
     description: "Automate your business calls with smart IVR systems and virtual mobile numbers.",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,6 +38,42 @@ const services = [
     ),
     color: "#44BBDB",
     lightColor: "bg-cyan-50"
+  },
+  {
+    title: "Email Marketing",
+    path: "/services/email-marketing", // Matches SERVICE_DATA key
+    description: "Design and blast beautiful email campaigns that land straight in the inbox, not spam.",
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+    color: "#EA4335", // Updated to match Email Brand
+    lightColor: "bg-red-50"
+  },
+  {
+    title: "RCS Messaging",
+    path: "/services/rcs-messaging", // Matches SERVICE_DATA key
+    description: "Upgrade your SMS to rich, interactive experiences with branding, buttons, and carousels.",
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
+    color: "#4285F4", // Updated to match RCS/Google Brand
+    lightColor: "bg-blue-50"
+  },
+  {
+    title: "Smart API Integration",
+    path: "/services/smart-api", // Changed from api-integration to smart-api
+    description: "Powerful SDKs and REST APIs to integrate communication into your own apps in minutes.",
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
+    color: "#0F172A",
+    lightColor: "bg-slate-100"
   }
 ];
 
@@ -44,70 +81,89 @@ const Services = () => {
   return (
     <section 
       id="services" 
-      className="pt-20 pb-4 bg-gradient-to-b from-white via-slate-50 to-white"
+      className="pt-20 pb-20 bg-gradient-to-b from-white via-slate-50 to-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-[#0D66BA] font-bold tracking-widest uppercase text-sm mb-4">
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[#0D66BA] font-bold tracking-widest uppercase text-sm mb-4"
+          >
             Our Expertise
-          </h2>
-          <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-5">
+          </motion.h2>
+          <motion.h3 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl font-black text-slate-900 mb-5"
+          >
             Powerful Tools for <span className="text-[#1CB48D]">Modern Teams</span>
-          </h3>
+          </motion.h3>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
             Everything you need to communicate effectively with your customers, all in one integrated dashboard.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {services.map((service, index) => (
-            <Link 
-              to={service.path}
+            <motion.div
               key={index}
-              className="group relative p-9 bg-white 
-              rounded-3xl border border-gray-200 
-              hover:border-transparent 
-              hover:shadow-2xl hover:shadow-gray-300/40 
-              transition-all duration-500 block"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
             >
-              {/* Top Accent Border */}
-              <div 
-                className="absolute top-0 left-0 w-full h-1 rounded-t-3xl opacity-0 group-hover:opacity-100 transition"
-                style={{ backgroundColor: service.color }}
-              />
-
-              {/* Icon */}
-              <div 
-                className={`w-16 h-16 ${service.lightColor} 
-                rounded-2xl flex items-center justify-center mb-7 
-                group-hover:scale-110 group-hover:rotate-3 
-                transition-transform duration-500`}
-                style={{ color: service.color }}
+              <Link 
+                to={service.path}
+                className="group relative h-full p-9 bg-white 
+                rounded-3xl border border-gray-200 
+                hover:border-transparent 
+                hover:shadow-2xl hover:shadow-gray-300/40 
+                transition-all duration-500 block overflow-hidden"
               >
-                {service.icon}
-              </div>
+                {/* Top Accent Border */}
+                <div 
+                  className="absolute top-0 left-0 w-full h-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                  style={{ backgroundColor: service.color }}
+                />
 
-              <h4 className="text-xl font-extrabold text-slate-900 mb-3">
-                {service.title}
-              </h4>
+                {/* Icon */}
+                <div 
+                  className={`w-16 h-16 ${service.lightColor} 
+                  rounded-2xl flex items-center justify-center mb-7 
+                  group-hover:scale-110 group-hover:rotate-3 
+                  transition-transform duration-500`}
+                  style={{ color: service.color }}
+                >
+                  {service.icon}
+                </div>
 
-              <p className="text-gray-600 leading-relaxed mb-8">
-                {service.description}
-              </p>
+                <h4 className="text-xl font-extrabold text-slate-900 mb-3">
+                  {service.title}
+                </h4>
 
-              <div 
-                className="flex items-center gap-2 text-sm font-bold"
-                style={{ color: service.color }}
-              >
-                Learn More 
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </Link>
+                <p className="text-gray-600 leading-relaxed mb-8">
+                  {service.description}
+                </p>
+
+                {/* Learn More Button */}
+                <div 
+                  className="flex items-center gap-2 text-sm font-black mt-auto uppercase tracking-wider"
+                  style={{ color: service.color }}
+                >
+                  Learn More 
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
