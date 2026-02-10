@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -5,7 +6,7 @@ import leadRoutes from "./routes/leadRoutes.js";
 import documentRoutes from "./routes/documentRoutes.js";
 import Lead from './models/Leads.js';
 
-
+dotenv.config();
 const app = express();
 
 // 1. Updated CORS - Allow all for development flexibility
@@ -95,11 +96,16 @@ app.get('/api/pdf-proxy', async (req, res) => {
 
     const fetch = (await import('node-fetch')).default;
     const response = await fetch(url);
-    const buffer = await response.buffer();
+
+    if (!response.ok) {
+      throw new Error(`Cloudinary fetch failed: ${response.status} ${response.statusText}`);
+    }
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'inline');
-    res.send(buffer);
+
+    // Stream the response directly to the client
+    response.body.pipe(res);
   } catch (error) {
     console.error('Proxy error:', error);
     res.status(500).send('Failed to fetch PDF');

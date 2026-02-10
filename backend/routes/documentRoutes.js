@@ -13,7 +13,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
     const newDoc = new Document({
       title: req.body.title || 'Untitled PDF',
-      service: req.body.service, // Save service key
+      servicekey: req.body.service, // Save service key (schema expects 'servicekey')
       pdfUrl: req.file.path,
       publicId: req.file.filename
     });
@@ -22,6 +22,9 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
     res.status(201).json(newDoc);
   } catch (error) {
     console.error("DETAILED UPLOAD ERROR:", error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.servicekey) {
+      return res.status(409).json({ message: "A document for this service already exists. Please delete it before uploading a new one." });
+    }
     res.status(500).json({ message: error.message });
   }
 });
@@ -31,7 +34,7 @@ router.get('/all', async (req, res) => {
   try {
     // .select('pdfUrl title') returns only those fields + the _id
     const docs = await Document.find({ pdfUrl: { $ne: null } })
-      .select('pdfUrl title service createdAt')
+      .select('pdfUrl title servicekey createdAt')
       .sort({ createdAt: -1 });
 
     res.status(200).json(docs);
@@ -43,7 +46,7 @@ router.get('/all', async (req, res) => {
 
 router.get('/by-service/:service', async (req, res) => {
   try {
-    const doc = await Document.findOne({ service: req.params.service })
+    const doc = await Document.findOne({ servicekey: req.params.service })
       .sort({ createdAt: -1 });
     if (!doc) return res.status(404).json({});
     res.json(doc);

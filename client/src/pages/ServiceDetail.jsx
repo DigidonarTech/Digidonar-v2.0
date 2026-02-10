@@ -103,6 +103,7 @@ const ServiceDetail = ({ serviceType }) => {
   const data = SERVICE_DATA[serviceType];
   const [docUrl, setDocUrl] = useState(null);
   const [loadingDoc, setLoadingDoc] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchServiceDoc = async () => {

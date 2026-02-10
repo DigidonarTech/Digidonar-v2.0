@@ -113,7 +113,7 @@ const Hero = () => {
                             {/* Dashboard Image */}
                             <div className="p-2 md:p-3">
                                 <img 
-                                    src="./dashboard_image.jpg" 
+                                    src="./DashboardPanel.png" 
                                     alt="Digidonar Dashboard" 
                                     className="rounded-2xl w-full h-auto" 
                                 />

@@ -3,7 +3,7 @@ import api from "../api";
 
 /**
  * IMPORTANT:
- * serviceKey MUST match ServiceDetail.jsx route param
+ * servicekey MUST match ServiceDetail.jsx route param
  */
 const SERVICES = [
   { key: "bulk-sms", label: "Bulk SMS Solutions" },
@@ -31,25 +31,25 @@ const AdminDocs = () => {
     fetchDocs();
   }, []);
 
-  const handleFileChange = (serviceKey, file) => {
-    setFiles((prev) => ({ ...prev, [serviceKey]: file }));
+  const handleFileChange = (servicekey, file) => {
+    setFiles((prev) => ({ ...prev, [servicekey]: file }));
   };
 
-  const handleUpload = async (serviceKey) => {
-    if (!files[serviceKey]) {
+  const handleUpload = async (servicekey) => {
+    if (!files[servicekey]) {
       alert("Please select a PDF first");
       return;
     }
 
     const formData = new FormData();
-    formData.append("pdf", files[serviceKey]);
-    formData.append("title", serviceKey);   // optional
-    formData.append("service", serviceKey); // 🔥 MOST IMPORTANT
+    formData.append("pdf", files[servicekey]);
+    formData.append("title", servicekey);   // optional
+    formData.append("service", servicekey); // 🔥 MOST IMPORTANT
 
     try {
-      setLoading(serviceKey);
+      setLoading(servicekey);
       await api.post("/documents/upload", formData);
-      setFiles((prev) => ({ ...prev, [serviceKey]: null }));
+      setFiles((prev) => ({ ...prev, [servicekey]: null }));
       fetchDocs();
     } catch (err) {
       console.error("Upload error:", err);
@@ -59,8 +59,8 @@ const AdminDocs = () => {
     }
   };
 
-  const getServiceDoc = (serviceKey) =>
-    docs.find((doc) => doc.service === serviceKey);
+  const getServiceDoc = (servicekey) =>
+    docs.find((doc) => doc.servicekey === servicekey);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-10">
