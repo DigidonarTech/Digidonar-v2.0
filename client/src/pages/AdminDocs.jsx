@@ -11,6 +11,9 @@ const SERVICES = [
   { key: "voice-ivr", label: "Voice & IVR Services" },
   { key: "otp-service", label: "Secure OTP Service" },
   { key: "sms-gateway", label: "Robust SMS Gateway" },
+  {key: "email-marketing", label: "Email Marketing Solutions"},
+  {key: "rcs-messaging", label: "RCS Messaging Platform"},
+  {key: "smart-api", label: "Smart API Platform"}
 ];
 
 const AdminDocs = () => {
