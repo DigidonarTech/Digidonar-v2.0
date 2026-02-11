@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api';
+import api,{API_URL} from '../api';
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
@@ -112,7 +112,7 @@ const ServiceDetail = ({ serviceType }) => {
         if (res.data?.pdfUrl) {
           // 🔥 PROXY URL (INLINE VIEW)
           const proxyUrl =
-            `https://digidonar-api.onrender.com/pdf-proxy?url=${encodeURIComponent(
+            `${API_URL}/pdf-proxy?url=${encodeURIComponent(
               res.data.pdfUrl
             )}`;
           setDocUrl(proxyUrl);

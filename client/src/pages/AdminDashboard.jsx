@@ -31,7 +31,7 @@ const AdminDashboard = () => {
   }, [navigate]);
 
   // 2. Search Logic (Name se filter)
-  const filteredLeads = leads.filter(lead => 
+  const filteredLeads = leads.filter(lead =>
     lead.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
             {/* Search Input */}
             <div className="relative flex-1 lg:flex-none">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input 
+              <input
                 type="text"
                 placeholder="Search by name..."
                 className="pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl w-full lg:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm font-medium"
@@ -138,6 +138,13 @@ const AdminDashboard = () => {
             >
               Export
             </button>
+            <Link
+              to="/admin/documents"
+              className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-3 rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+            >
+              <FileText size={18} className="text-blue-600" />
+              Manage PDFs
+            </Link>
 
             <button
               onClick={() => {
@@ -216,8 +223,8 @@ const AdminDashboard = () => {
                         <button onClick={() => deleteLead(lead._id)} className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-600 hover:text-white transition-all">
                           Delete
                         </button>
-                        <button 
-                          onClick={() => updateStatus(lead._id)} 
+                        <button
+                          onClick={() => updateStatus(lead._id)}
                           disabled={lead.status === 'Contacted'}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${lead.status === 'Contacted' ? 'bg-slate-100 text-slate-400' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white'}`}
                         >
