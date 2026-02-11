@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api, { API_URL } from '../api';
+import api from '../api';
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
@@ -105,29 +105,21 @@ const ServiceDetail = ({ serviceType }) => {
   const [loadingDoc, setLoadingDoc] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-//  -------------fetch service-specific doc on mount -------------
   useEffect(() => {
     const fetchServiceDoc = async () => {
       try {
-  
         const res = await api.get(`/documents/by-service/${serviceType}`);
-
         if (res.data?.pdfUrl) {
-          
-          const base = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-          
-          const rootUrl = base.endsWith('/api') ? base.slice(0, -4) : base;
-
-     
-          const proxyUrl = `${rootUrl}/api/pdf-proxy?url=${encodeURIComponent(res.data.pdfUrl)}`;
-
+          // 🔥 PROXY URL (INLINE VIEW)
+          const proxyUrl =
+            `https://digidonar-api.onrender.com/pdf-proxy?url=${encodeURIComponent(
+              res.data.pdfUrl
+            )}`;
           setDocUrl(proxyUrl);
         } else {
           setDocUrl(null);
         }
-      } catch (err) {
-        console.error("Doc fetch error:", err);
+      } catch {
         setDocUrl(null);
       } finally {
         setLoadingDoc(false);
@@ -137,6 +129,17 @@ const ServiceDetail = ({ serviceType }) => {
     fetchServiceDoc();
   }, [serviceType]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [serviceType]);
+
+  if (!data) {
+    return (
+      <div className="pt-32 text-center text-2xl font-bold">
+        Service Not Found
+      </div>
+    );
+  }
 
   return (
     <div className="pt-28 min-h-screen bg-white">
