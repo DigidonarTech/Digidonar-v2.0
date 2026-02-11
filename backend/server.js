@@ -23,7 +23,7 @@ app.use('/api/documents', documentRoutes);
 
 // --- Baaki Saara Code SAME ---
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@Donar#2024";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 
 mongoose.connect(process.env.MONGO_URI)

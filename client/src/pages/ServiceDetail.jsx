@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import api, {API_URL} from '../api';
+import api, { API_URL } from '../api';
 import {
   CheckCircle2, ArrowRight, Zap, Shield,
   MessageSquare, Smartphone, HardDrive, PhoneIncoming,
-  Key, Layers, Globe, MousePointer2, Mail 
+  Key, Layers, Globe, MousePointer2, Mail
 } from 'lucide-react';
 // 1. Modal Import Karein
-import ContactModal from '../components/ContactModal'; 
+import ContactModal from '../components/ContactModal';
 
 const SERVICE_DATA = {
   "bulk-sms": {
@@ -105,21 +105,29 @@ const ServiceDetail = ({ serviceType }) => {
   const [loadingDoc, setLoadingDoc] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+//  -------------fetch service-specific doc on mount -------------
   useEffect(() => {
     const fetchServiceDoc = async () => {
       try {
+  
         const res = await api.get(`/documents/by-service/${serviceType}`);
+
         if (res.data?.pdfUrl) {
-          // 🔥 PROXY URL (INLINE VIEW)
-          const proxyUrl =
-            `${API_URL}/pdf-proxy?url=${encodeURIComponent(
-              res.data.pdfUrl
-            )}`;
+          
+          const base = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+          
+          const rootUrl = base.endsWith('/api') ? base.slice(0, -4) : base;
+
+     
+          const proxyUrl = `${rootUrl}/api/pdf-proxy?url=${encodeURIComponent(res.data.pdfUrl)}`;
+
           setDocUrl(proxyUrl);
         } else {
           setDocUrl(null);
         }
-      } catch {
+      } catch (err) {
+        console.error("Doc fetch error:", err);
         setDocUrl(null);
       } finally {
         setLoadingDoc(false);
@@ -129,26 +137,15 @@ const ServiceDetail = ({ serviceType }) => {
     fetchServiceDoc();
   }, [serviceType]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [serviceType]);
-
-  if (!data) {
-    return (
-      <div className="pt-32 text-center text-2xl font-bold">
-        Service Not Found
-      </div>
-    );
-  }
 
   return (
     <div className="pt-28 min-h-screen bg-white">
-      
+
       {/* 3. Contact Modal Component Integration */}
-      <ContactModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        title={`Inquiry for ${data.title}`} 
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`Inquiry for ${data.title}`}
       />
 
       {/* ===== HERO ===== */}
@@ -268,7 +265,7 @@ const ServiceDetail = ({ serviceType }) => {
         <p className="text-slate-400 max-w-2xl mx-auto mb-10">99.99% uptime, carrier-grade routing aur SLA backed delivery.</p>
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           {/* Talk to Sales Trigger */}
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
             className="bg-[#1CB48D] text-slate-900 px-12 py-5 rounded-2xl font-black hover:bg-white transition-all"
           >
