@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import { Scale, CheckCircle, AlertTriangle, HelpCircle, ShieldCheck, Lock, FileText } from 'lucide-react';
 import { Scale, CheckCircle, AlertTriangle, HelpCircle, Eye , ShieldCheck, Lock , FileText } from 'lucide-react';
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, Send, CheckCircle, Loader2 } from "lucide-react";
 import axios from "axios";
+import api, { API_URL } from "../api";
 
 const ContactModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -39,7 +40,7 @@ const ContactModal = ({ isOpen, onClose }) => {
         service: "Modal Callback Request" // Identify karne ke liye source
       };
 
-      await axios.post('https://digidonar-api.onrender.com/api/leads', payload);
+      await axios.post(`${API_URL}/api/leads`, payload);
 
       setStatus("success");
       

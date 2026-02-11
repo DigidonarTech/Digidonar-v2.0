@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Mail, Phone, MapPin, Send, Clock, CheckCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
+import api, { API_URL } from '../api';
 
 const Contact = () => {
     useEffect(() => {
@@ -27,7 +28,7 @@ const Contact = () => {
 
         try {
             // Aapki Render API call
-            await axios.post('https://digidonar-api.onrender.com/api/leads', formData);
+            await axios.post(`${API_URL}/api/leads`, formData);
             
             setSubmitted(true);
             e.target.reset(); // Form clear kar dega

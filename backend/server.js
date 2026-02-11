@@ -11,7 +11,7 @@ const app = express();
 
 // 1. Updated CORS - Allow all for development flexibility
 app.use(cors({
-  origin: true,
+  origin: ['https://digidonar-v2-0.vercel.app', 'http://localhost:5173'],
   credentials: true
 }));
 

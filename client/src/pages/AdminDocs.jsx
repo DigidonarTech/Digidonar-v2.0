@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../api";
+import api, {API_URL} from "../api";
 
 /**
  * IMPORTANT:
@@ -82,7 +82,7 @@ const AdminDocs = () => {
         {SERVICES.map(({ key, label }) => {
           const doc = getServiceDoc(key);
           const viewUrl = doc
-            ? `http://localhost:5000/api/pdf-proxy?url=${encodeURIComponent(
+            ? `${API_URL}/api/pdf-proxy?url=${encodeURIComponent(
                 doc.pdfUrl
               )}`
             : null;

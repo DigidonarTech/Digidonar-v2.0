@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Check, X, Send, Loader2, CheckCircle } from "lucide-react";
+import api, { API_URL } from "../api";
 
 const plans = [
   {
@@ -50,7 +51,7 @@ const Pricing = () => {
 
     try {
       // Replace with your API endpoint
-      await fetch("https://digidonar-api.onrender.com/api/leads", {
+      await fetch(`${API_URL}/api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

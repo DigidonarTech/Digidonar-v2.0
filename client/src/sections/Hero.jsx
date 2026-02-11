@@ -107,7 +107,7 @@ const Hero = () => {
                                     <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
                                     <span className="w-3 h-3 bg-green-400 rounded-full"></span>
                                 </div>
-                                <div className="ml-4 text-xs text-gray-400 font-medium truncate">app.digidonar.com/dashboard</div>
+                                <div className="ml-4 text-xs text-gray-400 font-medium truncate">waba.digidonar.com/dashboard</div>
                             </div>
 
                             {/* Dashboard Image */}

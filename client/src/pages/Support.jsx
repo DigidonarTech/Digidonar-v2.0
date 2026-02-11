@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MessageCircle, Mail, Phone, BookOpen, Search, LifeBuoy, Send, X, CheckCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
+import api, {API_URL} from '../api';
 
 const Support = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -63,7 +64,7 @@ const Support = () => {
     };
 
     try {
-      await axios.post('https://digidonar-api.onrender.com/api/leads', formData);
+      await axios.post(`${API_URL}/api/leads`, formData);
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
