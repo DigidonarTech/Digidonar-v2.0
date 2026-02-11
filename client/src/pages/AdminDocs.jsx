@@ -82,7 +82,7 @@ const AdminDocs = () => {
         {SERVICES.map(({ key, label }) => {
           const doc = getServiceDoc(key);
           const viewUrl = doc
-            ? `${API_URL}/api/pdf-proxy?url=${encodeURIComponent(
+            ? `${API_URL.replace(/\/$/, "")}/pdf-proxy?url=${encodeURIComponent(
                 doc.pdfUrl
               )}`
             : null;
