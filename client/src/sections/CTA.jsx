@@ -4,7 +4,7 @@ import ContactModal from '../components/ContactModal';
 
 const CTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const salesNumber = "+919214122123";
+  const salesNumber = "https://wa.me/919090920202"; // Replace with your actual sales number
 
   // Emojis aur Icons ka Mix for all services
   const floatingElements = [
@@ -108,7 +108,7 @@ const CTA = () => {
               </button>
 
               <a
-                href={`tel:${salesNumber}`}
+                href={`${salesNumber}`} target='_blank'
                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 rounded-2xl font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all"
               >
                 Talk to Sales

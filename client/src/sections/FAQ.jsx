@@ -3,20 +3,20 @@ import { Plus, Minus } from 'lucide-react';
 
 const FAQ_DATA = [
   {
-    q: "DLT Registration kya hai aur kya ye zaroori hai?",
-    a: "Haan bhai, TRAI ke rules ke mutabiq India mein Bulk SMS bhejne ke liye DLT registration compulsory hai. Humari team aapko registration process mein poori help karegi."
+    q: "What is DLT Registration and is it mandatory?",
+    a: "As per TRAI guidelines, DLT registration is compulsory for Bulk SMS services in India. Our team will guide you through the entire registration process."
   },
   {
-    q: "Kya main WhatsApp API ko apne CRM se jod sakta hoon?",
-    a: "Bilkul! Humari APIs developer-friendly hain. Aap ise Zoho, Salesforce ya kisi bhi custom CRM ke saath 5 minute mein integrate kar sakte hain."
+    q: "Can I integrate WhatsApp API with my CRM?",
+    a: "Absolutely! Our APIs are developer-friendly. You can integrate them with Zoho, Salesforce, or any custom CRM in just 5 minutes."
   },
   {
-    q: "SMS delivery report real-time hoti hai?",
-    a: "Ji haan, jaise hi SMS deliver hota hai, aapko dashboard par instant status (Delivered/Failed) dikh jata hai."
+    q: "Is the SMS delivery report real-time?",
+    a: "Yes, as soon as an SMS is delivered, you get an instant status update (Delivered/Failed) on your dashboard."
   },
   {
-    q: "Kya Digidonar support 24/7 available hai?",
-    a: "Humare Business aur Professional plans mein dedicated support manager milta hai jo 24/7 aapki queries solve karta hai."
+    q: "Is Digidonar support available 24/7?",
+    a: "Yes, our support team is available 24/7 for all Business and Professional plan users."
   }
 ];
 
@@ -29,9 +29,9 @@ const FAQ = () => {
 
         {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-[#1CB48D] font-bold text-sm uppercase tracking-widest mb-4">Aapke Sawal, Humare Jawab</h2>
+          <h2 className="text-[#1CB48D] font-bold text-sm uppercase tracking-widest mb-4">Your Questions, Our Answers</h2>
           <h3 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">Frequently Asked Questions</h3>
-          <p className="text-gray-500 max-w-xl mx-auto">Agar aapka sawal yahan nahi hai, toh humein contact sales karein.</p>
+          <p className="text-gray-500 max-w-xl mx-auto">If your question isn't listed here, please contact our sales team.</p>
         </div>
 
         {/* FAQ Items */}

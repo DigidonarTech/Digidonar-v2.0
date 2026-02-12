@@ -27,12 +27,10 @@ const Contact = () => {
         };
 
         try {
-            // Aapki Render API call
-            await axios.post(`${API_URL}/api/leads`, formData);
-            
+            // Corrected API call to match backend route
+            await api.post('/leads', formData);
             setSubmitted(true);
             e.target.reset(); // Form clear kar dega
-            
             // 5 second baad success message hata kar form wapas layega
             setTimeout(() => setSubmitted(false), 5000);
         } catch (err) {
@@ -57,7 +55,7 @@ const Contact = () => {
                         Let's talk about your <span className="text-[#1CB48D]">growth</span>
                     </h2>
                     <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-                        Hamari team aapki communication problems ko solve karne ke liye taiyar hai. Niche diye gaye form ko bharein aur hum 2 ghante ke andar aapse sampark karenge.
+                        Our team is ready to address your communication challenges. Please fill out the form below and we will get back to you within 2 hours.
                     </p>
                 </div>
             </section>
@@ -76,7 +74,7 @@ const Contact = () => {
                                     <CheckCircle size={40} />
                                 </div>
                                 <h3 className="text-3xl font-black text-slate-900">Message Received!</h3>
-                                <p className="text-slate-500 max-w-sm">Aapki details humare dashboard mein save ho gayi hain. Hum jaldi hi aapse connect karenge.</p>
+                                <p className="text-slate-500 max-w-sm">Your details have been successfully recorded. Our team will get back to you soon.</p>
                                 <button onClick={() => setSubmitted(false)} className="text-[#0D66BA] font-bold hover:underline">Send another message</button>
                             </div>
                         ) : (
@@ -140,7 +138,7 @@ const Contact = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-slate-900">Email Us</h4>
-                                        <p className="text-gray-500 font-medium">sales@digidonar.com</p>
+                                        <p className="text-gray-500 font-medium">info@digidonar.com</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-6 items-start">
@@ -149,7 +147,7 @@ const Contact = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-slate-900">Call Support</h4>
-                                        <p className="text-gray-500 font-medium">+91 9214122123</p>
+                                        <p className="text-gray-500 font-medium">+91 9090920202</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-6 items-start">
@@ -158,7 +156,7 @@ const Contact = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-slate-900">Headquarters</h4>
-                                        <p className="text-gray-500 font-medium">123, Tech Tower, Sector 62, Noida, UP, India</p>
+                                        <p className="text-gray-500 font-medium">Dalippur Towers, Flat no. 7, 1st Floor, AB Block, Sapru Marg, Hazratganj, Lucknow, Uttar Pradesh 226001</p>
                                     </div>
                                 </div>
                             </div>

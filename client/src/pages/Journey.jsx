@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Rocket, Star, Users, Award, TrendingUp, Flag } from 'lucide-react';
-import ContactModal from "../sections/ContactModel";
 
 const timelineData = [
   { year: "2021", title: "The Humble Beginning", desc: "Digidonar ki shuruat 2 logo ki team ke saath ek chote se kamre mein hui. Humara maqsad tha communication ko democratize karna.", icon: <Rocket className="text-white" size={24} />, color: "bg-[#0D66BA]" },
@@ -13,8 +12,8 @@ const timelineData = [
 const stats = [
   { label: "Happy Clients", value: 5000 },
   { label: "Messages Sent", value: 1200000 },
-  { label: "Team Members", value: 50 },
-  { label: "Countries Reached", value: 190 }
+  { label: "Team Members", value: 100 },
+  { label: "Cities Reached", value: 190 }
 ];
 
 const Journey = () => {
@@ -81,20 +80,6 @@ const Journey = () => {
               <p className="text-gray-300 font-semibold">{stat.label}</p>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12">
-          <button
-            className="bg-[#1CB48D] text-white px-10 py-4 rounded-2xl font-bold hover:bg-[#0D66BA] transition-all shadow-xl"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Explore Plans
-          </button>
-
-          <ContactModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          />
         </div>
       </section>
 
