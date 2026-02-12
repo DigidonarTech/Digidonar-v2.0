@@ -10,47 +10,47 @@ const PrivacyPolicy = () => {
     {
       title: "1. Information We Collect",
       icon: <FileText className="text-white" size={24} />,
-      content: "Hum sirf wahi details collect karte hain jo aap humein service ke liye dete hain, jaise Name, Business Email, Phone Number aur DLT registration details. Hum aapke contacts ya messages ka data kisi teesre paksh (third party) ko nahi dete."
+      content: "We only collect the details you provide for the service, such as Name, Business Email, Phone Number, and DLT registration details. We do not share your contacts or message data with any third party."
     },
     {
       title: "2. How We Use Your Data",
       icon: <Eye className="text-white" size={24} />,
-      content: "Aapka data sirf transactional aur promotional alerts bhejne, account manage karne aur technical support dene ke liye use kiya jata hai. Hum spamming ke sakht khilaaf hain."
+      content: "Your data is used solely for sending transactional and promotional alerts, managing your account, and providing technical support. We are strictly against spamming."
     },
     {
       title: "3. Data Security",
       icon: <Lock className="text-white" size={24} />,
-      content: "Digidonar enterprise-grade encryption use karta hai. Aapka har message aur API request SSL-secured hoti hai taaki koi unauthorized access na ho sake."
+      content: "Digidonar utilizes enterprise-grade encryption. Every message and API request is SSL-secured to prevent any unauthorized access."
     },
     {
       title: "4. Cookies & Tracking",
       icon: <Activity className="text-white" size={24} />,
-      content: "Hum site performance aur analytics ke liye cookies aur similar technologies ka use karte hain. Ye aapke browsing experience ko enhance karte hain aur service ko improve karne me help karte hain."
+      content: "We use cookies and similar technologies for site performance and analytics. These enhance your browsing experience and help us improve our services."
     },
     {
       title: "5. Third-Party Services",
       icon: <ServerCog className="text-white" size={24} />,
-      content: "Humare platform par kuch services third-party providers ke through operate hoti hain, jaise payment gateways aur email services. Ye providers aapke data ko sirf contractual purposes ke liye access karte hain."
+      content: "Some services on our platform are operated through third-party providers, such as payment gateways and email services. These providers access your data solely for contractual purposes."
     },
     {
       title: "6. User Rights",
       icon: <UserCheck className="text-white" size={24} />,
-      content: "Aapko apne personal data ko access, correct, delete ya restrict karne ka adhikar hai. Aap ye rights humse contact karke exercise kar sakte hain."
+      content: "You have the right to access, correct, delete, or restrict your personal data. You can exercise these rights by contacting us."
     },
     {
       title: "7. Data Retention",
       icon: <Clock className="text-white" size={24} />,
-      content: "Hum aapka data tab tak store karte hain jab tak service provide kar rahe hote hain, aur regulatory requirements ke mutabiq. Purane aur unnecessary data ko securely delete kar diya jata hai."
+      content: "We store your data as long as we are providing the service, and in accordance with regulatory requirements. Old and unnecessary data is securely deleted."
     },
     {
       title: "8. Children’s Privacy",
       icon: <Globe className="text-white" size={24} />,
-      content: "Hum 13 saal se kam ke bachon se jaan bhoojh kar data collect nahi karte. Agar aapko lagta hai ki humne galti se bachon ka data collect kiya hai, hume turant inform karein."
+      content: "We do not knowingly collect data from children under the age of 13. If you believe we have inadvertently collected a child's data, please inform us immediately."
     },
     {
       title: "9. Policy Updates",
       icon: <ShieldCheck className="text-white" size={24} />,
-      content: "Ye Privacy Policy time-to-time update ki ja sakti hai. Latest version hamari website par hamesha available rahegi, aur important updates ke liye email ke through inform kiya ja sakta hai."
+      content: "This Privacy Policy may be updated from time to time. The latest version will always be available on our website, and we may inform you of important updates via email."
     },
   ];
 
@@ -76,7 +76,7 @@ const PrivacyPolicy = () => {
         <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-10">
 
           <p className="text-slate-600 mb-10 leading-relaxed text-lg italic border-l-4 border-[#1CB48D] pl-6">
-            Digidonar Teleservices mein hum aapki privacy ki dil se izzat karte hain. Ye document batata hai ki hum kaise aapka data handle karte hain aur aapke rights kya hain.
+           At Digidonar Teleservices, we sincerely value your privacy. This document outlines how we handle your data and explains your rights.
           </p>
 
           {/* Sections */}
@@ -98,10 +98,10 @@ const PrivacyPolicy = () => {
           <div className="mt-16 p-8 bg-gradient-to-r from-[#0D66BA]/80 to-[#1CB48D]/80 rounded-3xl text-white shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
               <h3 className="text-xl font-bold mb-2">Questions about Privacy?</h3>
-              <p className="text-white/80 mb-2">Agar aapko apne data se juda koi sawal hai, toh humein niche di gayi email par likhein.</p>
+              <p className="text-white/80 mb-2">If you have any questions about your data, please write to us at the email address below.</p>
             </div>
-            <a href="mailto:privacy@digidonar.com" className="text-white font-bold border-b-2 border-white hover:border-[#1CB48D] hover:text-[#1CB48D] transition-all py-2 px-4 rounded-lg shadow-md">
-              privacy@digidonar.com
+            <a href="mailto:info@digidonar.com" className="text-white font-bold border-b-2 border-white hover:border-[#1CB48D] hover:text-[#1CB48D] transition-all py-2 px-4 rounded-lg shadow-md">
+              info@digidonar.com
             </a>
           </div>
 

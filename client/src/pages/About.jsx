@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Target, Eye, Users, ShieldCheck, Zap, Globe } from 'lucide-react';
+import img from '../assets/meet.png';
 
 const About = () => {
   useEffect(() => {
@@ -9,17 +10,17 @@ const About = () => {
   const values = [
     {
       title: "Reliability",
-      desc: "99.9% uptime aur instant delivery ke saath, aapke har message ko har time deliver karte hain.",
+      desc: "With 99.9% uptime and instant delivery, we ensure your messages are delivered every single time.",
       icon: <ShieldCheck className="text-[#0D66BA]" size={32} />
     },
     {
       title: "Innovation",
-      desc: "Hamesha latest tech aur AI automation tools ka use karke communication ko smarter banate hain.",
+      desc: "Always using the latest tech and AI automation tools to make communication smarter.",
       icon: <Zap className="text-[#1CB48D]" size={32} />
     },
     {
       title: "Global Reach",
-      desc: "India ke alawa 190+ countries mein high-speed messaging aur WhatsApp integration available hai.",
+      desc: "Expanding beyond Uttar Pradesh, we have added over 100+ cities to our network..",
       icon: <Globe className="text-[#44BBDB]" size={32} />
     }
   ];
@@ -47,17 +48,17 @@ const About = () => {
               <span className="text-[#1CB48D]">Through Seamless Communication</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-4">
-              Digidonar ki shuruat ek simple mission ke saath hui thi: 
-              <span className="font-semibold"> "Har business apne customer se sirf ek click mein connect ho." </span>
+             Digidonar began with a simple mission: 
+              <span className="font-semibold"> "To enable every business to connect with their customers in just a single click." </span>
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              Aaj hum India ke fastest-growing CPaaS platforms mein se ek hain, jo lakhon messages daily deliver karte hain with unmatched reliability.
+             Today, we are one of India’s fastest-growing CPaaS platforms, delivering millions of messages daily with unmatched reliability.
             </p>
           </div>
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-tr from-[#0D66BA]/10 via-[#1CB48D]/10 to-[#44BBDB]/10 rounded-[3rem] rotate-6 animate-float"></div>
             <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" 
+              src={img} 
               alt="Team Working" 
               className="relative rounded-[2.5rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
             />
@@ -71,14 +72,14 @@ const About = () => {
           <Target className="absolute top-10 right-10 opacity-10 group-hover:scale-125 transition-transform duration-700" size={120} />
           <h3 className="text-3xl font-extrabold mb-6">Our Mission</h3>
           <p className="text-blue-100 text-lg leading-relaxed relative z-10">
-            Har size ke business ko world-class tools provide karna jo MNCs use karte hain. Hum technology aur affordability ka perfect blend dena chahte hain.
+           To provide businesses of all sizes with the world-class tools used by MNCs. We strive to offer the perfect blend of technology and affordability."
           </p>
         </div>
         <div className="p-10 rounded-[3rem] bg-[#1CB48D] text-white relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
           <Eye className="absolute top-10 right-10 opacity-10 group-hover:scale-125 transition-transform duration-700" size={120} />
           <h3 className="text-3xl font-extrabold mb-6">Our Vision</h3>
           <p className="text-emerald-50 text-lg leading-relaxed relative z-10">
-            Automation aur seamless communication se businesses ko apna growth maximize karne ka chance dena, hum handle karenge unka communication.
+            Empowering businesses to maximize their growth through automation and seamless communication—while we handle the rest.
           </p>
         </div>
       </section>
@@ -112,7 +113,7 @@ const About = () => {
           <Users className="mx-auto text-[#44BBDB] mb-6" size={48} />
           <h2 className="text-4xl font-extrabold text-slate-900 mb-6">Built by Experts, Trusted by Thousands</h2>
           <p className="text-gray-500 text-lg mb-10">
-            Digidonar sirf ek software nahi, balki 50+ experts ki team jo har message ko secure aur fast deliver karti hai.
+            Digidonar is not just a software; it is a team of 50+ experts ensuring every message is delivered securely and instantly.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
             {stats.map((s, i) => (

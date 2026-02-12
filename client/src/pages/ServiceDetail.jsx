@@ -12,7 +12,7 @@ const SERVICE_DATA = {
   "bulk-sms": {
     title: "Bulk SMS Solutions",
     subtitle: "High-Volume Messaging",
-    desc: "India ke sabse bharosemand gateway se lakhon SMS bhein ek click mein. Promotional aur Transactional dono ke liye best.",
+    desc: "Send millions of SMS in a single click through India's most trusted gateway. Best for both Promotional and Transactional messages.",
     features: ["DLT Template Support", "Smart Scheduling", "Regional Language Support", "Unicode Messaging"],
     icon: <MessageSquare size={56} strokeWidth={1.5} />,
     color: "text-[#0D66BA]",
@@ -23,7 +23,7 @@ const SERVICE_DATA = {
   "whatsapp-api": {
     title: "WhatsApp Business API",
     subtitle: "Modern Engagement",
-    desc: "WhatsApp par apne customers se judiye. Automated chatbots aur official green tick verification ke saath branding badhaiye.",
+    desc: "Connect with your customers on WhatsApp. Enhance your branding with automated chatbots and official green tick verification.",
     features: ["Chatbot Integration", "Shared Team Inbox", "Rich Media Support", "Automated Notifications"],
     icon: <Smartphone size={56} strokeWidth={1.5} />,
     color: "text-[#1CB48D]",
@@ -34,7 +34,7 @@ const SERVICE_DATA = {
   "voice-ivr": {
     title: "Voice & IVR Services",
     subtitle: "Cloud Telephony",
-    desc: "Professional IVR menu setup karein. Automated calls aur missed call alerts se leads capture karna asaan banayein.",
+    desc: "Set up a professional IVR menu. Make lead capture easy with automated calls and missed call alerts.",
     features: ["Multi-level IVR", "Call Recording", "Virtual Numbers", "Real-time Call Logs"],
     icon: <PhoneIncoming size={56} strokeWidth={1.5} />,
     color: "text-[#44BBDB]",

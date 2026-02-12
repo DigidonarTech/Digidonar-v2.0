@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Rocket, Star, Users, Award, TrendingUp, Flag } from 'lucide-react';
 
 const timelineData = [
-  { year: "2021", title: "The Humble Beginning", desc: "Digidonar ki shuruat 2 logo ki team ke saath ek chote se kamre mein hui. Humara maqsad tha communication ko democratize karna.", icon: <Rocket className="text-white" size={24} />, color: "bg-[#0D66BA]" },
-  { year: "2022", title: "1,000+ Happy Clients", desc: "Sirf ek saal mein humne 1,000 se zyada small businesses ko connect kiya. Humne apna pehla official office Noida mein setup kiya.", icon: <Users className="text-white" size={24} />, color: "bg-[#1CB48D]" },
-  { year: "2023", title: "WhatsApp API Launch", desc: "Market ki demand ko dekhte huye humne WhatsApp Business API solutions launch kiye, jo hamara ab tak ka sabse bada hit raha.", icon: <Star className="text-white" size={24} />, color: "bg-[#44BBDB]" },
-  { year: "2024", title: "Going International", desc: "Humne global boundaries cross ki aur Southeast Asia mein apni services expand ki. Aaj hum 50+ experts ki team hain.", icon: <TrendingUp className="text-white" size={24} />, color: "bg-slate-900" },
-  { year: "2026", title: "Future of AI Communication", desc: "Ab hum AI-driven automated communication par kaam kar rahe hain taaki har business 24/7 bina kisi manual effort ke grow kar sake.", icon: <Flag className="text-white" size={24} />, color: "bg-[#0D66BA]" }
+  { year: "2021", title: "The Humble Beginning", desc: "Digidonar started with a team of two in a small room. Our mission was to democratize communication.", icon: <Rocket className="text-white" size={24} />, color: "bg-[#0D66BA]" },
+  { year: "2022", title: "1,000+ Happy Clients", desc: "In just one year, we have connected over 1,000 small businesses. We established our first official office in Lucknow.", icon: <Users className="text-white" size={24} />, color: "bg-[#1CB48D]" },
+  { year: "2023", title: "WhatsApp API Launch", desc: "Recognizing the market demand, we launched our WhatsApp Business API solutions, which have become our biggest success to date.", icon: <Star className="text-white" size={24} />, color: "bg-[#44BBDB]" },{ year: "2024", title: "Going International", desc: "We crossed global boundaries and expanded our services into Southeast Asia. Today, we are a dedicated team of over 50 experts", icon: <TrendingUp className="text-white" size={24} />, color:"bg-slate-900" },
+  { year: "2026", title: "Future of AI Communication", desc: "We are now focusing on AI-driven automated communication, enabling every business to grow 24/7 without any manual effort.", icon: <Flag className="text-white" size={24} />, color: "bg-[#0D66BA]" }
 ];
 
 const stats = [
@@ -43,7 +42,7 @@ const Journey = () => {
           The Journey of <span className="text-[#1CB48D]">Digidonar</span>
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
-          Ek chote se idea se lekar India ke leading CPaaS platform tak ka safar. Humne har din kuch naya seekha aur apne clients ke bharose ko jeeta.
+          A journey from a small idea to becoming one of India's leading CPaaS platforms. Every day, we learned something new and earned the trust of our clients.
         </p>
       </section>
 

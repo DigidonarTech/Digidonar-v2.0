@@ -19,7 +19,7 @@ const Support = () => {
       info: "+91 98765 43210",
       icon: <MessageCircle size={30} />,
       color: "bg-[#1CB48D]",
-      link: "https://wa.me/919876543210"
+      link: "https://wa.me/919984678333"
     },
     {
       title: "Email Ticket",
@@ -35,7 +35,7 @@ const Support = () => {
       info: "1800-123-4567",
       icon: <Phone size={30} />,
       color: "bg-[#44BBDB]",
-      link: "tel:18001234567"
+      link: "tel:9090920202"
     }
   ];
 
@@ -147,7 +147,7 @@ const Support = () => {
 
       {/* Bottom CTA */}
       <section className="pb-24 text-center">
-        <p className="text-gray-500 mb-6 font-medium text-lg">Nahi mila jo dhoond rahe the?</p>
+        <p className="text-gray-500 mb-6 font-medium text-lg">Didn't find what you were looking for?</p>
         <button 
           onClick={() => setModalOpen(true)}
           className="bg-gradient-to-r from-[#0D66BA] to-[#1CB48D] text-white px-10 py-4 rounded-2xl font-bold hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2 mx-auto"
@@ -181,7 +181,7 @@ const Support = () => {
                     <CheckCircle size={40} />
                   </div>
                   <h3 className="text-3xl font-black text-slate-900 mb-2">Thank You!</h3>
-                  <p className="text-slate-500 text-lg">Hume aapki details mil gayi hain. Hum jaldi hi connect karenge.</p>
+                  <p className="text-slate-500 text-lg">We have received your details. We will connect with you soon.</p>
                 </div>
               ) : (
                 <form className="space-y-4" onSubmit={handleSubmit}>

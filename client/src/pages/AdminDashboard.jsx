@@ -37,20 +37,20 @@ const AdminDashboard = () => {
 
   // 3. Delete All Function
   const deleteAllLeads = async () => {
-    if (window.confirm("⚠️ BHAI DHAYAN SE! Kya aap sach mein SAARI leads delete karna chahte ho? Ye wapas nahi aayengi.")) {
+    if (window.confirm("⚠️ ATTENTION! Are you sure you want to delete ALL leads? This action cannot be undone.")) {
       try {
         await api.delete('/leads/delete-all/all'); // Backend endpoint jo saare delete kare
         setLeads([]);
-        alert("Saari leads uda di gayi!");
+        alert("All leads have been successfully deleted!");
       } catch (err) {
-        alert("Delete All fail ho gaya! Check backend route.");
+        alert("Delete All failed! Please check the backend route.");
       }
     }
   };
 
   const exportToCSV = () => {
     if (filteredLeads.length === 0) {
-      alert("Bhai, export karne ke liye koi lead hi nahi hai!");
+      alert("No leads available to export!");
       return;
     }
     const headers = ["Name,Email,Phone,Service,Status,Date\n"];
@@ -70,12 +70,12 @@ const AdminDashboard = () => {
   };
 
   const deleteLead = async (id) => {
-    if (window.confirm("Bhai, kya aap sach mein delete karna chahte ho?")) {
+    if (window.confirm("⚠️ ATTENTION! Are you sure you want to delete this lead? This action cannot be undone.")) {
       try {
         await api.delete(`/leads/${id}`);
         setLeads(leads.filter(lead => lead._id !== id));
       } catch (err) {
-        alert("Delete fail ho gaya!");
+        alert("Delete failed!");
       }
     }
   };
