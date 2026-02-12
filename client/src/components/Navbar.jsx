@@ -48,9 +48,9 @@ const Navbar = () => {
                                 Our Journey
                             </Link>
 
-                            <Link to="/pricing" className="relative text-sm font-semibold text-gray-700 hover:text-[#0D66BA] transition-all duration-300 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-[#44BBDB] after:transition-all after:duration-300 hover:after:w-full">
+                            {/* <Link to="/pricing" className="relative text-sm font-semibold text-gray-700 hover:text-[#0D66BA] transition-all duration-300 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-[#44BBDB] after:transition-all after:duration-300 hover:after:w-full">
                                 Pricing
-                            </Link>
+                            </Link> */}
 
                             {/* CTA */}
                             <div className="flex items-center gap-3 ml-4">
