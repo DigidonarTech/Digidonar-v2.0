@@ -16,10 +16,10 @@ const Support = () => {
     {
       title: "WhatsApp Support",
       desc: "Instant chat ke liye best hai.",
-      info: "+91 98765 43210",
+      info: "+91 9090920202",
       icon: <MessageCircle size={30} />,
       color: "bg-[#1CB48D]",
-      link: "https://wa.me/919984678333"
+      link: "https://wa.me/9090920202"
     },
     {
       title: "Email Ticket",
@@ -32,7 +32,7 @@ const Support = () => {
     {
       title: "Voice Support",
       desc: "Direct expert se baat karein.",
-      info: "1800-123-4567",
+      info: "+91 9090920202",
       icon: <Phone size={30} />,
       color: "bg-[#44BBDB]",
       link: "tel:9090920202"
@@ -64,7 +64,7 @@ const Support = () => {
     };
 
     try {
-      await axios.post(`${API_URL}/api/leads`, formData);
+      await api.post('/leads', formData);
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
