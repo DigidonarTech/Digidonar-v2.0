@@ -12,6 +12,7 @@ import rajeshAvatar from '../assets/client 2.jpg';
 import anjaliAvatar from '../assets/client1_profile.jpg';
 import vikramAvatar from '../assets/profile 3.png';
 
+
 const logos = [logo1, logo2, logo3, logo4, logo5];
 
 const testimonials = [
