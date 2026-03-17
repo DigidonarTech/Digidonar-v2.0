@@ -133,7 +133,7 @@ export default function TrustedBy() {
       svg: (
         <svg width="56" height="28" viewBox="0 0 56 28">
           <rect width="56" height="28" rx="5" fill="#76B90018" />
-          <text x="28" y="20" textAnchor="middle" fontSize="13" fontWeight="900" fill="#76B900" fontFamily="Arial" letterSpacing="1">NVIDIA</text>
+          <text x="28" y="20" textAnchor="middle" fontSize="13" fontWeight="900" fill="#76B900" fontFamily="Arial">NVIDIA</text>
         </svg>
       ),
     },
@@ -162,18 +162,18 @@ export default function TrustedBy() {
           px-4 py-2.5
           rounded-xl
           bg-white
-          border border-stone-200
+          border border-slate-200
           shadow-sm
           transition-all duration-200 ease-out
           hover:scale-[1.06]
-          hover:border-stone-300
-          hover:shadow-md
+          hover:border-cyan-300
+          hover:shadow-md hover:shadow-cyan-100
         "
       >
         <span className="flex-shrink-0 transition-transform duration-200 ease-out group-hover/card:scale-[1.05]">
           {logo.svg}
         </span>
-        <span className="text-[16px] font-bold text-stone-700 tracking-tight select-none">
+        <span className="text-[16px] font-bold text-slate-700 tracking-tight select-none">
           {logo.name}
         </span>
       </div>
@@ -208,13 +208,14 @@ export default function TrustedBy() {
   }
 
   return (
-    <section className="py-14 bg-[#f4f3f0] overflow-hidden select-none">
+    <section className="py-14 bg-slate-100 overflow-hidden select-none">
       <div className="relative">
-        {/* Fade edges */}
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-28 z-10 bg-gradient-to-r from-[#f4f3f0] to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-28 z-10 bg-gradient-to-l from-[#f4f3f0] to-transparent" />
 
-        <p className="text-center text-[11px] font-bold tracking-[0.18em] text-amber-600 uppercase mb-10">
+        {/* Fade edges */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-28 z-10 bg-gradient-to-r from-slate-50 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-28 z-10 bg-gradient-to-l from-slate-50 to-transparent" />
+
+        <p className="text-center text-[11px] font-bold tracking-[0.18em] text-cyan-600 uppercase mb-10">
           Trusted by teams at
         </p>
 
