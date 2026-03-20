@@ -16,6 +16,8 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminDocs from './pages/AdminDocs';
 import LP01 from './pages/LandingPage/LP01.jsx';
+import WhatsappFloat from './components/WhatsappFloat.jsx'
+import NotFound from './pages/NotFound.jsx';
 
 function App() {
   return (
@@ -37,10 +39,12 @@ function App() {
           <Route path="/admin/documents" element={<AdminDocs />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/lp01" element={<LP01 />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
+        <WhatsappFloat phoneNumber="919984678333" />
       </div>
-    </Router>
+    </Router> 
   );
 }
 
