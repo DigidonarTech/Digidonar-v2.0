@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Award, Users, CheckCircle } from 'lucide-react';
-
-import logo1 from '../assets/bazaz.jpg';
-import logo2 from '../assets/kia.png';
-import logo3 from '../assets/ola.png';
-import logo4 from '../assets/zomato2708.jpg';
-import logo5 from '../assets/rejency.webp';
 import awardBanner from '../assets/82156.gif';
 import rajeshAvatar from '../assets/client 2.jpg';
 import anjaliAvatar from '../assets/client1_profile.jpg';
@@ -36,173 +30,162 @@ const testimonials = [
 // --- BRAND LOGO DATA WITH SVG ICONS ---
 const brandLogos = [
   {
-    name: 'Sony',
-    color: '#000000',
-    bg: '#f5f5f5',
+    name: 'Zomato',
+    color: '#E23215',
+    bg: '#fff0ee',
     svg: (
-      <svg viewBox="0 0 60 20" width="48" height="16" fill="#000">
-        <text x="0" y="16" fontSize="16" fontWeight="bold" fontFamily="Arial">SONY</text>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#E23215">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14H7.5l4.5-8 4.5 8z"/>
       </svg>
     ),
   },
   {
-    name: 'Google',
-    color: '#4285F4',
-    bg: '#e8f0fe',
-    svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Amazon',
-    color: '#FF9900',
+    name: 'Swiggy',
+    color: '#FC8201',
     bg: '#fff8ee',
     svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FF9900">
-        <path d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705c-.209.189-.512.201-.745.074-1.052-.872-1.238-1.276-1.814-2.106-1.734 1.768-2.962 2.297-5.209 2.297-2.66 0-4.731-1.641-4.731-4.925 0-2.565 1.391-4.309 3.37-5.164 1.715-.754 4.11-.891 5.942-1.099v-.41c0-.753.06-1.642-.384-2.294-.385-.579-1.124-.82-1.775-.82-1.205 0-2.277.618-2.54 1.897-.054.285-.261.567-.549.58l-3.061-.333c-.259-.056-.548-.266-.472-.66.704-3.716 4.06-4.838 7.066-4.838 1.537 0 3.547.41 4.758 1.574 1.538 1.436 1.392 3.352 1.392 5.438v4.923c0 1.481.616 2.13 1.192 2.929.204.287.248.63-.01.839l-2.43 2.099z"/>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FC8201">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V15h-2v1.93A8 8 0 0 1 4.07 9H6v2h2V9h2v4h2V9h2v2h2V9h1.93A8 8 0 0 1 13 16.93z"/>
       </svg>
     ),
   },
   {
-    name: '3M',
-    color: '#FF0000',
-    bg: '#fff0f0',
+    name: 'Flipkart',
+    color: '#2874F0',
+    bg: '#eef3fe',
     svg: (
-      <svg viewBox="0 0 40 20" width="36" height="20">
-        <text x="0" y="17" fontSize="18" fontWeight="900" fontFamily="Arial" fill="#FF0000">3M</text>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#2874F0">
+        <path d="M21 5H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1zm-9 9l-4-4h3V8h2v2h3l-4 4z"/>
       </svg>
     ),
   },
   {
-    name: 'Microsoft',
-    color: '#737373',
-    bg: '#f3f3f3',
+    name: 'Paytm',
+    color: '#00BAF2',
+    bg: '#e6f9fe',
     svg: (
-      <svg viewBox="0 0 21 21" width="22" height="22">
-        <rect x="0" y="0" width="10" height="10" fill="#F25022"/>
-        <rect x="11" y="0" width="10" height="10" fill="#7FBA00"/>
-        <rect x="0" y="11" width="10" height="10" fill="#00A4EF"/>
-        <rect x="11" y="11" width="10" height="10" fill="#FFB900"/>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#00BAF2">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
       </svg>
     ),
   },
   {
-    name: 'IBM',
-    color: '#006699',
-    bg: '#e6f0f7',
-    svg: (
-      <svg viewBox="0 0 60 20" width="44" height="16">
-        <text x="0" y="16" fontSize="16" fontWeight="900" fontFamily="Arial" fill="#006699" letterSpacing="2">IBM</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Wipro',
-    color: '#341762',
-    bg: '#f0ecf8',
-    svg: (
-      <svg viewBox="0 0 60 20" width="48" height="16">
-        <text x="0" y="15" fontSize="13" fontWeight="bold" fontFamily="Arial" fill="#341762">WIPRO</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Salesforce',
-    color: '#00A1E0',
-    bg: '#e6f6fc',
-    svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="#00A1E0">
-        <path d="M10.058 4.293c.862-.878 2.058-1.424 3.383-1.424 1.761 0 3.299.977 4.116 2.426a5.65 5.65 0 0 1 2.186-.437c3.128 0 5.663 2.557 5.663 5.714s-2.535 5.714-5.663 5.714c-.378 0-.747-.04-1.1-.113a3.99 3.99 0 0 1-3.476 2.034 3.97 3.97 0 0 1-1.748-.403A4.993 4.993 0 0 1 9 20.286c-1.84 0-3.438-.998-4.296-2.48a4.696 4.696 0 0 1-.827.074C1.737 17.88 0 16.133 0 13.98c0-1.449.769-2.72 1.924-3.43a5.033 5.033 0 0 1-.162-1.272c0-2.76 2.22-4.999 4.96-4.999a4.93 4.93 0 0 1 3.336 1.014z"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Oracle',
-    color: '#C74634',
-    bg: '#fdf0ee',
-    svg: (
-      <svg viewBox="0 0 70 20" width="54" height="16">
-        <text x="0" y="15" fontSize="13" fontWeight="bold" fontFamily="Arial" fill="#C74634">ORACLE</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Adobe',
-    color: '#FF0000',
-    bg: '#fff0f0',
-    svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FF0000">
-        <path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm6.23 0H24v21.248z"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Nvidia',
-    color: '#76B900',
-    bg: '#f2f9e6',
-    svg: (
-      <svg viewBox="0 0 70 20" width="56" height="16">
-        <text x="0" y="15" fontSize="13" fontWeight="bold" fontFamily="Arial" fill="#76B900">NVIDIA</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Genpact',
-    color: '#E11B22',
-    bg: '#fff0f0',
-    svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <circle cx="12" cy="12" r="10" fill="#E11B22"/>
-        <text x="12" y="16" fontSize="9" fontWeight="bold" fontFamily="Arial" fill="white" textAnchor="middle">GEN</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Fractal',
-    color: '#E85D26',
-    bg: '#fff3ee',
-    svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <rect x="2" y="2" width="20" height="20" rx="4" fill="#E85D26"/>
-        <text x="12" y="16" fontSize="8" fontWeight="bold" fontFamily="Arial" fill="white" textAnchor="middle">FRAC</text>
-      </svg>
-    ),
-  },
-  {
-    name: 'Sprinklr',
-    color: '#6B3FA0',
+    name: 'PhonePe',
+    color: '#5F259F',
     bg: '#f3eefb',
     svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <circle cx="12" cy="12" r="10" fill="#6B3FA0"/>
-        <text x="12" y="16" fontSize="7" fontWeight="bold" fontFamily="Arial" fill="white" textAnchor="middle">SPNKLR</text>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#5F259F">
+        <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-4-7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
       </svg>
     ),
   },
   {
-    name: 'Capgemini',
-    color: '#0070AD",',
-    bg: '#e6f3fb',
+    name: 'HDFC Bank',
+    color: '#004C8F',
+    bg: '#e6eef7',
     svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <circle cx="12" cy="12" r="10" fill="#0070AD"/>
-        <text x="12" y="16" fontSize="8" fontWeight="bold" fontFamily="Arial" fill="white" textAnchor="middle">CAP</text>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#004C8F">
+        <path d="M4 10h3v7H4zm6.5-6h-1C8.6 4 8 4.6 8 5.5v1C8 7.4 8.6 8 9.5 8h1c.9 0 1.5-.6 1.5-1.5v-1C12 4.6 11.4 4 10.5 4zM4 4h3v4H4zm13 6h-3v7h3v-3h2v-2h-2z"/>
       </svg>
     ),
   },
   {
-    name: 'Tech Mahindra',
-    color: '#BA0C2F',
-    bg: '#fdeef1',
+    name: 'ICICI Bank',
+    color: '#F36F21',
+    bg: '#fff4ee',
     svg: (
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <rect x="2" y="2" width="20" height="20" rx="3" fill="#BA0C2F"/>
-        <text x="12" y="15" fontSize="6" fontWeight="bold" fontFamily="Arial" fill="white" textAnchor="middle">TECH M</text>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#F36F21">
+        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Nykaa',
+    color: '#FC2779',
+    bg: '#feeaf3',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FC2779">
+        <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'MakeMyTrip',
+    color: '#E81328',
+    bg: '#fdeef0',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#E81328">
+        <path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Meesho',
+    color: '#9B2D8E',
+    bg: '#f8eef7',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#9B2D8E">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'PolicyBazaar',
+    color: '#00A450',
+    bg: '#e6f7ee',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#00A450">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Lenskart',
+    color: '#00B5AD',
+    bg: '#e6f8f7',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#00B5AD">
+        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Urban Company',
+    color: '#1B2A4A',
+    bg: '#eceef2',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#1B2A4A">
+        <path d="M14.5 2.5c0 1.5-1.5 7-1.5 7h-2S9 4 9 2.5a2.5 2.5 0 0 1 5 0zM12 11.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM5 8l-2 6h4l1-3-3-3zm14 0l-3 3 1 3h4l-2-6z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Cars24',
+    color: '#FF6C00',
+    bg: '#fff4ee',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FF6C00">
+        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Vedantu',
+    color: '#4B2DB5',
+    bg: '#eeeafb',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#4B2DB5">
+        <path d="M12 3L1 9l4 2.18V15l7 4 7-4v-3.82L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-2.85l5 2.72 5-2.72v2.85z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'Cult.fit',
+    color: '#FF385C',
+    bg: '#feeaed',
+    svg: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#FF385C">
+        <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/>
       </svg>
     ),
   },

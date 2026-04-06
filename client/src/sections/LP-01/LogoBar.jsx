@@ -1,152 +1,134 @@
 export default function TrustedBy() {
-  const logos = [
-    {
-      name: "3M",
-      svg: (
-        <svg width="52" height="32" viewBox="0 0 52 32" fill="none">
-          <rect width="52" height="32" rx="6" fill="#FF000018" />
-          <text x="26" y="22" textAnchor="middle" fontSize="18" fontWeight="900" fill="#CC0000" fontFamily="Arial">3M</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Capgemini",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="18" fill="#0070ad18" />
-          <text x="18" y="23" textAnchor="middle" fontSize="12" fontWeight="800" fill="#0070ad" fontFamily="Arial">CAP</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Sony",
-      svg: (
-        <svg width="60" height="28" viewBox="0 0 60 28">
-          <rect width="60" height="28" rx="4" fill="#1a1a2e10" />
-          <text x="30" y="20" textAnchor="middle" fontSize="14" fontWeight="900" fill="#1a1a2e" fontFamily="Arial" letterSpacing="3">SONY</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Genpact",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="18" fill="#e8772218" />
-          <text x="18" y="23" textAnchor="middle" fontSize="11" fontWeight="800" fill="#e87722" fontFamily="Arial">GEN</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Tech Mahindra",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="7" fill="#E2231A15" />
-          <text x="18" y="23" textAnchor="middle" fontSize="9" fontWeight="800" fill="#E2231A" fontFamily="Arial">TECH M</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Sprinklr",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="18" fill="#FF6B2B18" />
-          <text x="18" y="23" textAnchor="middle" fontSize="9" fontWeight="800" fill="#FF6B2B" fontFamily="Arial">SPNKLR</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Google",
-      svg: (
-        <svg width="38" height="38" viewBox="0 0 38 38">
-          <text x="2" y="34" fontSize="34" fontFamily="Georgia, serif" fontWeight="700">
-            <tspan fill="#4285F4">G</tspan>
-          </text>
-        </svg>
-      ),
-    },
-    {
-      name: "Amazon",
-      svg: (
-        <svg width="44" height="36" viewBox="0 0 44 36">
-          <text x="4" y="26" fontSize="24" fontFamily="Arial" fontWeight="700" fill="#FF9900">a</text>
-          <path d="M3 30 Q22 38 41 30" stroke="#FF9900" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        </svg>
-      ),
-    },
-    {
-      name: "Fractal",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="7" fill="#F15A2215" />
-          <text x="18" y="23" textAnchor="middle" fontSize="10" fontWeight="800" fill="#F15A22" fontFamily="Arial">FRAC</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Microsoft",
-      svg: (
-        <svg width="34" height="34" viewBox="0 0 34 34">
-          <rect x="0" y="0" width="15" height="15" fill="#F25022dd" />
-          <rect x="19" y="0" width="15" height="15" fill="#7FBA00dd" />
-          <rect x="0" y="19" width="15" height="15" fill="#00A4EFdd" />
-          <rect x="19" y="19" width="15" height="15" fill="#FFB900dd" />
-        </svg>
-      ),
-    },
-    {
-      name: "IBM",
-      svg: (
-        <svg width="56" height="30" viewBox="0 0 56 30">
-          <text x="28" y="22" textAnchor="middle" fontSize="20" fontWeight="900" fill="#006699" fontFamily="Arial" letterSpacing="2">IBM</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Salesforce",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <ellipse cx="18" cy="22" rx="16" ry="10" fill="#00A1E018" />
-          <ellipse cx="13" cy="14" rx="9" ry="9" fill="#00A1E025" />
-          <text x="18" y="25" textAnchor="middle" fontSize="8" fontWeight="800" fill="#00A1E0" fontFamily="Arial">SFORCE</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Oracle",
-      svg: (
-        <svg width="60" height="30" viewBox="0 0 60 30">
-          <text x="30" y="22" textAnchor="middle" fontSize="16" fontWeight="900" fill="#C74634" fontFamily="Arial">ORACLE</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Adobe",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <rect width="36" height="36" rx="6" fill="#FF000020" />
-          <path d="M18 8 L28 28 H22 L18 18 L14 28 H8 Z" fill="#FF0000cc" />
-        </svg>
-      ),
-    },
-    {
-      name: "Nvidia",
-      svg: (
-        <svg width="56" height="28" viewBox="0 0 56 28">
-          <rect width="56" height="28" rx="5" fill="#76B90018" />
-          <text x="28" y="20" textAnchor="middle" fontSize="13" fontWeight="900" fill="#76B900" fontFamily="Arial">NVIDIA</text>
-        </svg>
-      ),
-    },
-    {
-      name: "Wipro",
-      svg: (
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="18" fill="#55106518" />
-          <text x="18" y="23" textAnchor="middle" fontSize="10" fontWeight="800" fill="#551065" fontFamily="Arial">WIPRO</text>
-        </svg>
-      ),
-    },
-  ];
+ const logos = [
+  {
+    name: "Zomato",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#E23215">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 14H7.5l4.5-8 4.5 8z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Swiggy",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#FC8201">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V15h-2v1.93A8 8 0 0 1 4.07 9H6v2h2V9h2v4h2V9h2v2h2V9h1.93A8 8 0 0 1 13 16.93z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Flipkart",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#2874F0">
+        <path d="M21 5H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1zm-9 9l-4-4h3V8h2v2h3l-4 4z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Paytm",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#00BAF2">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "HDFC Bank",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#004080">
+        <path d="M4 10h3v7H4zm6.5-6h-1C8.6 4 8 4.6 8 5.5v1C8 7.4 8.6 8 9.5 8h1c.9 0 1.5-.6 1.5-1.5v-1C12 4.6 11.4 4 10.5 4zM4 4h3v4H4zm13 6h-3v7h3v-3h2v-2h-2z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "ICICI Bank",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#F36F21">
+        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Nykaa",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#FC2779">
+        <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "MakeMyTrip",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#E81328">
+        <path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "PhonePe",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#5F259F">
+        <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-4-7c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "PolicyBazaar",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#00A450">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Meesho",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#9B2D8E">
+        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Lenskart",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#00B5AD">
+        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Urban Company",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#1B2A4A">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Cult.fit",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#FF385C">
+        <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Vedantu",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#4B2DB5">
+        <path d="M12 3L1 9l4 2.18V15l7 4 7-4v-3.82L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-2.85l5 2.72 5-2.72v2.85z"/>
+      </svg>
+    ),
+  },
+  {
+    name: "Cars24",
+    svg: (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#FF6C00">
+        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+      </svg>
+    ),
+  },
+];
 
   const row1 = [logos[0], logos[1], logos[2], logos[3], logos[4], logos[5], logos[6], logos[7]];
   const row2 = [logos[8], logos[9], logos[10], logos[11], logos[12], logos[13], logos[14], logos[15]];
