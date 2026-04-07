@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut, FileText, Search, Trash2 } from 'lucide-react';
+import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut, FileText, Search, Trash2, Calendar } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(""); // 1. Search state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const navigate = useNavigate();
 
   const fetchLeads = async () => {
@@ -30,16 +32,31 @@ const AdminDashboard = () => {
     }
   }, [navigate]);
 
-  // 2. Search Logic (Name se filter)
-  const filteredLeads = leads.filter(lead =>
-    lead.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredLeads = leads.filter(lead => {
+    const matchesName = lead.name.toLowerCase().includes(searchTerm.toLowerCase());
 
-  // 3. Delete All Function
+    const leadDate = new Date(lead.createdAt);
+    leadDate.setHours(0, 0, 0, 0);
+
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+    if (to) to.setHours(23, 59, 59, 999);
+
+    const matchesFrom = from ? leadDate >= from : true;
+    const matchesTo = to ? leadDate <= to : true;
+
+    return matchesName && matchesFrom && matchesTo;
+  });
+
+  const clearDateFilter = () => {
+    setFromDate("");
+    setToDate("");
+  };
+
   const deleteAllLeads = async () => {
     if (window.confirm("⚠️ ATTENTION! Are you sure you want to delete ALL leads? This action cannot be undone.")) {
       try {
-        await api.delete('/leads/delete-all/all'); // Backend endpoint jo saare delete kare
+        await api.delete('/leads/delete-all/all');
         setLeads([]);
         alert("All leads have been successfully deleted!");
       } catch (err) {
@@ -160,6 +177,38 @@ const AdminDashboard = () => {
           </div>
         </div>
 
+        {/* Date Filter Bar */}
+        <div className="flex flex-wrap items-center gap-3 mb-8 bg-white border border-slate-100 rounded-2xl px-6 py-4 shadow-sm">
+          <Calendar size={18} className="text-[#0D66BA]" />
+          <span className="text-sm font-bold text-slate-600 uppercase tracking-wider">Filter by Date:</span>
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-semibold text-slate-400 uppercase">From</label>
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-semibold text-slate-400 uppercase">To</label>
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {(fromDate || toDate) && (
+            <button
+              onClick={clearDateFilter}
+              className="px-4 py-2 bg-red-50 text-red-500 rounded-xl text-xs font-bold hover:bg-red-500 hover:text-white transition-all border border-red-100"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
@@ -196,6 +245,7 @@ const AdminDashboard = () => {
                     <th className="p-6 text-xs font-black uppercase tracking-widest">Lead Info</th>
                     <th className="p-6 text-xs font-black uppercase tracking-widest">Service</th>
                     <th className="p-6 text-xs font-black uppercase tracking-widest">Status</th>
+                    <th className="p-6 text-xs font-black uppercase tracking-widest">Date</th>
                     <th className="p-6 text-xs font-black uppercase tracking-widest text-right">Actions</th>
                   </tr>
                 </thead>
@@ -218,6 +268,14 @@ const AdminDashboard = () => {
                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase ${lead.status === 'New' ? 'bg-orange-100 text-orange-600' : 'bg-emerald-100 text-emerald-600'}`}>
                           {lead.status}
                         </span>
+                      </td>
+                      <td className="p-6">
+                        <div className="text-sm font-semibold text-slate-700">
+                          {new Date(lead.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </div>
+                        <div className="text-xs text-slate-400 mt-0.5">
+                          {new Date(lead.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                        </div>
                       </td>
                       <td className="p-6 text-right flex gap-2 justify-end">
                         <button onClick={() => deleteLead(lead._id)} className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-600 hover:text-white transition-all">
