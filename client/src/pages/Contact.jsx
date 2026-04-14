@@ -113,6 +113,24 @@ const Contact = () => {
                                     <textarea name="message" required rows="4" placeholder="Tell us about your requirements..." className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 focus:outline-none focus:border-[#44BBDB] focus:ring-2 focus:ring-[#44BBDB]/20 transition-all"></textarea>
                                 </div>
 
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-slate-700 ml-1">How can we help?</label>
+                                    <textarea name="message" required rows="4" placeholder="Tell us about your requirements..." className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 focus:outline-none focus:border-[#44BBDB] focus:ring-2 focus:ring-[#44BBDB]/20 transition-all"></textarea>
+                                </div>
+
+                                <div className="flex items-start gap-3">
+                                    <input 
+                                        type="checkbox" 
+                                        name="consent" 
+                                        required 
+                                        id="consent"
+                                        className="mt-1 w-4 h-4 accent-[#0D66BA] cursor-pointer flex-shrink-0"
+                                    />
+                                    <label htmlFor="consent" className="text-sm text-slate-600 cursor-pointer">
+                                        I agree and authorize to call/send SMS/RCS/Promotional messages. This will override DND/NDNC registry. <span className="text-red-500">*</span>
+                                    </label>
+                                </div>
+
                                 <button 
                                     disabled={loading}
                                     className="w-full bg-gradient-to-r from-[#0D66BA] to-[#1CB48D] text-white py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-all shadow-xl shadow-blue-200 disabled:opacity-70 disabled:cursor-not-allowed"

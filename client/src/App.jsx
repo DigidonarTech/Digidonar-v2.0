@@ -16,6 +16,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminDocs from './pages/AdminDocs';
 import LP01 from './pages/LandingPage/LP01.jsx';
+import OnboardingForm from './pages/ClientInfo/OnboardingForm.jsx';
 import WhatsappFloat from './components/WhatsappFloat.jsx'
 import NotFound from './pages/NotFound.jsx';
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin/documents" element={<AdminDocs />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/onboardingForm" element={<OnboardingForm />} />
           <Route path="/lp01" element={<LP01 />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
