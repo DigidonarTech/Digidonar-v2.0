@@ -201,8 +201,9 @@ export default function TransformBusiness() {
                 <div className="text-white font-bold text-lg leading-tight mb-1">Start for free</div>
                 <div className="text-teal-100 text-[12px] leading-relaxed">No credit card required. Go live in minutes.</div>
               </div>
-              <button className="w-full bg-white text-teal-700 hover:bg-teal-50 active:scale-95 transition-all duration-150 font-bold text-[14px] px-6 py-3 rounded-xl shadow-lg">
-                Get in Touch
+              <button className="w-full bg-white text-teal-700 hover:bg-teal-50 active:scale-95 transition-all duration-150 font-bold text-[14px] px-6 py-3 rounded-xl shadow-lg"
+              onClick={() => window.open("./onboardingform", "_blank")}>
+                Apply Now
               </button>
               <a href="#" className="text-teal-100 hover:text-white text-[12px] font-medium underline underline-offset-2 transition-colors duration-150">
                 View pricing →
