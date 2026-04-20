@@ -1,6 +1,6 @@
 import { useState } from "react";
 import imgPromotional from '../../assets/LP01/promotional.png';
-import imgTransactional from '../../assets/LP01/paymentconfimations.png';
+import imgTransactional from '../../assets/LP01/transactional.png';
 import imgAppointment from '../../assets/LP01/Appointment Booking.png';
 import imgOtps from '../../assets/LP01/switchto otp.png';
 import imgOrder from '../../assets/LP01/orders.png';
