@@ -27,7 +27,7 @@ const SERVICE_ICONS = {
 const FieldInput = ({ field, value, onChange }) => {
   const base =
     'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 ' +
-    'focus:outline-none focus:ring-2 focus:ring-[#0D66BA]/40 focus:border-[#0D66BA] transition-all placeholder-slate-400';
+    'focus:outline-none focus:ring-2 focus:border-[#0D66BA] transition-all placeholder-slate-400';
 
   if (field.type === 'textarea')
     return (
@@ -55,7 +55,7 @@ const FieldInput = ({ field, value, onChange }) => {
           className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
           onChange={e => onChange(field.name, e.target.files[0])}
         />
-        <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-[#0D66BA] hover:bg-blue-50/30 transition-all">
+        <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-[#0D66BA] transition-all">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="20" height="20" className="text-slate-400">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
           </svg>
@@ -151,19 +151,23 @@ const OnboardingForm = () => {
     );
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-8 pb-16 px-4">
+    <div className="min-h-screen bg-slate-50 pt-30 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-[#0D66BA]/10 text-[#0D66BA] px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4">
+          {/* FIX 1: bg-[#0D66BA]/10 → inline style */}
+          <div
+            className="inline-flex items-center gap-2 text-[#0D66BA] px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4"
+            style={{ backgroundColor: 'rgba(13, 102, 186, 0.10)' }}
+          >
             DIGIDONAR Onboarding
           </div>
           <h1 className="text-3xl font-black text-slate-900 mb-2">Service Activation Form</h1>
           <p className="text-slate-500 font-medium">Fill in your details to get started with your selected service.</p>
           <div className="flex items-center justify-center gap-4 mt-3 text-xs text-slate-400 font-medium">
             <span>📞 90909-20202</span>
-            <span>🌐 www.digidonar.com</span>
+            <span>🌐 www.digidonar.net</span>
           </div>
         </div>
 
@@ -176,9 +180,11 @@ const OnboardingForm = () => {
               className={
                 'flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all font-bold text-xs text-center ' +
                 (selectedService === s.id
-                  ? 'border-[#0D66BA] bg-[#0D66BA]/5 text-[#0D66BA]'
+                  ? 'border-[#0D66BA] text-[#0D66BA]'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300')
               }
+              /* FIX 2: bg-[#0D66BA]/5 → inline style */
+              style={selectedService === s.id ? { backgroundColor: 'rgba(13, 102, 186, 0.05)' } : {}}
             >
               <span style={{ color: selectedService === s.id ? s.color : '#94a3b8' }}>
                 {SERVICE_ICONS[s.id]}
@@ -249,10 +255,17 @@ const OnboardingForm = () => {
                 {sections.map((_, i) => (
                   <div
                     key={i}
-                    className={
-                      'h-1.5 rounded-full transition-all ' +
-                      (i === currentStep ? 'w-6 bg-[#0D66BA]' : i < currentStep ? 'w-3 bg-[#0D66BA]/40' : 'w-3 bg-slate-200')
-                    }
+                    className="h-1.5 rounded-full transition-all"
+                    style={{
+                      width: i === currentStep ? '24px' : '12px',
+                      /* FIX 3: bg-[#0D66BA] active, bg-[#0D66BA]/40 completed → inline styles */
+                      backgroundColor:
+                        i === currentStep
+                          ? '#0D66BA'
+                          : i < currentStep
+                          ? 'rgba(13, 102, 186, 0.40)'
+                          : '#e2e8f0',
+                    }}
                   />
                 ))}
               </div>

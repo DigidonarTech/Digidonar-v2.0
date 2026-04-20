@@ -1,7 +1,3 @@
-// ─── formConfig.js ───────────────────────────────────────────────────────────
-// Yahan sirf data hai — koi JSX nahi
-// Edit karna ho to sirf is file ko touch karo
-
 export const SERVICES = [
   {
     id: 'whatsapp',
@@ -159,3 +155,7 @@ export const SERVICE_SECTIONS = {
     },
   ],
 };
+
+
+
+
