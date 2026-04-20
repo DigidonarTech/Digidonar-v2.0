@@ -1,9 +1,9 @@
 import { useState } from "react";
-import imgPromotional from '../../assets/LP01/promotional_1.png';
+import imgPromotional from '../../assets/LP01/promotional.png';
 import imgTransactional from '../../assets/LP01/paymentconfimations.png';
-import imgAppointment from '../../assets/LP01/appointment.png';
-import imgOtps from '../../assets/LP01/OTP.png';
-import imgOrder from '../../assets/LP01/order_confirmations.png';
+import imgAppointment from '../../assets/LP01/Appointment Booking.png';
+import imgOtps from '../../assets/LP01/switchto otp.png';
+import imgOrder from '../../assets/LP01/orders.png';
 import imgSurvey from '../../assets/LP01/survey.png';
 
 const tabs = [

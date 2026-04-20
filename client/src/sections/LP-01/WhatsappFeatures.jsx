@@ -5,6 +5,7 @@ import imgVoice from '../../assets/LP01/voice_call.png';
 import imgMgsTemplate from '../../assets/LP01/promotional_1.png';
 import imgProduct from '../../assets/LP01/marketing.png';
 import imgMultiProduct from '../../assets/LP01/multi_product.png';
+import imgEncryption from '../../assets/LP01/end-to-end.png';
 
 const tabs = [
   {
@@ -73,7 +74,7 @@ const tabs = [
     title: "End-to-end encryption",
     description:
       "Every message, file, and transaction is secured with end-to-end encryption — ensuring your customers' data stays private and protected.",
-    image: imgPayment,
+    image: imgEncryption,
     accent: "from-green-50 to-teal-50",
     dot: "bg-green-400",
   },
