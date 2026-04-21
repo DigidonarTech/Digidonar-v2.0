@@ -180,12 +180,11 @@ const Hero = () => {
                 Watch Demo
               </button>
 
-              <a  href="https://drive.google.com/file/d/17Mhj5fWWS6AvisIDtEBC-aBLGPlgt0hl/view?usp=sharing"
-                target="_blank"
+              <a  onClick={()=> window.open('/onboardingForm') }
                 rel="noopener noreferrer"
                 className="border border-slate-300 text-slate-700 px-7 lg:px-8 py-3 rounded-md font-semibold hover:bg-white transition inline-block"
               >
-                View Docs
+                Get Started
               </a>
             </div>
           </div>
