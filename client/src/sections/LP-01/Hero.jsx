@@ -98,12 +98,44 @@ const Hero = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // ── Existing Google Sheet submission ──────────────────────────────────
       const SCRIPT_URL = import.meta.env.VITE_SCRIPT_URL || process.env.REACT_APP_SCRIPT_URL;
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         body: JSON.stringify(formData),
       });
+
+      // ── TeleCRM autoupdatelead API ────────────────────────────────────────
+      const TELECRM_URL  = import.meta.env.VITE_TELECRM_URL  || process.env.REACT_APP_TELECRM_URL;
+      const TELECRM_AUTH = import.meta.env.VITE_TELECRM_AUTH || process.env.REACT_APP_TELECRM_AUTH;
+
+      await fetch(TELECRM_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${TELECRM_AUTH}`,
+        },
+        body: JSON.stringify({
+          fields: {
+            name:           `${formData.firstName} ${formData.lastName}`.trim(),
+            phone:          formData.contact,
+            email:          formData.email,
+            'company name': formData.service,   // closest matching field; adjust if needed
+            city:           '',                  // not collected in form; leave blank or remove
+          },
+          actions: [
+            {
+              type: 'ACTION_1001',
+              fields: {
+                note: formData.message || 'Form submitted via website',
+              },
+            },
+          ],
+        }),
+      });
+      // ─────────────────────────────────────────────────────────────────────
+
       alert('Thank you! Your request has been sent.');
       setFormData({
         firstName: '', lastName: '', email: '', contact: '',
