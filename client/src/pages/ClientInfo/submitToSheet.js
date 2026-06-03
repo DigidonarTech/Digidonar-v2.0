@@ -2,6 +2,14 @@ import { API_URL } from '../../api';
 
 const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_SHEET_WEBHOOK;
 const API_KEY = import.meta.env.VITE_API_KEY;
+const UPLOAD_API_URL =
+  import.meta.env.VITE_UPLOAD_API_URL ||
+  (import.meta.env.DEV ? 'http://localhost:5050/api' : API_URL);
+const PDF_PROXY_API_URL = import.meta.env.VITE_PDF_PROXY_API_URL || API_URL;
+
+function toPdfProxyUrl(url) {
+  return `${PDF_PROXY_API_URL}/pdf-proxy?url=${encodeURIComponent(url)}`;
+}
 
 async function postToSheet(payload) {
   const res = await fetch(WEBHOOK_URL, {
@@ -25,7 +33,7 @@ async function uploadToCloudinary(service, fieldName, file) {
   body.append('service', service);
   body.append('fieldName', fieldName);
 
-  const res = await fetch(`${API_URL}/onboarding/upload`, {
+  const res = await fetch(`${UPLOAD_API_URL}/onboarding/upload`, {
     method: 'POST',
     body,
   });
@@ -77,15 +85,14 @@ export async function submitToGoogleSheet(service, formData) {
   }
 
   const uploadedFileUrls = {};
+  const originalCloudinaryUrls = {};
 
   for (const { key, files } of fileFields) {
     try {
-      uploadedFileUrls[key] = [];
-
-      for (const file of files) {
-        const secureUrl = await uploadToCloudinary(service, key, file);
-        uploadedFileUrls[key].push(secureUrl);
-      }
+      originalCloudinaryUrls[key] = await Promise.all(
+        files.map(file => uploadToCloudinary(service, key, file))
+      );
+      uploadedFileUrls[key] = originalCloudinaryUrls[key].map(toPdfProxyUrl);
     } catch (err) {
       console.error('[Cloudinary upload failed]', key, err.message);
       return {
@@ -98,7 +105,7 @@ export async function submitToGoogleSheet(service, formData) {
 
   for (const [key, urls] of Object.entries(uploadedFileUrls)) {
     try {
-      const storedValue = JSON.stringify(urls);
+      const storedValue = urls.join('\n');
       const json = await postToSheet({
         apiKey: API_KEY,
         action: 'uploadFile',
@@ -110,6 +117,8 @@ export async function submitToGoogleSheet(service, formData) {
         fileUrls: urls,
         fieldValue: storedValue,
         cloudinaryUrls: storedValue,
+        originalFileUrl: originalCloudinaryUrls[key]?.[0] || '',
+        originalFileUrls: originalCloudinaryUrls[key] || [],
       });
 
       if (json.status !== 'success') throw new Error(json.message || 'Sheet update failed');

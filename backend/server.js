@@ -103,7 +103,8 @@ app.get('/api/pdf-proxy', async (req, res) => {
       throw new Error(`Cloudinary fetch failed: ${response.status} ${response.statusText}`);
     }
 
-    res.setHeader('Content-Type', 'application/pdf');
+    const contentType = response.headers.get('content-type') || 'application/pdf';
+    res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Disposition', 'inline');
 
     // Stream the response directly to the client
