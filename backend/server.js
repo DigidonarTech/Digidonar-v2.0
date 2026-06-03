@@ -110,6 +110,11 @@ function unwrapProxyUrl(value) {
 
 function getCloudinaryFallbackUrls(url) {
   const urls = [url];
+  const withoutDuplicatePdf = url.replace(/\.pdf\.pdf($|\?)/i, '.pdf$1');
+
+  if (withoutDuplicatePdf !== url) {
+    urls.push(withoutDuplicatePdf);
+  }
 
   if (url.includes('/raw/upload/')) {
     urls.push(url.replace('/raw/upload/', '/image/upload/'));
@@ -117,6 +122,16 @@ function getCloudinaryFallbackUrls(url) {
 
   if (url.includes('/image/upload/')) {
     urls.push(url.replace('/image/upload/', '/raw/upload/'));
+  }
+
+  for (const candidateUrl of [...urls]) {
+    if (candidateUrl.includes('/raw/upload/')) {
+      urls.push(candidateUrl.replace('/raw/upload/', '/image/upload/'));
+    }
+
+    if (candidateUrl.includes('/image/upload/')) {
+      urls.push(candidateUrl.replace('/image/upload/', '/raw/upload/'));
+    }
   }
 
   return [...new Set(urls)];

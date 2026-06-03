@@ -30,18 +30,31 @@ function sanitizeFilePart(value) {
     .toLowerCase() || 'file';
 }
 
+function getFileExtension(file) {
+  const parsed = path.parse(file.originalname || 'file');
+  return (parsed.ext || '').toLowerCase();
+}
+
+function getResourceType(file) {
+  return String(file.mimetype || '').startsWith('image/') ? 'image' : 'raw';
+}
+
 function getUploadPublicId(file) {
   const parsed = path.parse(file.originalname || 'file');
   const safeName = sanitizeFilePart(parsed.name);
-  const ext = (parsed.ext || '').toLowerCase();
+  const ext = getFileExtension(file);
 
-  return `${safeName}-${Date.now()}${ext}`;
+  if (getResourceType(file) === 'raw') {
+    return `${safeName}-${Date.now()}${ext}`;
+  }
+
+  return `${safeName}-${Date.now()}`;
 }
 
 function getUploadOptions(file, folder) {
   return {
     folder,
-    resource_type: 'auto',
+    resource_type: getResourceType(file),
     public_id: getUploadPublicId(file),
     filename_override: file.originalname,
     use_filename: true,
@@ -67,7 +80,7 @@ function uploadSmallBuffer(file, folder) {
 }
 
 async function uploadLargeBuffer(file, folder) {
-  const tempPath = path.join(os.tmpdir(), getUploadPublicId(file));
+  const tempPath = path.join(os.tmpdir(), `${sanitizeFilePart(path.parse(file.originalname || 'file').name)}-${Date.now()}${getFileExtension(file)}`);
 
   await fs.writeFile(tempPath, file.buffer);
 
