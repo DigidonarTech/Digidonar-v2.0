@@ -30,9 +30,9 @@ const COMMON_BUSINESS_FIELDS = [
 ];
 
 const COMMON_DOC_FIELDS = [
-  { name: 'businessCert', label: 'Business Registration Certificate (Udyam/MSME/Shop Licence/GST)', type: 'file', required: true },
-  { name: 'idProof',      label: 'Owner/Director ID Proof (Aadhar / PAN)',                           type: 'file', required: true },
-  { name: 'additionalDocs', label: 'Additional Documents (optional)',                                 type: 'file', required: false },
+  { name: 'businessCert', label: 'Business Registration Certificate (Udyam/MSME/Shop Licence/GST)', type: 'file', required: true, multiple: true },
+  { name: 'idProof',      label: 'Owner/Director ID Proof (Aadhar / PAN)',                           type: 'file', required: true, multiple: true },
+  { name: 'additionalDocs', label: 'Additional Documents (optional)',                                 type: 'file', required: false, multiple: true },
 ];
 
 export const SERVICE_SECTIONS = {
@@ -147,10 +147,10 @@ export const SERVICE_SECTIONS = {
       section: 'Document Upload',
       desc: 'Upload documents for DLT registration.',
       fields: [
-        { name: 'gstCert',      label: 'GST Certificate',                    type: 'file', required: true },
-        { name: 'panCard',      label: 'PAN Card (Business)',                type: 'file', required: true },
-        { name: 'idProof',      label: 'Owner/Director ID Proof (Aadhar / PAN)', type: 'file', required: true },
-        { name: 'businessCert', label: 'Business Registration Certificate',  type: 'file', required: false },
+        { name: 'gstCert',      label: 'GST Certificate',                    type: 'file', required: true, multiple: true },
+        { name: 'panCard',      label: 'PAN Card (Business)',                type: 'file', required: true, multiple: true },
+        { name: 'idProof',      label: 'Owner/Director ID Proof (Aadhar / PAN)', type: 'file', required: true, multiple: true },
+        { name: 'businessCert', label: 'Business Registration Certificate',  type: 'file', required: false, multiple: true },
       ],
     },
   ],

@@ -1,24 +1,41 @@
-const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_SHEET_WEBHOOK;
-const API_KEY     = import.meta.env.VITE_API_KEY;
+import { API_URL } from '../../api';
 
-const toBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload  = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-  });
+const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_SHEET_WEBHOOK;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 async function postToSheet(payload) {
-  const res  = await fetch(WEBHOOK_URL, {
-    method:   'POST',
-    headers:  { 'Content-Type': 'text/plain' },
-    body:     JSON.stringify(payload),
+  const res = await fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload),
     redirect: 'follow',
   });
+
   const text = await res.text();
-  try   { return JSON.parse(text); }
-  catch { throw new Error('Non-JSON response: ' + text.slice(0, 300)); }
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error('Non-JSON response: ' + text.slice(0, 300));
+  }
+}
+
+async function uploadToCloudinary(service, fieldName, file) {
+  const body = new FormData();
+  body.append('file', file);
+  body.append('service', service);
+  body.append('fieldName', fieldName);
+
+  const res = await fetch(`${API_URL}/onboarding/upload`, {
+    method: 'POST',
+    body,
+  });
+
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || !json.secure_url) {
+    throw new Error(json.message || 'Cloudinary upload failed');
+  }
+
+  return json.secure_url;
 }
 
 export async function submitToGoogleSheet(service, formData) {
@@ -26,20 +43,23 @@ export async function submitToGoogleSheet(service, formData) {
     return { success: false, error: 'Config missing' };
   }
 
-  // ── Separate text vs file fields ─────────────────────────────────────────
-  const textData   = {};
+  const textData = {};
   const fileFields = [];
 
   for (const [key, value] of Object.entries(formData)) {
-    if (value instanceof File && value.size > 0) {
-      fileFields.push({ key, file: value });
-    } else if (!(value instanceof File)) {
+    if (Array.isArray(value) && value.every(item => item instanceof File)) {
+      const files = value.filter(file => file.size > 0);
+      if (files.length > 0) fileFields.push({ key, files });
+    } else if (value instanceof File && value.size > 0) {
+      fileFields.push({ key, files: [value] });
+    } else if (!(value instanceof File) && !Array.isArray(value)) {
       textData[key] = value ?? '';
     }
   }
 
-  // ── STEP 1: Submit text row ──────────────────────────────────────────────
-  let submissionId, rowIndex;
+  let submissionId;
+  let rowIndex;
+
   try {
     const json = await postToSheet({
       apiKey: API_KEY,
@@ -51,41 +71,57 @@ export async function submitToGoogleSheet(service, formData) {
     if (json.status !== 'success') throw new Error(json.message || 'Unknown error');
 
     submissionId = json.submissionId;
-    rowIndex     = json.rowIndex;     // ✅ Apps Script returns exact row number
-
-    console.log('[Step 1] OK — submissionId:', submissionId, 'rowIndex:', rowIndex);
+    rowIndex = json.rowIndex;
   } catch (err) {
-    console.error('[Step 1] FAILED:', err.message);
     return { success: false, error: 'Text submit failed: ' + err.message };
   }
 
-  // ── STEP 2: Upload each file, passing rowIndex directly ──────────────────
-  for (const { key, file } of fileFields) {
-    try {
-      console.log('[Step 2] Uploading', key, '—', file.name, '(', file.size, 'bytes)');
-      const base64 = await toBase64(file);
+  const uploadedFileUrls = {};
 
+  for (const { key, files } of fileFields) {
+    try {
+      uploadedFileUrls[key] = [];
+
+      for (const file of files) {
+        const secureUrl = await uploadToCloudinary(service, key, file);
+        uploadedFileUrls[key].push(secureUrl);
+      }
+    } catch (err) {
+      console.error('[Cloudinary upload failed]', key, err.message);
+      return {
+        success: false,
+        error: 'Document upload failed.\nPlease try again.',
+        errorType: 'upload',
+      };
+    }
+  }
+
+  for (const [key, urls] of Object.entries(uploadedFileUrls)) {
+    try {
+      const storedValue = JSON.stringify(urls);
       const json = await postToSheet({
         apiKey: API_KEY,
         action: 'uploadFile',
         service,
         submissionId,
-        rowIndex,           // ✅ pass rowIndex — no search needed in Apps Script
+        rowIndex,
         fieldName: key,
-        fileName:  file.name,
-        mimeType:  file.type || 'application/octet-stream',
-        base64,
+        fileUrl: urls[0] || '',
+        fileUrls: urls,
+        fieldValue: storedValue,
+        cloudinaryUrls: storedValue,
       });
 
-      if (json.status === 'success') {
-        console.log('[Step 2] ✅', key, '→', json.fileUrl);
-      } else {
-        console.warn('[Step 2] ❌', key, '—', json.message);
-      }
+      if (json.status !== 'success') throw new Error(json.message || 'Sheet update failed');
     } catch (err) {
-      console.error('[Step 2] Exception for', key, ':', err.message);
+      console.error('[Sheet document URL update failed]', key, err.message);
+      return {
+        success: false,
+        error: 'Your documents were uploaded successfully,\nbut form submission could not be completed.\nPlease contact support.',
+        errorType: 'sheetUpdate',
+      };
     }
   }
 
-  return { success: true };
+  return { success: true, referenceId: submissionId };
 }

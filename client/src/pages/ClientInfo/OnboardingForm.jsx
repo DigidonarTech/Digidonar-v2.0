@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { SERVICES, SERVICE_SECTIONS } from './formConfig';
 import { submitToGoogleSheet } from './submitToSheet';
 
@@ -24,15 +24,82 @@ const SERVICE_ICONS = {
 
 // ─── Field Renderer ───────────────────────────────────────────────────────────
 
-const FieldInput = ({ field, value, onChange }) => {
+const SAMPLE_DOCUMENTS = {
+  rcs: [
+    { label: 'Download RCS Sample Business Proof', fileName: 'rcs-sample-business-proof.txt', content: 'RCS Sample Business Proof\n\nBusiness Name:\nRegistered Address:\nGST/Udyam/MSME/Shop Licence Number:\nAuthorized Signatory:\nAttachment checklist: certificate copy, address proof, identity proof.' },
+    { label: 'Download RCS Consent Letter', fileName: 'rcs-consent-letter.txt', content: 'RCS Consent Letter Sample\n\nTo Digidonar,\nWe authorize Digidonar to process RCS registration for our business.\nBusiness Name:\nBrand Name:\nAuthorized Person:\nDate:\nSignature:' },
+    { label: 'Download RCS Brand Information Sample', fileName: 'rcs-brand-information-sample.txt', content: 'RCS Brand Information Sample\n\nBrand Name:\nBrand Description:\nWebsite URL:\nSupport Email:\nLogo URL:\nBrand Color:\nUse Case:' },
+  ],
+  dlt: [
+    { label: 'Download DLT Entity Registration Sample', fileName: 'dlt-entity-registration-sample.txt', content: 'DLT Entity Registration Sample\n\nEntity Name:\nEntity Type:\nGST Number:\nPAN Number:\nRegistered Address:\nAuthorized Person:\nMobile Number:\nEmail Address:' },
+    { label: 'Download DLT Authorization Letter', fileName: 'dlt-authorization-letter.txt', content: 'DLT Authorization Letter Sample\n\nWe authorize Digidonar to assist with DLT registration and related onboarding activities.\nEntity Name:\nAuthorized Person:\nDesignation:\nDate:\nSignature:' },
+    { label: 'Download DLT Header Registration Sample', fileName: 'dlt-header-registration-sample.txt', content: 'DLT Header Registration Sample\n\nEntity Name:\nPreferred Sender ID:\nSMS Category:\nSample Template:\nUse Case:\nExpected Monthly Volume:' },
+  ],
+};
+
+const validateField = (field, value) => {
+  const isFileField = field.type === 'file';
+  const emptyValue = isFileField
+    ? !value || (Array.isArray(value) && value.length === 0)
+    : !String(value || '').trim();
+
+  if (field.required && emptyValue) {
+    return 'This field is required.';
+  }
+
+  if (emptyValue) return '';
+
+  if (field.name === 'businessName' && String(value).trim().length < 3) {
+    return 'Company name must be at least 3 characters.';
+  }
+
+  if (field.name === 'websiteUrl') {
+    const websitePattern = /^(https:\/\/[a-z0-9.-]+\.[a-z]{2,}|www\.[a-z0-9.-]+\.[a-z]{2,})(\/.*)?$/i;
+    if (!websitePattern.test(String(value).trim())) {
+      return 'Please enter a valid website URL.';
+    }
+  }
+
+  if (field.name === 'companyEmail') {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(String(value).trim())) {
+      return 'Please enter a valid email address.';
+    }
+  }
+
+  if (field.name === 'mobileNumber') {
+    if (!/^\d+$/.test(String(value).trim())) {
+      return 'Mobile number should contain only numbers.';
+    }
+    if (!/^\d{10}$/.test(String(value).trim())) {
+      return 'Mobile number must be 10 digits.';
+    }
+  }
+
+  return '';
+};
+
+const validateSection = (section, data) => {
+  const nextErrors = {};
+
+  section?.fields.forEach(field => {
+    const message = validateField(field, data[field.name]);
+    if (message) nextErrors[field.name] = message;
+  });
+
+  return nextErrors;
+};
+
+const FieldInput = ({ field, value, onChange, error }) => {
   const base =
-    'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 ' +
+    'w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm font-medium text-slate-800 ' +
     'focus:outline-none focus:ring-2 focus:border-[#0D66BA] transition-all placeholder-slate-400';
+  const stateClass = error ? ' border-red-300 focus:ring-red-100' : ' border-slate-200';
 
   if (field.type === 'textarea')
     return (
       <textarea
-        className={base + ' resize-none h-24'}
+        className={base + stateClass + ' resize-none h-24'}
         placeholder={field.placeholder || 'Enter ' + field.label.toLowerCase()}
         value={value || ''}
         onChange={e => onChange(field.name, e.target.value)}
@@ -41,7 +108,7 @@ const FieldInput = ({ field, value, onChange }) => {
 
   if (field.type === 'select')
     return (
-      <select className={base} value={value || ''} onChange={e => onChange(field.name, e.target.value)}>
+      <select className={base + stateClass} value={value || ''} onChange={e => onChange(field.name, e.target.value)}>
         <option value="">Select...</option>
         {field.options.map(o => <option key={o} value={o}>{o}</option>)}
       </select>
@@ -52,15 +119,20 @@ const FieldInput = ({ field, value, onChange }) => {
       <div className="relative">
         <input
           type="file"
+          multiple={field.multiple}
           className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-          onChange={e => onChange(field.name, e.target.files[0])}
+          onChange={e => onChange(field.name, field.multiple ? Array.from(e.target.files) : e.target.files[0])}
         />
-        <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-[#0D66BA] transition-all">
+        <div className={'flex items-center gap-3 px-4 py-3 bg-slate-50 border border-dashed rounded-xl cursor-pointer hover:border-[#0D66BA] transition-all ' + (error ? 'border-red-300' : 'border-slate-300')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="20" height="20" className="text-slate-400">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
           </svg>
           <span className="text-sm text-slate-500 font-medium">
-            {value ? value.name : 'Click to upload file'}
+            {Array.isArray(value) && value.length > 0
+              ? value.map(file => file.name).join(', ')
+              : value
+              ? value.name
+              : 'Click to upload file'}
           </span>
         </div>
       </div>
@@ -69,7 +141,7 @@ const FieldInput = ({ field, value, onChange }) => {
   return (
     <input
       type={field.type}
-      className={base}
+      className={base + stateClass}
       placeholder={field.placeholder || 'Enter ' + field.label.toLowerCase()}
       value={value || ''}
       onChange={e => onChange(field.name, e.target.value)}
@@ -83,38 +155,89 @@ const OnboardingForm = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [currentStep, setCurrentStep]         = useState(0);
   const [formData, setFormData]               = useState({});
+  const [fieldErrors, setFieldErrors]         = useState({});
   const [submitted, setSubmitted]             = useState(false);
   const [submitting, setSubmitting]           = useState(false);
   const [submitError, setSubmitError]         = useState('');
+  const [referenceId, setReferenceId]         = useState('');
+  const firstErrorRef                         = useRef(null);
 
   const sections   = selectedService ? SERVICE_SECTIONS[selectedService] : [];
   const totalSteps = sections.length;
   const isLastStep = currentStep === totalSteps - 1;
   const progress   = totalSteps > 0 ? ((currentStep + 1) / totalSteps) * 100 : 0;
   const svc        = SERVICES.find(s => s.id === selectedService);
+  const firstErrorName = Object.keys(fieldErrors)[0];
 
-  const handleFieldChange = (name, value) => setFormData(prev => ({ ...prev, [name]: value }));
+  const handleFieldChange = (name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setFieldErrors(prev => {
+      if (!prev[name]) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  };
 
-  const handleNext = () => { if (currentStep < totalSteps - 1) setCurrentStep(s => s + 1); };
+  const scrollToFirstError = () => {
+    window.requestAnimationFrame(() => {
+      firstErrorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  };
+
+  const validateCurrentStep = () => {
+    const nextErrors = validateSection(sections[currentStep], formData);
+    setFieldErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      scrollToFirstError();
+      return false;
+    }
+    return true;
+  };
+
+  const handleNext = () => {
+    if (!validateCurrentStep()) return;
+    if (currentStep < totalSteps - 1) setCurrentStep(s => s + 1);
+  };
   const handleBack = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
 
   const handleServiceSelect = id => {
     setSelectedService(id);
     setCurrentStep(0);
     setFormData({});
+    setFieldErrors({});
     setSubmitted(false);
     setSubmitError('');
   };
 
+  const handleSampleDocument = (doc, openInNewTab = false) => {
+    const blob = new Blob([doc.content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    if (openInNewTab) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = doc.fileName;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleSubmit = async () => {
+    if (!validateCurrentStep()) return;
     setSubmitting(true);
     setSubmitError('');
     const result = await submitToGoogleSheet(selectedService, formData);
     setSubmitting(false);
     if (result.success) {
+      setReferenceId(result.referenceId || '');
       setSubmitted(true);
     } else {
-      setSubmitError('Submission failed: ' + result.error + '. Please try again or contact support.');
+      setSubmitError(result.error || 'Submission failed. Please try again or contact support.');
     }
   };
 
@@ -122,8 +245,10 @@ const OnboardingForm = () => {
     setSelectedService(null);
     setSubmitted(false);
     setFormData({});
+    setFieldErrors({});
     setCurrentStep(0);
     setSubmitError('');
+    setReferenceId('');
   };
 
   // ── Success screen
@@ -136,23 +261,31 @@ const OnboardingForm = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-2">Request Submitted!</h2>
+          <h2 className="text-2xl font-black text-slate-900 mb-2">Service Activation Request Submitted</h2>
           <p className="text-slate-500 font-medium mb-2">
-            Your <span className="text-[#0D66BA] font-bold">{svc?.label}</span> onboarding request has been received.
+            Thank you for choosing Digidonar.
           </p>
-          <p className="text-slate-400 text-sm mb-8">
-            Our team will contact you within 24 hours on your registered mobile number.
+          <p className="text-slate-400 text-sm mb-3">
+            Our onboarding team will review your application and contact you shortly.
           </p>
-          <button onClick={resetAll} className="w-full bg-[#0D66BA] text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition-all">
-            Submit Another Request
-          </button>
+          {referenceId && (
+            <p className="text-slate-600 text-sm font-bold mb-8">Reference ID: {referenceId}</p>
+          )}
+          <div className="space-y-3">
+            <button onClick={() => window.print()} className="w-full bg-[#0D66BA] text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition-all">
+              Download Acknowledgement
+            </button>
+            <button onClick={resetAll} className="w-full border border-slate-200 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-50 transition-all">
+              Back to Home
+            </button>
+          </div>
         </div>
       </div>
     );
 
   return (
     <div className="min-h-screen bg-slate-50 pt-30 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-5xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-10">
@@ -196,6 +329,7 @@ const OnboardingForm = () => {
 
         {/* Form Card */}
         {selectedService && (
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-6 items-start">
           <div className="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden">
 
             {/* Progress Bar */}
@@ -223,12 +357,15 @@ const OnboardingForm = () => {
             {/* Fields */}
             <div className="px-8 pt-4 pb-6 space-y-5">
               {sections[currentStep]?.fields.map(field => (
-                <div key={field.name}>
+                <div key={field.name} ref={field.name === firstErrorName ? firstErrorRef : null}>
                   <label className="block text-xs font-black text-slate-600 uppercase tracking-wider mb-1.5">
                     {field.label}
                     {field.required && <span className="text-red-500 ml-1">*</span>}
                   </label>
-                  <FieldInput field={field} value={formData[field.name]} onChange={handleFieldChange} />
+                  <FieldInput field={field} value={formData[field.name]} onChange={handleFieldChange} error={fieldErrors[field.name]} />
+                  {fieldErrors[field.name] && (
+                    <p className="text-red-500 text-xs font-bold mt-1.5">{fieldErrors[field.name]}</p>
+                  )}
                 </div>
               ))}
 
@@ -294,6 +431,37 @@ const OnboardingForm = () => {
                 </button>
               )}
             </div>
+          </div>
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-xl p-6">
+            <h3 className="text-sm font-black text-slate-900 mb-1">Download Sample Documents</h3>
+            <p className="text-xs text-slate-400 font-medium mb-5">Review the required formats before submission.</p>
+
+            <div className="space-y-5">
+              <div>
+                <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">For RCS Registration</h4>
+                <div className="space-y-2">
+                  {SAMPLE_DOCUMENTS.rcs.map(doc => (
+                    <button key={doc.fileName} type="button" onClick={() => handleSampleDocument(doc, true)} className="block w-full text-left px-3 py-2 rounded-xl bg-[#0D66BA] text-white text-xs font-bold hover:bg-slate-900 transition-all">
+                      <span className="block text-[11px] leading-4 text-white/85 mb-0.5">{doc.label}</span>
+                      <span>View Sample</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">For DLT Registration</h4>
+                <div className="space-y-2">
+                  {SAMPLE_DOCUMENTS.dlt.map(doc => (
+                    <button key={doc.fileName} type="button" onClick={() => handleSampleDocument(doc)} className="block w-full text-left px-3 py-2 rounded-xl border border-slate-200 text-[#0D66BA] text-xs font-bold hover:bg-slate-50 transition-all">
+                      <span className="block text-[11px] leading-4 text-slate-500 mb-0.5">{doc.label}</span>
+                      <span>Download Sample</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         )}
 
