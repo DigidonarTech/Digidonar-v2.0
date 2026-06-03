@@ -33,8 +33,9 @@ function sanitizeFilePart(value) {
 function getUploadPublicId(file) {
   const parsed = path.parse(file.originalname || 'file');
   const safeName = sanitizeFilePart(parsed.name);
+  const ext = (parsed.ext || '').toLowerCase();
 
-  return `${safeName}-${Date.now()}`;
+  return `${safeName}-${Date.now()}${ext}`;
 }
 
 function getUploadOptions(file, folder) {
@@ -66,9 +67,7 @@ function uploadSmallBuffer(file, folder) {
 }
 
 async function uploadLargeBuffer(file, folder) {
-  const parsed = path.parse(file.originalname || 'file');
-  const ext = parsed.ext || '';
-  const tempPath = path.join(os.tmpdir(), `${getUploadPublicId(file)}${ext}`);
+  const tempPath = path.join(os.tmpdir(), getUploadPublicId(file));
 
   await fs.writeFile(tempPath, file.buffer);
 

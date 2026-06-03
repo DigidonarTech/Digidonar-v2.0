@@ -91,27 +91,88 @@ app.post('/api/admin/login', (req, res) => {
   }
 });
 
+function unwrapProxyUrl(value) {
+  let target = String(value || '').trim();
+
+  for (let i = 0; i < 3; i += 1) {
+    try {
+      const parsed = new URL(target);
+      const nested = parsed.searchParams.get('url') || parsed.searchParams.get('q');
+      if (!nested) break;
+      target = nested;
+    } catch {
+      break;
+    }
+  }
+
+  return target;
+}
+
+function getCloudinaryFallbackUrls(url) {
+  const urls = [url];
+
+  if (url.includes('/raw/upload/')) {
+    urls.push(url.replace('/raw/upload/', '/image/upload/'));
+  }
+
+  if (url.includes('/image/upload/')) {
+    urls.push(url.replace('/image/upload/', '/raw/upload/'));
+  }
+
+  return [...new Set(urls)];
+}
+
+function inferContentType(url, upstreamType) {
+  const cleanUrl = String(url).split('?')[0].toLowerCase();
+
+  if (cleanUrl.endsWith('.pdf')) return 'application/pdf';
+  if (cleanUrl.endsWith('.png')) return 'image/png';
+  if (cleanUrl.endsWith('.jpg') || cleanUrl.endsWith('.jpeg')) return 'image/jpeg';
+  if (cleanUrl.endsWith('.webp')) return 'image/webp';
+
+  return upstreamType || 'application/octet-stream';
+}
+
 app.get('/api/pdf-proxy', async (req, res) => {
+  let targetUrl = '';
   try {
-    const { url } = req.query;
-    if (!url) return res.status(400).send('URL required');
+    targetUrl = unwrapProxyUrl(req.query.url);
+    if (!targetUrl) return res.status(400).send('URL required');
 
     const fetch = (await import('node-fetch')).default;
-    const response = await fetch(url);
+    let response;
+    let finalUrl = targetUrl;
 
-    if (!response.ok) {
-      throw new Error(`Cloudinary fetch failed: ${response.status} ${response.statusText}`);
+    for (const candidateUrl of getCloudinaryFallbackUrls(targetUrl)) {
+      response = await fetch(candidateUrl, {
+        redirect: 'follow',
+        headers: { 'User-Agent': 'Digidonar-PDF-Proxy/1.0' },
+      });
+
+      if (response.ok) {
+        finalUrl = candidateUrl;
+        break;
+      }
     }
 
-    const contentType = response.headers.get('content-type') || 'application/pdf';
+    if (!response || !response.ok) {
+      const status = response ? response.status : 502;
+      const statusText = response ? response.statusText : 'No response';
+      return res
+        .status(status >= 400 && status < 600 ? status : 502)
+        .send(`Failed to fetch document: ${status} ${statusText}`);
+    }
+
+    const contentType = inferContentType(finalUrl, response.headers.get('content-type'));
     res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
 
     // Stream the response directly to the client
     response.body.pipe(res);
   } catch (error) {
-    console.error('Proxy error:', error);
-    res.status(500).send('Failed to fetch PDF');
+    console.error('Proxy error:', targetUrl, error);
+    res.status(500).send('Failed to fetch document');
   }
 });
 
