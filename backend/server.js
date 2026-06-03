@@ -116,6 +116,14 @@ function getCloudinaryFallbackUrls(url) {
     urls.push(withoutDuplicatePdf);
   }
 
+  for (const candidateUrl of [...urls]) {
+    const withoutPdfExtension = candidateUrl.replace(/\.pdf($|\?)/i, '$1');
+
+    if (withoutPdfExtension !== candidateUrl) {
+      urls.push(withoutPdfExtension);
+    }
+  }
+
   if (url.includes('/raw/upload/')) {
     urls.push(url.replace('/raw/upload/', '/image/upload/'));
   }

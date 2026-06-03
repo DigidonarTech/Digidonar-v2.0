@@ -36,17 +36,17 @@ function getFileExtension(file) {
 }
 
 function getResourceType(file) {
-  return String(file.mimetype || '').startsWith('image/') ? 'image' : 'raw';
+  const mimeType = String(file.mimetype || '').toLowerCase();
+
+  if (mimeType.startsWith('image/')) return 'image';
+
+  return 'raw';
 }
 
 function getUploadPublicId(file) {
   const parsed = path.parse(file.originalname || 'file');
   const safeName = sanitizeFilePart(parsed.name);
   const ext = getFileExtension(file);
-
-  if (getResourceType(file) === 'raw') {
-    return `${safeName}-${Date.now()}${ext}`;
-  }
 
   return `${safeName}-${Date.now()}`;
 }
@@ -102,6 +102,12 @@ function uploadBuffer(file, folder) {
   return uploadSmallBuffer(file, folder);
 }
 
+function getSheetUrl(result) {
+  if (result.resource_type !== 'raw') return result.secure_url;
+
+  return result.secure_url.replace(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/i, '');
+}
+
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -112,9 +118,11 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const fieldName = String(req.body.fieldName || 'documents').replace(/[^a-z0-9_-]/gi, '-');
     const folder = `digidonar-onboarding/${serviceFolder}/${fieldName}`;
     const result = await uploadBuffer(req.file, folder);
+    const sheetUrl = getSheetUrl(result);
 
     res.status(201).json({
-      secure_url: result.secure_url,
+      secure_url: sheetUrl,
+      original_secure_url: result.secure_url,
       public_id: result.public_id,
       resource_type: result.resource_type,
       content_type: req.file.mimetype,
