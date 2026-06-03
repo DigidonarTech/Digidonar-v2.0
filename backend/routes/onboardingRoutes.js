@@ -46,7 +46,6 @@ function getResourceType(file) {
 function getUploadPublicId(file) {
   const parsed = path.parse(file.originalname || 'file');
   const safeName = sanitizeFilePart(parsed.name);
-  const ext = getFileExtension(file);
 
   return `${safeName}-${Date.now()}`;
 }
@@ -102,10 +101,65 @@ function uploadBuffer(file, folder) {
   return uploadSmallBuffer(file, folder);
 }
 
-function getSheetUrl(result) {
-  if (result.resource_type !== 'raw') return result.secure_url;
+function appendExtension(url, ext) {
+  if (!ext || new URL(url).pathname.toLowerCase().endsWith(ext)) return url;
 
-  return result.secure_url.replace(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/i, '');
+  const parsed = new URL(url);
+  parsed.pathname = `${parsed.pathname}${ext}`;
+  return parsed.toString();
+}
+
+function removeExtension(url) {
+  const parsed = new URL(url);
+  parsed.pathname = parsed.pathname.replace(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/i, '');
+  return parsed.toString();
+}
+
+function getDeliveryCandidates(result, file) {
+  const ext = getFileExtension(file);
+  const urls = [
+    result.secure_url,
+    appendExtension(result.secure_url, ext),
+    removeExtension(result.secure_url),
+  ];
+
+  for (const url of [...urls]) {
+    if (url.includes('/raw/upload/')) {
+      urls.push(url.replace('/raw/upload/', '/image/upload/'));
+    }
+
+    if (url.includes('/image/upload/')) {
+      urls.push(url.replace('/image/upload/', '/raw/upload/'));
+    }
+  }
+
+  return [...new Set(urls)];
+}
+
+async function isReachable(url) {
+  const fetch = (await import('node-fetch')).default;
+  const response = await fetch(url, {
+    method: 'GET',
+    redirect: 'follow',
+    headers: {
+      Range: 'bytes=0-0',
+      'User-Agent': 'Digidonar-Upload-Verifier/1.0',
+    },
+  });
+
+  return response.ok || response.status === 206;
+}
+
+async function getVerifiedDeliveryUrl(result, file) {
+  for (const url of getDeliveryCandidates(result, file)) {
+    try {
+      if (await isReachable(url)) return url;
+    } catch {
+      // Try the next Cloudinary delivery variant.
+    }
+  }
+
+  throw new Error(`Uploaded file is not reachable from Cloudinary. public_id=${result.public_id}`);
 }
 
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -118,10 +172,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const fieldName = String(req.body.fieldName || 'documents').replace(/[^a-z0-9_-]/gi, '-');
     const folder = `digidonar-onboarding/${serviceFolder}/${fieldName}`;
     const result = await uploadBuffer(req.file, folder);
-    const sheetUrl = getSheetUrl(result);
+    const verifiedUrl = await getVerifiedDeliveryUrl(result, req.file);
 
     res.status(201).json({
-      secure_url: sheetUrl,
+      secure_url: verifiedUrl,
       original_secure_url: result.secure_url,
       public_id: result.public_id,
       resource_type: result.resource_type,
