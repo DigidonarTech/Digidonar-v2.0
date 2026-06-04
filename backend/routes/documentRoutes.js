@@ -11,20 +11,22 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
       return res.status(400).json({ message: "File nahi mili!" });
     }
 
-    const newDoc = new Document({
+    const docData = {
       title: req.body.title || 'Untitled PDF',
-      servicekey: req.body.service, // Save service key (schema expects 'servicekey')
+      servicekey: req.body.service,
       pdfUrl: req.file.path,
       publicId: req.file.filename
-    });
+    };
 
-    await newDoc.save();
+    const newDoc = await Document.findOneAndUpdate(
+      { servicekey: req.body.service },
+      { $set: docData },
+      { new: true, upsert: true }
+    );
+
     res.status(201).json(newDoc);
   } catch (error) {
     console.error("DETAILED UPLOAD ERROR:", error);
-    if (error.code === 11000 && error.keyPattern && error.keyPattern.servicekey) {
-      return res.status(409).json({ message: "A document for this service already exists. Please delete it before uploading a new one." });
-    }
     res.status(500).json({ message: error.message });
   }
 });

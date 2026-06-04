@@ -5,11 +5,6 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 const UPLOAD_API_URL =
   import.meta.env.VITE_UPLOAD_API_URL ||
   (import.meta.env.DEV ? 'http://localhost:5050/api' : API_URL);
-const PDF_PROXY_API_URL = import.meta.env.VITE_PDF_PROXY_API_URL || API_URL;
-
-function toPdfProxyUrl(url) {
-  return `${PDF_PROXY_API_URL}/pdf-proxy?url=${encodeURIComponent(url)}`;
-}
 
 async function postToSheet(payload) {
   const res = await fetch(WEBHOOK_URL, {
@@ -43,6 +38,9 @@ async function uploadToCloudinary(service, fieldName, file) {
     throw new Error(json.message || 'Cloudinary upload failed');
   }
 
+  // Return the direct Cloudinary URL — no proxy needed
+  // The backend now ensures public_id includes the file extension,
+  // so the URL is directly openable in any browser
   return json.secure_url;
 }
 
@@ -85,14 +83,13 @@ export async function submitToGoogleSheet(service, formData) {
   }
 
   const uploadedFileUrls = {};
-  const originalCloudinaryUrls = {};
 
   for (const { key, files } of fileFields) {
     try {
-      originalCloudinaryUrls[key] = await Promise.all(
+      // Direct Cloudinary URLs — no pdf-proxy wrapping
+      uploadedFileUrls[key] = await Promise.all(
         files.map(file => uploadToCloudinary(service, key, file))
       );
-      uploadedFileUrls[key] = originalCloudinaryUrls[key].map(toPdfProxyUrl);
     } catch (err) {
       console.error('[Cloudinary upload failed]', key, err.message);
       return {
@@ -117,8 +114,6 @@ export async function submitToGoogleSheet(service, formData) {
         fileUrls: urls,
         fieldValue: storedValue,
         cloudinaryUrls: storedValue,
-        originalFileUrl: originalCloudinaryUrls[key]?.[0] || '',
-        originalFileUrls: originalCloudinaryUrls[key] || [],
       });
 
       if (json.status !== 'success') throw new Error(json.message || 'Sheet update failed');

@@ -13,6 +13,7 @@ const SERVICE_FOLDERS = {
   rcs: 'rcs',
   dlt: 'dlt',
 };
+
 const CLOUDINARY_STANDARD_UPLOAD_LIMIT = 10 * 1024 * 1024;
 
 cloudinary.config({
@@ -37,26 +38,39 @@ function getFileExtension(file) {
 
 function getResourceType(file) {
   const mimeType = String(file.mimetype || '').toLowerCase();
-
   if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType.startsWith('video/')) return 'video';
+
+  // CRITICAL FIX: Treat PDFs as 'image' resource_type so Cloudinary serves them with correct Content-Type header
+  if (mimeType === 'application/pdf' || file.originalname?.toLowerCase().endsWith('.pdf')) {
+    return 'image';
+  }
 
   return 'raw';
 }
 
-function getUploadPublicId(file) {
+function buildPublicId(file, resourceType) {
   const parsed = path.parse(file.originalname || 'file');
   const safeName = sanitizeFilePart(parsed.name);
+  const ts = Date.now();
 
-  return `${safeName}-${Date.now()}`;
+  if (resourceType === 'raw') {
+    const ext = getFileExtension(file);
+    return `${safeName}-${ts}${ext}`;
+  }
+
+  return `${safeName}-${ts}`;
 }
 
 function getUploadOptions(file, folder) {
+  const resourceType = getResourceType(file);
+  const publicId = buildPublicId(file, resourceType);
+
   return {
     folder,
-    resource_type: getResourceType(file),
-    public_id: getUploadPublicId(file),
-    filename_override: file.originalname,
-    use_filename: true,
+    resource_type: resourceType,
+    public_id: publicId,
+    use_filename: false,
     unique_filename: false,
     access_mode: 'public',
   };
@@ -64,22 +78,21 @@ function getUploadOptions(file, folder) {
 
 function uploadSmallBuffer(file, folder) {
   return new Promise((resolve, reject) => {
-    const uploadOptions = getUploadOptions(file, folder);
-
     const stream = cloudinary.uploader.upload_stream(
-      uploadOptions,
+      getUploadOptions(file, folder),
       (error, result) => {
         if (error) return reject(error);
         resolve(result);
       }
     );
-
     stream.end(file.buffer);
   });
 }
 
 async function uploadLargeBuffer(file, folder) {
-  const tempPath = path.join(os.tmpdir(), `${sanitizeFilePart(path.parse(file.originalname || 'file').name)}-${Date.now()}${getFileExtension(file)}`);
+  const ext = getFileExtension(file);
+  const safeName = sanitizeFilePart(path.parse(file.originalname || 'file').name);
+  const tempPath = path.join(os.tmpdir(), `${safeName}-${Date.now()}${ext}`);
 
   await fs.writeFile(tempPath, file.buffer);
 
@@ -97,69 +110,7 @@ function uploadBuffer(file, folder) {
   if (file.size > CLOUDINARY_STANDARD_UPLOAD_LIMIT) {
     return uploadLargeBuffer(file, folder);
   }
-
   return uploadSmallBuffer(file, folder);
-}
-
-function appendExtension(url, ext) {
-  if (!ext || new URL(url).pathname.toLowerCase().endsWith(ext)) return url;
-
-  const parsed = new URL(url);
-  parsed.pathname = `${parsed.pathname}${ext}`;
-  return parsed.toString();
-}
-
-function removeExtension(url) {
-  const parsed = new URL(url);
-  parsed.pathname = parsed.pathname.replace(/\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/i, '');
-  return parsed.toString();
-}
-
-function getDeliveryCandidates(result, file) {
-  const ext = getFileExtension(file);
-  const urls = [
-    result.secure_url,
-    appendExtension(result.secure_url, ext),
-    removeExtension(result.secure_url),
-  ];
-
-  for (const url of [...urls]) {
-    if (url.includes('/raw/upload/')) {
-      urls.push(url.replace('/raw/upload/', '/image/upload/'));
-    }
-
-    if (url.includes('/image/upload/')) {
-      urls.push(url.replace('/image/upload/', '/raw/upload/'));
-    }
-  }
-
-  return [...new Set(urls)];
-}
-
-async function isReachable(url) {
-  const fetch = (await import('node-fetch')).default;
-  const response = await fetch(url, {
-    method: 'GET',
-    redirect: 'follow',
-    headers: {
-      Range: 'bytes=0-0',
-      'User-Agent': 'Digidonar-Upload-Verifier/1.0',
-    },
-  });
-
-  return response.ok || response.status === 206;
-}
-
-async function getVerifiedDeliveryUrl(result, file) {
-  for (const url of getDeliveryCandidates(result, file)) {
-    try {
-      if (await isReachable(url)) return url;
-    } catch {
-      // Try the next Cloudinary delivery variant.
-    }
-  }
-
-  throw new Error(`Uploaded file is not reachable from Cloudinary. public_id=${result.public_id}`);
 }
 
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -171,12 +122,11 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const serviceFolder = SERVICE_FOLDERS[req.body.service] || 'misc';
     const fieldName = String(req.body.fieldName || 'documents').replace(/[^a-z0-9_-]/gi, '-');
     const folder = `digidonar-onboarding/${serviceFolder}/${fieldName}`;
+
     const result = await uploadBuffer(req.file, folder);
-    const verifiedUrl = await getVerifiedDeliveryUrl(result, req.file);
 
     res.status(201).json({
-      secure_url: verifiedUrl,
-      original_secure_url: result.secure_url,
+      secure_url: result.secure_url,
       public_id: result.public_id,
       resource_type: result.resource_type,
       content_type: req.file.mimetype,

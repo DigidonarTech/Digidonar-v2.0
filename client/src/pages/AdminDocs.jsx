@@ -62,6 +62,20 @@ const AdminDocs = () => {
     }
   };
 
+  const handleDelete = async (docId, servicekey) => {
+    if (!window.confirm("Are you sure you want to delete this document?")) return;
+    try {
+      setLoading(servicekey);
+      await api.delete(`/documents/delete/${docId}`);
+      fetchDocs();
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Delete failed. Check console.");
+    } finally {
+      setLoading(null);
+    }
+  };
+
   const getServiceDoc = (servicekey) =>
     docs.find((doc) => doc.servicekey === servicekey);
 
@@ -143,24 +157,33 @@ const AdminDocs = () => {
                     cursor-pointer"
                 />
 
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={() => handleUpload(key)}
                     disabled={loading === key}
-                    className="flex-1 bg-slate-900 text-white py-2 rounded-lg font-semibold hover:bg-slate-800 transition disabled:opacity-60"
+                    className="flex-1 bg-slate-900 text-white py-2 rounded-lg font-semibold hover:bg-slate-800 transition disabled:opacity-60 text-sm"
                   >
-                    {loading === key ? "Uploading..." : "Upload PDF"}
+                    {loading === key ? "Uploading..." : "Upload"}
                   </button>
 
                   {doc && (
-                    <a
-                      href={viewUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-500 transition ring-2 ring-blue-200"
-                    >
-                      View PDF
-                    </a>
+                    <>
+                      <a
+                        href={viewUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-500 transition ring-2 ring-blue-200 text-sm"
+                      >
+                        View
+                      </a>
+                      <button
+                        onClick={() => handleDelete(doc._id, key)}
+                        disabled={loading === key}
+                        className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-500 transition disabled:opacity-60 text-sm"
+                      >
+                        Delete
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

@@ -17,12 +17,15 @@ console.log(
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'digidonar_docs',
-    resource_type: 'raw',
-    allowed_formats: ['pdf'],
-    access_mode: 'public',
-    type: 'upload'
+  params: async (req, file) => {
+    const isPDF = file.originalname?.toLowerCase().endsWith('.pdf') || file.mimetype === 'application/pdf';
+    return {
+      folder: 'digidonar_docs',
+      resource_type: isPDF ? 'image' : 'raw',
+      allowed_formats: ['pdf'],
+      access_mode: 'public',
+      type: 'upload'
+    };
   }
 });
 

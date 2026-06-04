@@ -186,9 +186,30 @@ app.get('/api/pdf-proxy', async (req, res) => {
         .send(`Failed to fetch document: ${status} ${statusText}`);
     }
 
-    const contentType = inferContentType(finalUrl, response.headers.get('content-type'));
+    // Use targetUrl instead of finalUrl because finalUrl might have had its extension stripped during fallback searches
+    let contentType = inferContentType(targetUrl, response.headers.get('content-type'));
+    
+    // Fallback enforcement: if the original URL implies a PDF, or if Cloudinary gave us a generic binary type (which happens for older raw PDF uploads), forcefully serve as PDF.
+    if (
+      targetUrl.toLowerCase().includes('.pdf') || 
+      contentType === 'application/octet-stream' || 
+      contentType === 'text/plain'
+    ) {
+      contentType = 'application/pdf';
+    }
+
+    let filename = 'document';
+    try {
+      filename = new URL(targetUrl).pathname.split('/').pop() || 'document';
+    } catch {
+      // ignore
+    }
+    if (contentType === 'application/pdf' && !filename.toLowerCase().endsWith('.pdf')) {
+      filename += '.pdf';
+    }
+
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
     res.setHeader('Cache-Control', 'public, max-age=3600');
 
     // Stream the response directly to the client
