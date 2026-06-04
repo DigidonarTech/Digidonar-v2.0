@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import api, {API_URL} from "../api";
+import api, { API_URL } from "../api";
 
-/**
- * IMPORTANT:
- * servicekey MUST match ServiceDetail.jsx route param
- */
 const SERVICES = [
   { key: "bulk-sms", label: "Bulk SMS Solutions" },
   { key: "whatsapp-api", label: "WhatsApp Business API" },
   { key: "voice-ivr", label: "Voice & IVR Services" },
   { key: "otp-service", label: "Secure OTP Service" },
   { key: "sms-gateway", label: "Robust SMS Gateway" },
-  {key: "email-marketing", label: "Email Marketing Solutions"},
-  {key: "rcs-messaging", label: "RCS Messaging Platform"},
-  {key: "smart-api", label: "Smart API Platform"}
+  { key: "email-marketing", label: "Email Marketing Solutions" },
+  { key: "rcs-messaging", label: "RCS Messaging Platform" },
+  { key: "smart-api", label: "Smart API Platform" }
+];
+
+const SAMPLE_DOCS = [
+  { key: "rcs-sample-business-proof", label: "RCS Sample Business Proof" },
+  { key: "rcs-consent-letter", label: "RCS Website Pages Sample" },
+  { key: "rcs-brand-information-sample", label: "RCS Brand Information Sample" },
+  { key: "dlt-entity-registration", label: "DLT Entity Registration LOA Sample" },
+  { key: "dlt-authorization-letter", label: "DLT Authorization Letter" },
+  { key: "dlt-header-registration-sample", label: "DLT GST Sample" }
 ];
 
 const AdminDocs = () => {
@@ -46,8 +51,8 @@ const AdminDocs = () => {
 
     const formData = new FormData();
     formData.append("pdf", files[servicekey]);
-    formData.append("title", servicekey);   // optional
-    formData.append("service", servicekey); // 🔥 MOST IMPORTANT
+    formData.append("title", servicekey);
+    formData.append("service", servicekey);
 
     try {
       setLoading(servicekey);
@@ -79,9 +84,102 @@ const AdminDocs = () => {
   const getServiceDoc = (servicekey) =>
     docs.find((doc) => doc.servicekey === servicekey);
 
+  const renderDocCard = ({ key, label }) => {
+    const doc = getServiceDoc(key);
+    const viewUrl = doc
+      ? `${API_URL.replace(/\/$/, "")}/pdf-proxy?url=${encodeURIComponent(
+        doc.pdfUrl
+      )}`
+      : null;
+
+    return (
+      <div
+        key={key}
+        className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all p-6 flex flex-col justify-between"
+      >
+        <div>
+          <h2 className="text-lg font-semibold text-slate-800">
+            {label}
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            service key: <code>{key}</code>
+          </p>
+
+          <div className="mt-4">
+            {doc ? (
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                Document Uploaded
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                No Document Uploaded
+              </span>
+            )}
+          </div>
+
+          {doc && (
+            <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">
+              <p className="text-xs font-semibold text-green-700">
+                Active Document
+              </p>
+              <p className="text-sm text-slate-700 truncate">
+                {doc.publicId || "Uploaded PDF"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 space-y-4">
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={(e) =>
+              handleFileChange(key, e.target.files[0])
+            }
+            className="block w-full text-sm
+              file:mr-4 file:rounded-lg file:border-0
+              file:bg-slate-100 file:px-4 file:py-2
+              file:text-sm file:font-semibold
+              file:text-slate-700 hover:file:bg-slate-200
+              cursor-pointer"
+          />
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={() => handleUpload(key)}
+              disabled={loading === key}
+              className="flex-1 bg-slate-900 text-white py-2 rounded-lg font-semibold hover:bg-slate-800 transition disabled:opacity-60 text-sm"
+            >
+              {loading === key ? "Uploading..." : "Upload"}
+            </button>
+
+            {doc && (
+              <>
+                <a
+                  href={viewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-500 transition ring-2 ring-blue-200 text-sm"
+                >
+                  View
+                </a>
+                <button
+                  onClick={() => handleDelete(doc._id, key)}
+                  disabled={loading === key}
+                  className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-500 transition disabled:opacity-60 text-sm"
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-10">
-      {/* Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-slate-900">
           Service Documents (Admin)
@@ -91,105 +189,21 @@ const AdminDocs = () => {
         </p>
       </div>
 
-      {/* Services Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {SERVICES.map(({ key, label }) => {
-          const doc = getServiceDoc(key);
-          const viewUrl = doc
-            ? `${API_URL.replace(/\/$/, "")}/pdf-proxy?url=${encodeURIComponent(
-                doc.pdfUrl
-              )}`
-            : null;
+        {SERVICES.map(renderDocCard)}
+      </div>
 
-          return (
-            <div
-              key={key}
-              className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all p-6 flex flex-col justify-between"
-            >
-              {/* Top */}
-              <div>
-                <h2 className="text-lg font-semibold text-slate-800">
-                  {label}
-                </h2>
-                <p className="text-xs text-slate-400 mt-1">
-                  service key: <code>{key}</code>
-                </p>
+      <div className="mt-14 mb-8">
+        <h1 className="text-3xl font-bold text-slate-900">
+          Onboarding Sample Documents
+        </h1>
+        <p className="text-slate-600 mt-2">
+          Upload PDFs used as sample formats in the onboarding form.
+        </p>
+      </div>
 
-                {/* Status */}
-                <div className="mt-4">
-                  {doc ? (
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full">
-                      ● Document Uploaded
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
-                      ● No Document Uploaded
-                    </span>
-                  )}
-                </div>
-
-                {/* Active Doc Info */}
-                {doc && (
-                  <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">
-                    <p className="text-xs font-semibold text-green-700">
-                      Active Document
-                    </p>
-                    <p className="text-sm text-slate-700 truncate">
-                      {doc.publicId || "Uploaded PDF"}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Actions */}
-              <div className="mt-6 space-y-4">
-                <input
-                  type="file"
-                  accept=".pdf"
-                  onChange={(e) =>
-                    handleFileChange(key, e.target.files[0])
-                  }
-                  className="block w-full text-sm
-                    file:mr-4 file:rounded-lg file:border-0
-                    file:bg-slate-100 file:px-4 file:py-2
-                    file:text-sm file:font-semibold
-                    file:text-slate-700 hover:file:bg-slate-200
-                    cursor-pointer"
-                />
-
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <button
-                    onClick={() => handleUpload(key)}
-                    disabled={loading === key}
-                    className="flex-1 bg-slate-900 text-white py-2 rounded-lg font-semibold hover:bg-slate-800 transition disabled:opacity-60 text-sm"
-                  >
-                    {loading === key ? "Uploading..." : "Upload"}
-                  </button>
-
-                  {doc && (
-                    <>
-                      <a
-                        href={viewUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-500 transition ring-2 ring-blue-200 text-sm"
-                      >
-                        View
-                      </a>
-                      <button
-                        onClick={() => handleDelete(doc._id, key)}
-                        disabled={loading === key}
-                        className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-500 transition disabled:opacity-60 text-sm"
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {SAMPLE_DOCS.map(renderDocCard)}
       </div>
     </div>
   );

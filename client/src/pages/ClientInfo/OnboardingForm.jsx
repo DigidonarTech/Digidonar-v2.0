@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import api, { API_URL } from '../../api';
 import { SERVICES, SERVICE_SECTIONS } from './formConfig';
 import { submitToGoogleSheet } from './submitToSheet';
 
@@ -22,14 +23,14 @@ const SERVICE_ICONS = {
 
 const SAMPLE_DOCUMENTS = {
   rcs: [
-    { label: 'Download RCS Sample Business Proof', fileName: 'rcs-sample-business-proof.txt', content: 'RCS Sample Business Proof\n\nBusiness Name:\nRegistered Address:\nGST/Udyam/MSME/Shop Licence Number:\nAuthorized Signatory:\nAttachment checklist: certificate copy, address proof, identity proof.' },
-    { label: 'Download RCS Consent Letter', fileName: 'rcs-consent-letter.txt', content: 'RCS Consent Letter Sample\n\nTo Digidonar,\nWe authorize Digidonar to process RCS registration for our business.\nBusiness Name:\nBrand Name:\nAuthorized Person:\nDate:\nSignature:' },
-    { label: 'Download RCS Brand Information Sample', fileName: 'rcs-brand-information-sample.txt', content: 'RCS Brand Information Sample\n\nBrand Name:\nBrand Description:\nWebsite URL:\nSupport Email:\nLogo URL:\nBrand Color:\nUse Case:' },
+    { key: 'rcs-sample-business-proof', label: 'RCS Sample Business Proof' },
+    { key: 'rcs-consent-letter', label: 'RCS Website Pages Sample' },
+    { key: 'rcs-brand-information-sample', label: 'RCS Brand Information Sample' },
   ],
   dlt: [
-    { label: 'Download DLT Entity Registration Sample', fileName: 'dlt-entity-registration-sample.txt', content: 'DLT Entity Registration Sample\n\nEntity Name:\nEntity Type:\nGST Number:\nPAN Number:\nRegistered Address:\nAuthorized Person:\nMobile Number:\nEmail Address:' },
-    { label: 'Download DLT Authorization Letter', fileName: 'dlt-authorization-letter.txt', content: 'DLT Authorization Letter Sample\n\nWe authorize Digidonar to assist with DLT registration and related onboarding activities.\nEntity Name:\nAuthorized Person:\nDesignation:\nDate:\nSignature:' },
-    { label: 'Download DLT Header Registration Sample', fileName: 'dlt-header-registration-sample.txt', content: 'DLT Header Registration Sample\n\nEntity Name:\nPreferred Sender ID:\nSMS Category:\nSample Template:\nUse Case:\nExpected Monthly Volume:' },
+    { key: 'dlt-entity-registration', label: 'DLT Entity Registration LOA Sample' },
+    { key: 'dlt-authorization-letter', label: 'DLT Authorization Letter' },
+    { key: 'dlt-header-registration-sample', label: 'DLT GST Sample' },
   ],
 };
 
@@ -146,6 +147,7 @@ const OnboardingForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [referenceId, setReferenceId] = useState('');
+  const [uploadedDocs, setUploadedDocs] = useState([]);
   const firstErrorRef = useRef(null);
 
   const sections = selectedService ? SERVICE_SECTIONS[selectedService] : [];
@@ -154,6 +156,26 @@ const OnboardingForm = () => {
   const progress = totalSteps > 0 ? ((currentStep + 1) / totalSteps) * 100 : 0;
   const svc = SERVICES.find(service => service.id === selectedService);
   const firstErrorName = Object.keys(fieldErrors)[0];
+
+  useEffect(() => {
+    const fetchUploadedDocs = async () => {
+      try {
+        const res = await api.get('/documents/all');
+        setUploadedDocs(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error('Sample documents fetch error:', err);
+        setUploadedDocs([]);
+      }
+    };
+
+    fetchUploadedDocs();
+  }, []);
+
+  const getSampleDocumentUrl = key => {
+    const doc = uploadedDocs.find(item => item.servicekey === key);
+    if (!doc?.pdfUrl) return '';
+    return `${API_URL.replace(/\/$/, '')}/pdf-proxy?url=${encodeURIComponent(doc.pdfUrl)}`;
+  };
 
   const handleFieldChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -197,23 +219,6 @@ const OnboardingForm = () => {
     setFieldErrors({});
     setSubmitted(false);
     setSubmitError('');
-  };
-
-  const handleSampleDocument = (doc, openInNewTab = false) => {
-    const blob = new Blob([doc.content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-
-    if (openInNewTab) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-      window.setTimeout(() => URL.revokeObjectURL(url), 3000);
-      return;
-    }
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = doc.fileName;
-    link.click();
-    URL.revokeObjectURL(url);
   };
 
   const handleSubmit = async () => {
@@ -409,24 +414,42 @@ const OnboardingForm = () => {
                 <div>
                   <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">For RCS Registration</h4>
                   <div className="space-y-2">
-                    {SAMPLE_DOCUMENTS.rcs.map(doc => (
-                      <button key={doc.fileName} type="button" onClick={() => handleSampleDocument(doc, true)} className="block w-full text-left px-3 py-2 rounded-xl bg-[#0D66BA] text-white text-xs font-bold hover:bg-slate-900 transition-all">
-                        <span className="block text-[11px] leading-4 text-white/85 mb-0.5">{doc.label}</span>
-                        <span>View Sample</span>
-                      </button>
-                    ))}
+                    {SAMPLE_DOCUMENTS.rcs.map(doc => {
+                      const sampleUrl = getSampleDocumentUrl(doc.key);
+
+                      return sampleUrl ? (
+                        <a key={doc.key} href={sampleUrl} target="_blank" rel="noopener noreferrer" className="block w-full text-left px-3 py-2 rounded-xl bg-[#0D66BA] text-white text-xs font-bold hover:bg-slate-900 transition-all">
+                          <span className="block text-[11px] leading-4 text-white/85 mb-0.5">{doc.label}</span>
+                          <span>View Sample</span>
+                        </a>
+                      ) : (
+                        <button key={doc.key} type="button" disabled className="block w-full text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold cursor-not-allowed">
+                          <span className="block text-[11px] leading-4 text-slate-400 mb-0.5">{doc.label}</span>
+                          <span>Not Uploaded</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
                 <div>
                   <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">For DLT Registration</h4>
                   <div className="space-y-2">
-                    {SAMPLE_DOCUMENTS.dlt.map(doc => (
-                      <button key={doc.fileName} type="button" onClick={() => handleSampleDocument(doc)} className="block w-full text-left px-3 py-2 rounded-xl border border-slate-200 text-[#0D66BA] text-xs font-bold hover:bg-slate-50 transition-all">
-                        <span className="block text-[11px] leading-4 text-slate-500 mb-0.5">{doc.label}</span>
-                        <span>Download Sample</span>
-                      </button>
-                    ))}
+                    {SAMPLE_DOCUMENTS.dlt.map(doc => {
+                      const sampleUrl = getSampleDocumentUrl(doc.key);
+
+                      return sampleUrl ? (
+                        <a key={doc.key} href={sampleUrl} target="_blank" rel="noopener noreferrer" className="block w-full text-left px-3 py-2 rounded-xl border border-slate-200 text-[#0D66BA] text-xs font-bold hover:bg-slate-50 transition-all">
+                          <span className="block text-[11px] leading-4 text-slate-500 mb-0.5">{doc.label}</span>
+                          <span>View Sample</span>
+                        </a>
+                      ) : (
+                        <button key={doc.key} type="button" disabled className="block w-full text-left px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 text-xs font-bold cursor-not-allowed">
+                          <span className="block text-[11px] leading-4 text-slate-400 mb-0.5">{doc.label}</span>
+                          <span>Not Uploaded</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
