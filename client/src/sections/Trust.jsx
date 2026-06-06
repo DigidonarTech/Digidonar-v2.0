@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Award, Users, CheckCircle } from 'lucide-react';
-import awardBanner from '../assets/82156.gif';
+import awardBanner from '../assets/Justdial-Award-Recognition.png';
 import rajeshAvatar from '../assets/client 2.jpg';
 import anjaliAvatar from '../assets/client1_profile.jpg';
 import vikramAvatar from '../assets/profile 3.png';
