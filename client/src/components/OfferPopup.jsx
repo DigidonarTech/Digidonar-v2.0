@@ -3,8 +3,6 @@ import { X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import api from '../api';
 
-const STORAGE_KEY = 'digidonar_offer_popup_seen';
-
 const isAdminRoute = (pathname) =>
   pathname.startsWith('/admin') || pathname === '/admin-login';
 
@@ -22,7 +20,7 @@ const OfferPopup = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (isAdminRoute(location.pathname) || localStorage.getItem(STORAGE_KEY)) {
+    if (isAdminRoute(location.pathname) || location.pathname !== '/') {
       return;
     }
 
@@ -48,7 +46,6 @@ const OfferPopup = () => {
   }, [location.pathname]);
 
   const closePopup = () => {
-    localStorage.setItem(STORAGE_KEY, 'true');
     setVisible(false);
   };
 
