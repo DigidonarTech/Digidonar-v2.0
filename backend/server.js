@@ -5,6 +5,7 @@ import cors from 'cors';
 import leadRoutes from "./routes/leadRoutes.js";
 import documentRoutes from "./routes/documentRoutes.js";
 import onboardingRoutes from "./routes/onboardingRoutes.js";
+import offerPopupRoutes from "./routes/offerPopupRoutes.js";
 import Lead from './models/Leads.js';
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use("/api/leads", leadRoutes);
 // 2. Register PDF Routes
 app.use('/api/documents', documentRoutes);
 app.use('/api/onboarding', onboardingRoutes);
+app.use('/api/offer-popup', offerPopupRoutes);
 
 // --- Baaki Saara Code SAME ---
 

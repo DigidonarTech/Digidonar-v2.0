@@ -30,4 +30,16 @@ const storage = new CloudinaryStorage({
 });
 
 export const upload = multer({ storage });
+const imageStorage = new CloudinaryStorage({
+  cloudinary,
+  params: async () => ({
+    folder: 'digidonar_offers',
+    resource_type: 'image',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    access_mode: 'public',
+    type: 'upload'
+  })
+});
+
+export const imageUpload = multer({ storage: imageStorage });
 export { cloudinary };

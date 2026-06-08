@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut, FileText, Search, Trash2, Calendar } from 'lucide-react';
+import { Users, Phone, Mail, CheckCircle, Loader2, RefreshCw, LogOut, FileText, Search, Trash2, Calendar, Megaphone } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
@@ -161,6 +161,13 @@ const AdminDashboard = () => {
             >
               <FileText size={18} className="text-blue-600" />
               Manage PDFs
+            </Link>
+            <Link
+              to="/admin/offer-popup"
+              className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-3 rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition-all shadow-sm"
+            >
+              <Megaphone size={18} className="text-blue-600" />
+              Offer Popup
             </Link>
 
             <button
