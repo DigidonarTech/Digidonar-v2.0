@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MessageCircle, Mail, Phone, BookOpen, Search, LifeBuoy, Send, X, CheckCircle, Loader2 } from 'lucide-react';
+import { MessageCircle, Mail, Phone, BookOpen, Search, LifeBuoy, Send, X, CheckCircle, Loader2, Code2 } from 'lucide-react';
 import axios from 'axios';
 import api, {API_URL} from '../api';
 
@@ -148,12 +148,22 @@ const Support = () => {
       {/* Bottom CTA */}
       <section className="pb-24 text-center">
         <p className="text-gray-500 mb-6 font-medium text-lg">Didn't find what you were looking for?</p>
-        <button 
-          onClick={() => setModalOpen(true)}
-          className="bg-gradient-to-r from-[#0D66BA] to-[#1CB48D] text-white px-10 py-4 rounded-2xl font-bold hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2 mx-auto"
-        >
-          Submit a Request Ticket <Send size={18} />
-        </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button 
+            onClick={() => setModalOpen(true)}
+            className="bg-gradient-to-r from-[#0D66BA] to-[#1CB48D] text-white px-10 py-4 rounded-2xl font-bold hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2"
+          >
+            Submit a Request Ticket <Send size={18} />
+          </button>
+          <a
+            href="https://digidonar-api-doc.vercel.app"
+            target="_blank"
+            rel="noreferrer"
+            className="bg-slate-950 text-white px-10 py-4 rounded-2xl font-bold hover:scale-105 hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-2"
+          >
+            Developer Use <Code2 size={18} />
+          </a>
+        </div>
       </section>
 
       {/* Modal Form */}
